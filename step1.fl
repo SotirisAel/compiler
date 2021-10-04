@@ -12,6 +12,7 @@
 
 "<" { yylval.val=ST; processToken( RELOP ); }
 
+
 %%
 
 printToken( int t ) {
@@ -34,6 +35,7 @@ break;
 processToken( int t ) {
 printToken(t);
 }
+
 int main() {
 	yylex();
 }
