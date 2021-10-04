@@ -3,18 +3,32 @@
 %}
 
 %%
-…
-“if” { processToken( IF ); }
-…
-“<” { yylval.val=ST; processToken( RELOP ); }
-…
+"if" { processToken( IF ); }
+"else" { processToken( ELSE ); }
+"int" { processToken( INT ); }
+"return" { processToken( RETURN ); }
+"void" { processToken( VOID ); }
+"while" { processToken( WHILE ); }
+
+"<" { yylval.val=ST; processToken( RELOP ); }
+
 %%
-…
+
 printToken( int t ) {
 switch(t) {
 case IF: printf(“Found an IF on line %d of file %s \n”, nlines, filename);
 break;
-…
+case ELSE: printf(“Found an ELSE on line %d of file %s \n”, nlines, filename);
+break;
+case INT: printf(“Found an INT on line %d of file %s \n”, nlines, filename);
+break;
+case RETURN: printf(“Found a RETURN on line %d of file %s \n”, nlines, filename);
+break;
+case VOID: printf(“Found an VOID on line %d of file %s \n”, nlines, filename);
+break;
+case WHILE: printf(“Found an WHILE on line %d of file %s \n”, nlines, filename);
+break;
+
 };
 }
 processToken( int t ) {
