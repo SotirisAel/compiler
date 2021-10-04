@@ -32,7 +32,7 @@
 "/*" { yylval.val=SC; processToken( RELOP ); }
 "*/" { yylval.val=EC; processToken( RELOP ); }
 
-%%
+%%   asd
 
 printToken( int t ) {
 switch(t) {
