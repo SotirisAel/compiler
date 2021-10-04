@@ -10,8 +10,27 @@
 "void" { processToken( VOID ); }
 "while" { processToken( WHILE ); }
 
+"+" { yylval.val=PL; processToken( RELOP ); }
+"-" { yylval.val=MI; processToken( RELOP ); }
+"*" { yylval.val=MU; processToken( RELOP ); }
+"/" { yylval.val=DI; processToken( RELOP ); }
 "<" { yylval.val=ST; processToken( RELOP ); }
-
+"<=" { yylval.val=SE; processToken( RELOP ); }
+">" { yylval.val=BT; processToken( RELOP ); }
+">=" { yylval.val=BE; processToken( RELOP ); }
+"==" { yylval.val=EE; processToken( RELOP ); }
+"!=" { yylval.val=NE; processToken( RELOP ); }
+"=" { yylval.val=EV; processToken( RELOP ); }
+";" { yylval.val=CN; processToken( RELOP ); }
+"," { yylval.val=CO; processToken( RELOP ); }
+"(" { yylval.val=LP; processToken( RELOP ); }
+")" { yylval.val=RP; processToken( RELOP ); }
+"[" { yylval.val=LB; processToken( RELOP ); }
+"]" { yylval.val=RB; processToken( RELOP ); }
+"{" { yylval.val=RS; processToken( RELOP ); }
+"}" { yylval.val=LS; processToken( RELOP ); }
+"/*" { yylval.val=SC; processToken( RELOP ); }
+"*/" { yylval.val=EC; processToken( RELOP ); }
 
 %%
 
