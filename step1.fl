@@ -1,1 +1,25 @@
-asd helo hello
+%{
+	#include <stdio.h>
+%}
+
+%%
+…
+“if” { processToken( IF ); }
+…
+“<” { yylval.val=ST; processToken( RELOP ); }
+…
+%%
+…
+printToken( int t ) {
+switch(t) {
+case IF: printf(“Found an IF on line %d of file %s \n”, nlines, filename);
+break;
+…
+};
+}
+processToken( int t ) {
+printToken(t);
+}
+int main() {
+	yylex();
+}
