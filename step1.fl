@@ -1,8 +1,11 @@
+/* CEI222: Project Step[1] ID: [Sotiris Vasiliadis-ID1]_[Michael-Aggelos Demou-19753] _[Konstantinos Konstantinou-ID3] */
+
 %{
 	#include <stdio.h>
 %}
 
 %%
+
 "if" { processToken( IF ); }
 "else" { processToken( ELSE ); }
 "int" { processToken( INT ); }
@@ -34,27 +37,40 @@
 
 %%
 
-printToken( int t ) {
-switch(t) {
-case IF: printf(“Found an IF on line %d of file %s \n”, nlines, filename);
-break;
-case ELSE: printf(“Found an ELSE on line %d of file %s \n”, nlines, filename);
-break;
-case INT: printf(“Found an INT on line %d of file %s \n”, nlines, filename);
-break;
-case RETURN: printf(“Found a RETURN on line %d of file %s \n”, nlines, filename);
-break;
-case VOID: printf(“Found an VOID on line %d of file %s \n”, nlines, filename);
-break;
-case WHILE: printf(“Found an WHILE on line %d of file %s \n”, nlines, filename);
-break;
-
-};
-}
-processToken( int t ) {
-printToken(t);
+processToken( int t ) 
+{
+	printToken( t );
 }
 
-int main() {
+printToken( int t ) 
+{
+	switch( t ) 
+	{
+		case IF: 
+			printf(“Found an IF on line %d of file %s \n”, nlines, filename);
+			break;
+		case ELSE: 
+			printf(“Found an ELSE on line %d of file %s \n”, nlines, filename);
+			break;
+		case INT: 
+			printf(“Found an INT on line %d of file %s \n”, nlines, filename);
+			break;
+		case RETURN: 
+			printf(“Found a RETURN on line %d of file %s \n”, nlines, filename);
+			break;
+		case VOID: 
+			printf(“Found an VOID on line %d of file %s \n”, nlines, filename);
+			break;
+		case WHILE: 
+			printf(“Found an WHILE on line %d of file %s \n”, nlines, filename);
+			break;
+
+	};
+}
+
+
+int main() 
+{
 	yylex();
+	
 }
