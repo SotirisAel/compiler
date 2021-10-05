@@ -20,37 +20,37 @@ number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?	/*Possible combinations for a n
 
 %%
 
-{wspaces} {};
-{id} {processToken(ID,line);};
-{number} {processToken(NUMBER,line);};
-if {processToken( IF,line );}
-else {processToken( ELSE,line );}
-int {processToken( INT,line );}
-return {processToken( RETURN,line );}
-void {processToken( VOID,line );}
-while {processToken( WHILE,line );}
+{wspaces} 	{};
+{id} 		{processToken(ID,line);};
+{number} 	{processToken(NUMBER,line);};
+if 			{processToken( IF,line );}
+else 		{processToken( ELSE,line );}
+int 		{processToken( INT,line );}
+return 		{processToken( RETURN,line );}
+void 		{processToken( VOID,line );}
+while 		{processToken( WHILE,line );}
 
-"+" {processToken( PLUS,line ); }			/*Plus*/
-"-" {processToken( MINUS,line ); }		/*Minus*/
-"*" {processToken( TIMES,line ); }		/*Multiplication*/
-"/" {processToken( DIVIDE,line ); }		/*Division*/
-"<" {processToken( ST,line ); }			/*Smaller Than*/
-"<=" {processToken( SOE,line ); }			/*Smaller or Equal*/
-">" {processToken( GT,line ); }			/*Greater Than*/
-">=" {processToken( GOE,line ); }			/*Greater Or Equal*/
-"==" {processToken( EQV,line ); }			/*Equal Values*/
-"!=" {processToken( NEV,line ); }			/*Not Equal*/
-"=" {processToken( EV,line ); }			/*Equals*/
-";" {processToken( SEMICLN,line ); }		/*Semicolon*/
-"," {processToken( CMA,line ); }			/*Comma*/
-"(" {processToken( LPAR,line ); }			/*Left Parenthesis*/
-")" {processToken( RPAR,line ); }			/*Right Parenthesis*/
-"[" {processToken( LSQBRA,line ); }		/*Left Square Bracket*/
-"]" {processToken( RSQBRA,line ); }		/*Right Square Bracket*/
-"{" {processToken( LBRA,line ); }			/*Left Bracket*/
-"}" {processToken( RBRA,line ); }			/*Right Bracket*/
-"/*" {processToken( LCOM,line ); }		/*Left/Start of comment*/
-"*/" {processToken( RCOM,line ); }		/*Right/End of comment*/
+"+" 		{processToken( PLUS,line ); }		/*Plus*/
+"-" 		{processToken( MINUS,line ); }		/*Minus*/
+"*" 		{processToken( TIMES,line ); }		/*Multiplication*/
+"/" 		{processToken( DIVIDE,line ); }		/*Division*/
+"<" 		{processToken( ST,line ); }			/*Smaller Than*/
+"<=" 		{processToken( SOE,line ); }		/*Smaller or Equal*/
+">" 		{processToken( GT,line ); }			/*Greater Than*/
+">=" 		{processToken( GOE,line ); }		/*Greater Or Equal*/
+"==" 		{processToken( EQV,line ); }		/*Equal Values*/
+"!=" 		{processToken( NEV,line ); }		/*Not Equal*/
+"=" 		{processToken( EV,line ); }			/*Equals*/
+";" 		{processToken( SEMICLN,line ); }	/*Semicolon*/
+"," 		{processToken( CMA,line ); }		/*Comma*/
+"(" 		{processToken( LPAR,line ); }		/*Left Parenthesis*/
+")" 		{processToken( RPAR,line ); }		/*Right Parenthesis*/
+"[" 		{processToken( LSQBRA,line ); }		/*Left Square Bracket*/
+"]" 		{processToken( RSQBRA,line ); }		/*Right Square Bracket*/
+"{" 		{processToken( LBRA,line ); }		/*Left Bracket*/
+"}" 		{processToken( RBRA,line ); }		/*Right Bracket*/
+"/*" 		{processToken( LCOM,line ); }		/*Left/Start of comment*/
+"*/" 		{processToken( RCOM,line ); }		/*Right/End of comment*/
 
 %%
 
