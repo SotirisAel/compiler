@@ -1,8 +1,5 @@
-/*
- */
-
-#ifndef TOKENS_H_INCLUDED
-#define TOKENS_H_INCLUDED
+#ifndef TOKENS_H
+#define TOKENS_H
 
 /* Defining the tokens with numbers */
 
@@ -16,28 +13,29 @@
 #define MINUS 7
 #define TIMES 8
 #define DIVIDE 9
-#define GREAT 10
-#define GREATEQ 11
-#define SMALL 12
-#define SMALLEQ 13
-#define EQUALITY 14
-#define NOTEQ 15
-#define EQUAL 16
-#define QUESTIONM 17
-#define COMMA 18
+#define ST 10
+#define SOE 11
+#define GT 12
+#define GOE 13
+#define EQV 14
+#define NEV 15
+#define EV 16
+#define SEMICLN 17
+#define CMA 18
 #define LPAR 19
 #define RPAR 20
-#define LBRAC 21
-#define RBRAC 22
-#define LCURLY 23
-#define RCURLY 24
-#define LCOMM 25
-#define RCOMM 26
-#define T_ID 27
-#define T_NUM 28
-#define T_letter 29
-#define T_digit 30
-#define T_white 31
+#define LSQBRA 21
+#define RSQBRA 22
+#define LBRA 23
+#define RBRA 24
+#define LCOM 25
+#define RCOM 26
+#define ID 27
+#define NUMBER 28
+#define LETTER 29
+#define DIGIT 30
+#define WSPACES 31
+#define SPACE 32
 
 #endif
 

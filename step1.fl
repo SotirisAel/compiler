@@ -1,60 +1,71 @@
 %{
 	#include <stdio.h>
+	#include "tokens.h"
+	int val,nlines;
 %}
 
-%%
-"if" { processToken( IF ); }
-"else" { processToken( ELSE ); }
-"int" { processToken( INT ); }
-"return" { processToken( RETURN ); }
-"void" { processToken( VOID ); }
-"while" { processToken( WHILE ); }
-
-"+" { yylval.val=PL; processToken( RELOP ); }
-"-" { yylval.val=MI; processToken( RELOP ); }
-"*" { yylval.val=MU; processToken( RELOP ); }
-"/" { yylval.val=DI; processToken( RELOP ); }
-"<" { yylval.val=ST; processToken( RELOP ); }
-"<=" { yylval.val=SE; processToken( RELOP ); }
-">" { yylval.val=BT; processToken( RELOP ); }
-">=" { yylval.val=BE; processToken( RELOP ); }
-"==" { yylval.val=EE; processToken( RELOP ); }
-"!=" { yylval.val=NE; processToken( RELOP ); }
-"=" { yylval.val=EV; processToken( RELOP ); }
-";" { yylval.val=CN; processToken( RELOP ); }
-"," { yylval.val=CO; processToken( RELOP ); }
-"(" { yylval.val=LP; processToken( RELOP ); }
-")" { yylval.val=RP; processToken( RELOP ); }
-"[" { yylval.val=LB; processToken( RELOP ); }
-"]" { yylval.val=RB; processToken( RELOP ); }
-"{" { yylval.val=RS; processToken( RELOP ); }
-"}" { yylval.val=LS; processToken( RELOP ); }
-"/*" { yylval.val=SC; processToken( RELOP ); }
-"*/" { yylval.val=EC; processToken( RELOP ); }
+/*Regular Expressions*/
+space     [ \t\n]									/*Spacebar, Tab or Newline*/
+wspaces   {space}*									/*All whitespaces or blank*/
+letter    [A-Za-z]									/*Possible Char*/
+digit     [0-9]										/*Possible Digit*/
+id        {letter}({letter}|{digit})*				/*Possible combinations for a variable */
+number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?	/*Possible combinations for a number*/
 
 %%
 
-printToken( int t ) {
-switch(t) {
-case IF: printf(“Found an IF on line %d of file %s \n”, nlines, filename);
-break;
-case ELSE: printf(“Found an ELSE on line %d of file %s \n”, nlines, filename);
-break;
-case INT: printf(“Found an INT on line %d of file %s \n”, nlines, filename);
-break;
-case RETURN: printf(“Found a RETURN on line %d of file %s \n”, nlines, filename);
-break;
-case VOID: printf(“Found an VOID on line %d of file %s \n”, nlines, filename);
-break;
-case WHILE: printf(“Found an WHILE on line %d of file %s \n”, nlines, filename);
-break;
+	/*Statements*/
+	if {processToken( IF );}
+	else {processToken( ELSE );}
+	int {processToken( INT );}
+	return {processToken( RETURN );}
+	void {processToken( VOID );}
+	while {processToken( WHILE );}
+	{ws} {}
+	{id} {yylval; processToken(ID);}
+    {number} {yylval; processToken(NUMBER);}
 
+	"+" { yylval.val=PLUS; processToken( RELOP ); }			/*Plus*/
+	"-" { yylval.val=MINUS; processToken( RELOP ); }		/*Minus*/
+	"*" { yylval.val=TIMES; processToken( RELOP ); }		/*Multiplication*/
+	"/" { yylval.val=DIVIDE; processToken( RELOP ); }		/*Division*/
+	"<" { yylval.val=ST; processToken( RELOP ); }			/*Smaller Than*/
+	"<=" { yylval.val=SOE; processToken( RELOP ); }			/*Smaller or Equal*/
+	">" { yylval.val=GT; processToken( RELOP ); }			/*Greater Than*/
+	">=" { yylval.val=GOE; processToken( RELOP ); }			/*Greater Or Equal*/
+	"==" { yylval.val=EQV; processToken( RELOP ); }			/*Equal Values*/
+	"!=" { yylval.val=NEV; processToken( RELOP ); }			/*Not Equal*/
+	"=" { yylval.val=EQ; processToken( RELOP ); }			/*Equals*/
+	";" { yylval.val=SEMICLN; processToken( RELOP ); }		/*Semicolon*/
+	"," { yylval.val=CMA; processToken( RELOP ); }			/*Comma*/
+	"(" { yylval.val=LPAR; processToken( RELOP ); }			/*Left Parenthesis*/
+	")" { yylval.val=RPAR; processToken( RELOP ); }			/*Right Parenthesis*/
+	"[" { yylval.val=LSQBRA; processToken( RELOP ); }		/*Left Square Bracket*/
+	"]" { yylval.val=RSQBRA; processToken( RELOP ); }		/*Right Square Bracket*/
+	"{" { yylval.val=LBRA; processToken( RELOP ); }			/*Left Bracket*/
+	"}" { yylval.val=RBRA; processToken( RELOP ); }			/*Right Bracket*/
+	"/*" { yylval.val=LCOM; processToken( RELOP ); }		/*Left/Start of comment*/
+	"*/" { yylval.val=RCOM; processToken( RELOP ); }		/*Right/End of comment*/
+
+%%
+
+void printToken(int t){
+	switch(t) {
+		case IF:{ printf("Found an IF on line %d of file %s \n", nlines);break;}
+		case ELSE:{ printf("Found an ELSE on line %d of file %s \n", nlines);break;}
+		case INT:{ printf("Found an INT on line %d of file %s \n", nlines);break;}
+		case RETURN:{ printf("Found a RETURN on line %d of file %s \n", nlines);break;}
+		case VOID:{ printf("Found an VOID on line %d of file %s \n", nlines);break;}
+		case WHILE:{ printf("Found an WHILE on line %d of file %s \n", nlines);break;}
+		};
 };
-}
-processToken( int t ) {
-printToken(t);
-}
+
+void processToken( int t ){
+	printToken(t);
+};
 
 int main() {
+	yyin=fopen("input.txt","r");
 	yylex();
+
 }
