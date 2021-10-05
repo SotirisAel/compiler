@@ -2,10 +2,12 @@
 
 %{
 	#include <stdio.h>
+	#include <string.h>
 	#include "tokens.h"
-	void printToken(int t);
-	void processToken(int t);
-	int val,nlines;
+	/*void printToken(int,int);
+	void processToken(int,int);*/
+	int val,line=1;
+	char filename[80];
 %}
 
 /*Regular Expressions*/
@@ -13,63 +15,93 @@ space     [ \t\n]									/*Spacebar, Tab or Newline*/
 wspaces   {space}*									/*All whitespaces or blank*/
 letter    [A-Za-z]									/*Possible Char*/
 digit     [0-9]										/*Possible Digit*/
-id        {letter}({letter}|{digit})*				/*Possible combinations for a variable */
+id        {letter}({letter}?{digit})*				/*Possible combinations for a variable */
 number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?	/*Possible combinations for a number*/
 
 %%
 
-	/*Statements*/
-if {processToken( IF );}
-else {processToken( ELSE );}
-int {processToken( INT );}
-return {processToken( RETURN );}
-void {processToken( VOID );}
-while {processToken( WHILE );}
-{wspaces} {}
-{id} {processToken(ID);}
-{number} {processToken(NUMBER);}
+{wspaces} {};
+{id} {processToken(ID,line);};
+{number} {processToken(NUMBER,line);};
+if {processToken( IF,line );}
+else {processToken( ELSE,line );}
+int {processToken( INT,line );}
+return {processToken( RETURN,line );}
+void {processToken( VOID,line );}
+while {processToken( WHILE,line );}
 
-"+" { yylval.val=PLUS; processToken( RELOP ); }			/*Plus*/
-"-" { yylval.val=MINUS; processToken( RELOP ); }		/*Minus*/
-"*" { yylval.val=TIMES; processToken( RELOP ); }		/*Multiplication*/
-"/" { yylval.val=DIVIDE; processToken( RELOP ); }		/*Division*/
-"<" { yylval.val=ST; processToken( RELOP ); }			/*Smaller Than*/
-"<=" { yylval.val=SOE; processToken( RELOP ); }			/*Smaller or Equal*/
-">" { yylval.val=GT; processToken( RELOP ); }			/*Greater Than*/
-">=" { yylval.val=GOE; processToken( RELOP ); }			/*Greater Or Equal*/
-"==" { yylval.val=EQV; processToken( RELOP ); }			/*Equal Values*/
-"!=" { yylval.val=NEV; processToken( RELOP ); }			/*Not Equal*/
-"=" { yylval.val=EQ; processToken( RELOP ); }			/*Equals*/
-";" { yylval.val=SEMICLN; processToken( RELOP ); }		/*Semicolon*/
-"," { yylval.val=CMA; processToken( RELOP ); }			/*Comma*/
-"(" { yylval.val=LPAR; processToken( RELOP ); }			/*Left Parenthesis*/
-")" { yylval.val=RPAR; processToken( RELOP ); }			/*Right Parenthesis*/
-"[" { yylval.val=LSQBRA; processToken( RELOP ); }		/*Left Square Bracket*/
-"]" { yylval.val=RSQBRA; processToken( RELOP ); }		/*Right Square Bracket*/
-"{" { yylval.val=LBRA; processToken( RELOP ); }			/*Left Bracket*/
-"}" { yylval.val=RBRA; processToken( RELOP ); }			/*Right Bracket*/
-"/*" { yylval.val=LCOM; processToken( RELOP ); }		/*Left/Start of comment*/
-"*/" { yylval.val=RCOM; processToken( RELOP ); }		/*Right/End of comment*/
+"+" {processToken( PLUS,line ); }			/*Plus*/
+"-" {processToken( MINUS,line ); }		/*Minus*/
+"*" {processToken( TIMES,line ); }		/*Multiplication*/
+"/" {processToken( DIVIDE,line ); }		/*Division*/
+"<" {processToken( ST,line ); }			/*Smaller Than*/
+"<=" {processToken( SOE,line ); }			/*Smaller or Equal*/
+">" {processToken( GT,line ); }			/*Greater Than*/
+">=" {processToken( GOE,line ); }			/*Greater Or Equal*/
+"==" {processToken( EQV,line ); }			/*Equal Values*/
+"!=" {processToken( NEV,line ); }			/*Not Equal*/
+"=" {processToken( EV,line ); }			/*Equals*/
+";" {processToken( SEMICLN,line ); }		/*Semicolon*/
+"," {processToken( CMA,line ); }			/*Comma*/
+"(" {processToken( LPAR,line ); }			/*Left Parenthesis*/
+")" {processToken( RPAR,line ); }			/*Right Parenthesis*/
+"[" {processToken( LSQBRA,line ); }		/*Left Square Bracket*/
+"]" {processToken( RSQBRA,line ); }		/*Right Square Bracket*/
+"{" {processToken( LBRA,line ); }			/*Left Bracket*/
+"}" {processToken( RBRA,line ); }			/*Right Bracket*/
+"/*" {processToken( LCOM,line ); }		/*Left/Start of comment*/
+"*/" {processToken( RCOM,line ); }		/*Right/End of comment*/
 
 %%
 
-void printToken(int t){
+void printToken(int t, int line){
 	switch(t) {
-		case IF: 		printf("Found an IF on line %d of file %s \n", nlines);break;
-		case ELSE: 		printf("Found an ELSE on line %d of file %s \n", nlines);break;
-		case INT: 		printf("Found an INT on line %d of file %s \n", nlines);break;
-		case RETURN: 	printf("Found a RETURN on line %d of file %s \n", nlines);break;
-		case VOID: 		printf("Found an VOID on line %d of file %s \n", nlines);break;
-		case WHILE: 	printf("Found an WHILE on line %d of file %s \n", nlines);break;
+		case IF: 		printf("Found an IF on line %d of file %s \n", line, filename);break;
+		case ELSE: 		printf("Found an ELSE on line %d of file %s \n", line, filename);break;
+		case INT: 		printf("Found an INT on line %d of file %s \n", line, filename);break;
+		case RETURN: 	printf("Found a RETURN on line %d of file %s \n", line, filename);break;
+		case VOID: 		printf("Found an VOID on line %d of file %s \n", line, filename);break;
+		case WHILE: 	printf("Found an WHILE on line %d of file %s \n", line, filename);break;
+		case PLUS:		printf("Found a \"+\" on line %d of file \"%s\".\n", line, filename);break;
+		case MINUS:		printf("Found a \"-\" on line %d of file \"%s\".\n", line, filename);break;
+		case TIMES:		printf("Found a \"*\" on line %d of file \"%s\".\n", line, filename);break;
+		case DIVIDE:	printf("Found a \"/\" on line %d of file \"%s\".\n", line, filename);break;		
+		case ST:		printf("Found a \"<\" on line %d of file \"%s\".\n", line, filename);break;
+		case SOE:		printf("Found a \"<=\" on line %d of file \"%s\".\n", line, filename);break;
+		case GT:		printf("Found a \">\" on line %d of file \"%s\".\n", line, filename);break;
+		case GOE:		printf("Found a \">=\" on line %d of file \"%s\".\n", line, filename);break;
+		case EQV:		printf("Found a \"==\" on line %d of file \"%s\".\n", line, filename);break;
+		case NEV:		printf("Found a \"!=\" on line %d of file \"%s\".\n", line, filename);break;	
+		case EV:		printf("Found a \"=\" on line %d of file \"%s\".\n", line, filename);break;
+        case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", line, filename);break;
+        case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", line, filename);break;
+        case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", line, filename);break;
+        case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", line, filename);break;
+		case LSQBRA:	printf("Found a \"[\" on line %d of file \"%s\".\n", line, filename);break;
+		case RSQBRA:	printf("Found a \"]\" on line %d of file \"%s\".\n", line, filename);break;
+		case LBRA:		printf("Found a \"{\" on line %d of file \"%s\".\n", line, filename);break;
+		case RBRA:		printf("Found a \"}\" on line %d of file \"%s\".\n", line, filename);break;
+		case LCOM:		printf("Found a \"/*\" on line %d of file \"%s\".\n", line, filename);break;
+		case RCOM:		printf("Found a \"*/\" on line %d of file \"%s\".\n", line, filename);break;
+		case ID:		printf("Found an ID: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
+		case NUMBER:	printf("Found a NUM: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
+		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
+		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
 		};
 };
 
-void processToken( int t ){
-	printToken(t);
+void processToken( int t, int line ){
+	printToken(t,line);
 };
 
-int main() {
-	yyin=fopen("input.txt","r");
+int main(int argc, char *argv[]) {
+		strcpy(filename, argv[1]);
+        if (argc == 2)
+                yyin = fopen(argv[1], "r");
+        else {
+                printf("No file detected - Exit\n");
+                exit(1);
+        }
 	yylex();
 	return 0;
 };
