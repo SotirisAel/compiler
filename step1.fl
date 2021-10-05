@@ -4,8 +4,6 @@
 	#include <stdio.h>
 	#include <string.h>
 	#include "tokens.h"
-	/*void printToken(int,int);
-	void processToken(int,int);*/
 	int val,line=1;
 	char filename[80];
 %}
