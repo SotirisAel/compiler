@@ -1,3 +1,5 @@
+/* CEI222: Project Step[1] ID: [Sotiris Vasiliadis-ID1]_[Michael-Aggelos Demou-19753] _[Konstantinos Konstantinou-ID3] */
+
 %{
 	#include <stdio.h>
 	#include "tokens.h"
@@ -14,6 +16,7 @@ number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?	/*Possible combinations for a n
 
 %%
 
+<<<<<<< HEAD
 	/*Statements*/
 	if {processToken( IF );}
 	else {processToken( ELSE );}
@@ -68,4 +71,73 @@ int main() {
 	yyin=fopen("input.txt","r");
 	yylex();
 
+=======
+"if" { processToken( IF ); }
+"else" { processToken( ELSE ); }
+"int" { processToken( INT ); }
+"return" { processToken( RETURN ); }
+"void" { processToken( VOID ); }
+"while" { processToken( WHILE ); }
+
+"+" { yylval.val=PL; processToken( RELOP ); }
+"-" { yylval.val=MI; processToken( RELOP ); }
+"*" { yylval.val=MU; processToken( RELOP ); }
+"/" { yylval.val=DI; processToken( RELOP ); }
+"<" { yylval.val=ST; processToken( RELOP ); }
+"<=" { yylval.val=SE; processToken( RELOP ); }
+">" { yylval.val=BT; processToken( RELOP ); }
+">=" { yylval.val=BE; processToken( RELOP ); }
+"==" { yylval.val=EE; processToken( RELOP ); }
+"!=" { yylval.val=NE; processToken( RELOP ); }
+"=" { yylval.val=EV; processToken( RELOP ); }
+";" { yylval.val=CN; processToken( RELOP ); }
+"," { yylval.val=CO; processToken( RELOP ); }
+"(" { yylval.val=LP; processToken( RELOP ); }
+")" { yylval.val=RP; processToken( RELOP ); }
+"[" { yylval.val=LB; processToken( RELOP ); }
+"]" { yylval.val=RB; processToken( RELOP ); }
+"{" { yylval.val=RS; processToken( RELOP ); }
+"}" { yylval.val=LS; processToken( RELOP ); }
+"/*" { yylval.val=SC; processToken( RELOP ); }
+"*/" { yylval.val=EC; processToken( RELOP ); }
+
+%%
+
+processToken( int t ) 
+{
+	printToken( t );
+}
+
+printToken( int t ) 
+{
+	switch( t ) 
+	{
+		case IF: 
+			printf(“Found an IF on line %d of file %s \n”, nlines, filename);
+			break;
+		case ELSE: 
+			printf(“Found an ELSE on line %d of file %s \n”, nlines, filename);
+			break;
+		case INT: 
+			printf(“Found an INT on line %d of file %s \n”, nlines, filename);
+			break;
+		case RETURN: 
+			printf(“Found a RETURN on line %d of file %s \n”, nlines, filename);
+			break;
+		case VOID: 
+			printf(“Found an VOID on line %d of file %s \n”, nlines, filename);
+			break;
+		case WHILE: 
+			printf(“Found an WHILE on line %d of file %s \n”, nlines, filename);
+			break;
+
+	};
+}
+
+
+int main() 
+{
+	yylex();
+	
+>>>>>>> 1fb366623008269fb7593c52b5a3573681d505b2
 }
