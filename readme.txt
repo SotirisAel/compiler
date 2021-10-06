@@ -1,4 +1,4 @@
-Commands used in cmd.exe:
+Commands used in command line environment:
 
 cd .../compiler
 
