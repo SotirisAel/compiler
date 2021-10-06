@@ -9,12 +9,12 @@
 %}
 
 /*Regular Expressions*/
-space     [ \t\n]									/*Spacebar, Tab or Newline*/
-wspaces   {space}*									/*All whitespaces or blank*/
-letter    [A-Za-z]									/*Possible Char*/
-digit     [0-9]										/*Possible Digit*/
-id        {letter}({letter}?{digit})*				/*Possible combinations for a variable */
-number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?	/*Possible combinations for a number*/
+space     [ \t\n]									
+wspaces   {space}*									
+letter    [A-Za-z]									
+digit     [0-9]										
+id        {letter}({letter}?{digit})*				
+number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?	
 
 %%
 
