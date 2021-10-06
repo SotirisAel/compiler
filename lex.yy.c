@@ -1983,12 +1983,12 @@ void yyfree (void * ptr )
 
 void printToken(int t){
 	switch(t) {
-		case IF: 		printf("Found an IF on line %d of file %s \n", yylineno, filename);break;
-		case ELSE: 		printf("Found an ELSE on line %d of file %s \n", yylineno, filename);break;
-		case INT: 		printf("Found an INT on line %d of file %s \n", yylineno, filename);break;
-		case RETURN: 	printf("Found a RETURN on line %d of file %s \n", yylineno, filename);break;
-		case VOID: 		printf("Found an VOID on line %d of file %s \n", yylineno, filename);break;
-		case WHILE: 	printf("Found an WHILE on line %d of file %s \n", yylineno, filename);break;
+		case IF: 		printf("Found an IF on line %d of file \"%s\".\n", yylineno, filename);break;
+		case ELSE: 		printf("Found an ELSE on line %d of file \"%s\".\n", yylineno, filename);break;
+		case INT: 		printf("Found an INT on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RETURN: 	printf("Found a RETURN on line %d of file \"%s\".\n", yylineno, filename);break;
+		case VOID: 		printf("Found a VOID on line %d of file \"%s\".\n", yylineno, filename);break;
+		case WHILE: 	printf("Found a WHILE on line %d of file \"%s\".\n", yylineno, filename);break;
 		case PLUS:		printf("Found a \"+\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case MINUS:		printf("Found a \"-\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case TIMES:		printf("Found a \"*\" on line %d of file \"%s\".\n", yylineno, filename);break;
@@ -2023,7 +2023,7 @@ void processToken(int t){
 
 int main(int argc, char *argv[]) {
 	strcpy(filename, argv[1]);
-	if (argc=2)
+	if (argc==2)
 		yyin=fopen(argv[1],"r");
 	else
 	{
