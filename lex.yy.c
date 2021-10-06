@@ -531,7 +531,8 @@ char *yytext;
 	void printToken(int);
 	int val=1;
 	char filename[80];
-#line 535 "lex.yy.c"
+/*Regular Expressions*/
+#line 536 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -718,9 +719,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 21 "step1.fl"
+#line 22 "step1.fl"
 
-#line 724 "lex.yy.c"
+#line 725 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -816,166 +817,166 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 22 "step1.fl"
+#line 23 "step1.fl"
 {yylineno++;}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 24 "step1.fl"
+#line 25 "step1.fl"
 {}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 25 "step1.fl"
+#line 26 "step1.fl"
 {processToken( ID );}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 26 "step1.fl"
+#line 27 "step1.fl"
 {processToken( NUMBER );}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 27 "step1.fl"
+#line 28 "step1.fl"
 {processToken( IF );}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 28 "step1.fl"
+#line 29 "step1.fl"
 {processToken( ELSE );}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 29 "step1.fl"
+#line 30 "step1.fl"
 {processToken( INT );}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 30 "step1.fl"
+#line 31 "step1.fl"
 {processToken( RETURN );}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 31 "step1.fl"
+#line 32 "step1.fl"
 {processToken( VOID );}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 32 "step1.fl"
+#line 33 "step1.fl"
 {processToken( WHILE );}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 33 "step1.fl"
+#line 34 "step1.fl"
 {processToken( PLUS ); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 34 "step1.fl"
+#line 35 "step1.fl"
 {processToken( MINUS ); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 35 "step1.fl"
+#line 36 "step1.fl"
 {processToken( TIMES ); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 36 "step1.fl"
+#line 37 "step1.fl"
 {processToken( DIVIDE ); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 37 "step1.fl"
+#line 38 "step1.fl"
 {processToken( ST ); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 38 "step1.fl"
+#line 39 "step1.fl"
 {processToken( SOE ); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 39 "step1.fl"
+#line 40 "step1.fl"
 {processToken( GT ); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 40 "step1.fl"
+#line 41 "step1.fl"
 {processToken( GOE ); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 41 "step1.fl"
+#line 42 "step1.fl"
 {processToken( EQV ); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 42 "step1.fl"
+#line 43 "step1.fl"
 {processToken( NEV ); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 43 "step1.fl"
+#line 44 "step1.fl"
 {processToken( EV ); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 44 "step1.fl"
+#line 45 "step1.fl"
 {processToken( SEMICLN ); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 45 "step1.fl"
+#line 46 "step1.fl"
 {processToken( CMA ); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 46 "step1.fl"
+#line 47 "step1.fl"
 {processToken( LPAR ); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 47 "step1.fl"
+#line 48 "step1.fl"
 {processToken( RPAR ); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 48 "step1.fl"
+#line 49 "step1.fl"
 {processToken( LSQBRA ); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 49 "step1.fl"
+#line 50 "step1.fl"
 {processToken( RSQBRA ); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 50 "step1.fl"
+#line 51 "step1.fl"
 {processToken( LBRA ); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 51 "step1.fl"
+#line 52 "step1.fl"
 {processToken( RBRA ); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 52 "step1.fl"
+#line 53 "step1.fl"
 {processToken( LCOM ); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 53 "step1.fl"
+#line 54 "step1.fl"
 {processToken( RCOM ); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 55 "step1.fl"
+#line 56 "step1.fl"
 ECHO;
 	YY_BREAK
-#line 979 "lex.yy.c"
+#line 980 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1985,10 +1986,12 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 55 "step1.fl"
+#line 56 "step1.fl"
 
 
 
+
+/*Function to print our tokens*/
 void printToken(int t){
 	switch(t) {
 		case IF: 		printf("Found an IF on line %d of file \"%s\".\n", yylineno, filename);break;
@@ -2025,17 +2028,25 @@ void printToken(int t){
 		};
 }
 
+/*Just a redirection function*/
 void processToken(int t){
 	printToken(t);
 }
 
+/*Main Function*/
 int main(int argc, char *argv[]) {
-	strcpy(filename, argv[1]);
+	strcpy(filename, argv[1]);			//copy file name
+	/*If 2 arguments provided (main input.exe etc) then open file, else mistakes were made*/
 	if (argc==2)
 		yyin=fopen(argv[1],"r");
+	else if (argc<2)
+	{
+		printf("Too little arguments(files) provided - Exit\n");
+		exit(1);
+	}	
 	else
 	{
-		printf("No file-Exit\n");
+		printf("Error in opening file - Exit\n");
 		exit(1);
 	}
 	yylex();

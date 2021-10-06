@@ -11,6 +11,7 @@
 %}
 %option yylineno
 
+/*Regular Expressions*/
 space     [ \t\n]
 wspaces   {space}*
 letter    [A-Za-z]
@@ -54,6 +55,8 @@ number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?
 
 %%
 
+
+/*Function to print our tokens*/
 void printToken(int t){
 	switch(t) {
 		case IF: 		printf("Found an IF on line %d of file \"%s\".\n", yylineno, filename);break;
@@ -90,17 +93,25 @@ void printToken(int t){
 		};
 }
 
+/*Just a redirection function*/
 void processToken(int t){
 	printToken(t);
 }
 
+/*Main Function*/
 int main(int argc, char *argv[]) {
-	strcpy(filename, argv[1]);
+	strcpy(filename, argv[1]);			//copy file name
+	/*If 2 arguments provided (main input.exe etc) then open file, else mistakes were made*/
 	if (argc==2)
 		yyin=fopen(argv[1],"r");
+	else if (argc<2)
+	{
+		printf("Too little arguments(files) provided - Exit\n");
+		exit(1);
+	}	
 	else
 	{
-		printf("No file-Exit\n");
+		printf("Error in opening file - Exit\n");
 		exit(1);
 	}
 	yylex();
