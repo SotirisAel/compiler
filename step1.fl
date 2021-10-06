@@ -21,6 +21,7 @@ number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?
 %%
 \n 			{yylineno++;}
 
+{wspaces}	{}
 {id} 		{processToken( ID );}
 {number} 	{processToken( NUMBER );}
 "if" 		{processToken( IF );}
@@ -83,7 +84,7 @@ void printToken(int t){
 		case LCOM:		printf("Found a \"/*\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case RCOM:		printf("Found a \"*/\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case ID:		printf("Found an ID: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
-		case NUMBER:	printf("Found a NUM: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case NUMBER:	printf("Found a NUMBER: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		};
