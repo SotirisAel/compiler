@@ -76,7 +76,7 @@ void printToken(int t){
 		case EQV:		printf("Found a \"==\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case NEV:		printf("Found a \"!=\" on line %d of file \"%s\".\n", yylineno, filename);break;	
 		case EV:		printf("Found a \"=\" on line %d of file \"%s\".\n", yylineno, filename);break;
-        case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", yylineno, filename);break;
         case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", yylineno, filename);break;
         case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", yylineno, filename);break;
         case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", yylineno, filename);break;
