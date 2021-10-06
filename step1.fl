@@ -4,102 +4,104 @@
 	#include <stdio.h>
 	#include <string.h>
 	#include "tokens.h"
-	int val,line=1;
+	void processToken(int);
+	void printToken(int);
+	int val=1;
 	char filename[80];
 %}
+%option yylineno
 
-/*Regular Expressions*/
-space     [ \t\n]									
-wspaces   {space}*									
-letter    [A-Za-z]									
-digit     [0-9]										
-id        {letter}({letter}?{digit})*				
-number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?	
+space     [ \t\n]
+wspaces   {space}*
+letter    [A-Za-z]
+digit     [0-9]
+id        {letter}({letter}?{digit})*
+number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?
+
+%%
+\n 			{yylineno++;}
+
+{id} 		{processToken( ID );}
+{number} 	{processToken( NUMBER );}
+"if" 		{processToken( IF );}
+"else" 		{processToken( ELSE );}
+"int" 		{processToken( INT );}
+"return" 	{processToken( RETURN );}
+"void" 		{processToken( VOID );}
+"while" 	{processToken( WHILE );}
+"+" 		{processToken( PLUS ); }
+"-" 		{processToken( MINUS ); }
+"*" 		{processToken( TIMES ); }
+"/" 		{processToken( DIVIDE ); }
+"<" 		{processToken( ST ); }
+"<=" 		{processToken( SOE ); }
+">" 		{processToken( GT ); }
+">=" 		{processToken( GOE ); }
+"==" 		{processToken( EQV ); }
+"!=" 		{processToken( NEV ); }
+"=" 		{processToken( EV ); }
+";" 		{processToken( SEMICLN ); }
+"," 		{processToken( CMA ); }
+"(" 		{processToken( LPAR ); }
+")" 		{processToken( RPAR ); }
+"[" 		{processToken( LSQBRA ); }
+"]" 		{processToken( RSQBRA ); }
+"{" 		{processToken( LBRA ); }
+"}" 		{processToken( RBRA ); }
+"/*" 		{processToken( LCOM ); }
+"*/" 		{processToken( RCOM ); }
 
 %%
 
-{wspaces} 	{};
-{id} 		{processToken(ID,line);};
-{number} 	{processToken(NUMBER,line);};
-if 			{processToken( IF,line );}
-else 		{processToken( ELSE,line );}
-int 		{processToken( INT,line );}
-return 		{processToken( RETURN,line );}
-void 		{processToken( VOID,line );}
-while 		{processToken( WHILE,line );}
-
-"+" 		{processToken( PLUS,line ); }		/*Plus*/
-"-" 		{processToken( MINUS,line ); }		/*Minus*/
-"*" 		{processToken( TIMES,line ); }		/*Multiplication*/
-"/" 		{processToken( DIVIDE,line ); }		/*Division*/
-"<" 		{processToken( ST,line ); }			/*Smaller Than*/
-"<=" 		{processToken( SOE,line ); }		/*Smaller or Equal*/
-">" 		{processToken( GT,line ); }			/*Greater Than*/
-">=" 		{processToken( GOE,line ); }		/*Greater Or Equal*/
-"==" 		{processToken( EQV,line ); }		/*Equal Values*/
-"!=" 		{processToken( NEV,line ); }		/*Not Equal*/
-"=" 		{processToken( EV,line ); }			/*Equals*/
-";" 		{processToken( SEMICLN,line ); }	/*Semicolon*/
-"," 		{processToken( CMA,line ); }		/*Comma*/
-"(" 		{processToken( LPAR,line ); }		/*Left Parenthesis*/
-")" 		{processToken( RPAR,line ); }		/*Right Parenthesis*/
-"[" 		{processToken( LSQBRA,line ); }		/*Left Square Bracket*/
-"]" 		{processToken( RSQBRA,line ); }		/*Right Square Bracket*/
-"{" 		{processToken( LBRA,line ); }		/*Left Bracket*/
-"}" 		{processToken( RBRA,line ); }		/*Right Bracket*/
-"/*" 		{processToken( LCOM,line ); }		/*Left/Start of comment*/
-"*/" 		{processToken( RCOM,line ); }		/*Right/End of comment*/
-
-%%
-
-void printToken(int t, int line){
+void printToken(int t){
 	switch(t) {
-		case IF: 		printf("Found an IF on line %d of file %s \n", line, filename);break;
-		case ELSE: 		printf("Found an ELSE on line %d of file %s \n", line, filename);break;
-		case INT: 		printf("Found an INT on line %d of file %s \n", line, filename);break;
-		case RETURN: 	printf("Found a RETURN on line %d of file %s \n", line, filename);break;
-		case VOID: 		printf("Found an VOID on line %d of file %s \n", line, filename);break;
-		case WHILE: 	printf("Found an WHILE on line %d of file %s \n", line, filename);break;
-		case PLUS:		printf("Found a \"+\" on line %d of file \"%s\".\n", line, filename);break;
-		case MINUS:		printf("Found a \"-\" on line %d of file \"%s\".\n", line, filename);break;
-		case TIMES:		printf("Found a \"*\" on line %d of file \"%s\".\n", line, filename);break;
-		case DIVIDE:	printf("Found a \"/\" on line %d of file \"%s\".\n", line, filename);break;		
-		case ST:		printf("Found a \"<\" on line %d of file \"%s\".\n", line, filename);break;
-		case SOE:		printf("Found a \"<=\" on line %d of file \"%s\".\n", line, filename);break;
-		case GT:		printf("Found a \">\" on line %d of file \"%s\".\n", line, filename);break;
-		case GOE:		printf("Found a \">=\" on line %d of file \"%s\".\n", line, filename);break;
-		case EQV:		printf("Found a \"==\" on line %d of file \"%s\".\n", line, filename);break;
-		case NEV:		printf("Found a \"!=\" on line %d of file \"%s\".\n", line, filename);break;	
-		case EV:		printf("Found a \"=\" on line %d of file \"%s\".\n", line, filename);break;
-        case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", line, filename);break;
-        case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", line, filename);break;
-        case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", line, filename);break;
-        case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", line, filename);break;
-		case LSQBRA:	printf("Found a \"[\" on line %d of file \"%s\".\n", line, filename);break;
-		case RSQBRA:	printf("Found a \"]\" on line %d of file \"%s\".\n", line, filename);break;
-		case LBRA:		printf("Found a \"{\" on line %d of file \"%s\".\n", line, filename);break;
-		case RBRA:		printf("Found a \"}\" on line %d of file \"%s\".\n", line, filename);break;
-		case LCOM:		printf("Found a \"/*\" on line %d of file \"%s\".\n", line, filename);break;
-		case RCOM:		printf("Found a \"*/\" on line %d of file \"%s\".\n", line, filename);break;
-		case ID:		printf("Found an ID: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
-		case NUMBER:	printf("Found a NUM: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
-		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
-		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
+		case IF: 		printf("Found an IF on line %d of file %s \n", yylineno, filename);break;
+		case ELSE: 		printf("Found an ELSE on line %d of file %s \n", yylineno, filename);break;
+		case INT: 		printf("Found an INT on line %d of file %s \n", yylineno, filename);break;
+		case RETURN: 	printf("Found a RETURN on line %d of file %s \n", yylineno, filename);break;
+		case VOID: 		printf("Found an VOID on line %d of file %s \n", yylineno, filename);break;
+		case WHILE: 	printf("Found an WHILE on line %d of file %s \n", yylineno, filename);break;
+		case PLUS:		printf("Found a \"+\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case MINUS:		printf("Found a \"-\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case TIMES:		printf("Found a \"*\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case DIVIDE:	printf("Found a \"/\" on line %d of file \"%s\".\n", yylineno, filename);break;		
+		case ST:		printf("Found a \"<\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case SOE:		printf("Found a \"<=\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case GT:		printf("Found a \">\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case GOE:		printf("Found a \">=\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case EQV:		printf("Found a \"==\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case NEV:		printf("Found a \"!=\" on line %d of file \"%s\".\n", yylineno, filename);break;	
+		case EV:		printf("Found a \"=\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LSQBRA:	printf("Found a \"[\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RSQBRA:	printf("Found a \"]\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LBRA:		printf("Found a \"{\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RBRA:		printf("Found a \"}\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LCOM:		printf("Found a \"/*\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RCOM:		printf("Found a \"*/\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case ID:		printf("Found an ID: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case NUMBER:	printf("Found a NUM: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		};
-};
+}
 
-void processToken(int t, int line){
-	printToken(t,line);
-};
+void processToken(int t){
+	printToken(t);
+}
 
 int main(int argc, char *argv[]) {
-		strcpy(filename, argv[1]);
-        if (argc == 2)
-                yyin = fopen(argv[1], "r");
-        else {
-                printf("No file detected - Exit\n");
-                exit(1);
-        }
+	strcpy(filename, argv[1]);
+	if (argc=2)
+		yyin=fopen(argv[1],"r");
+	else
+	{
+		printf("No file-Exit\n");
+		exit(1);
+	}
 	yylex();
 	return 0;
-};
+}

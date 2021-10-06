@@ -169,7 +169,20 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
 
-    #define YY_LESS_LINENO(n)
+    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
+     *       access to the local variable yy_act. Since yyless() is a macro, it would break
+     *       existing scanners that call yyless() from OUTSIDE yylex. 
+     *       One obvious solution it to make yy_act a global. I tried that, and saw
+     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
+     *       normally declared as a register variable-- so it is not worth it.
+     */
+    #define  YY_LESS_LINENO(n) \
+            do { \
+                int yyl;\
+                for ( yyl = n; yyl < yyleng; ++yyl )\
+                    if ( yytext[yyl] == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -377,23 +390,23 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[63] =
+static yyconst flex_int16_t yy_accept[62] =
     {   0,
-        1,    1,   32,   31,    1,   31,   23,   24,   12,   10,
+        0,    0,   32,   31,    1,   31,   23,   24,   12,   10,
        22,   11,   13,    3,   21,   14,   20,   16,    2,   25,
-       26,    2,    2,    2,    2,    2,   27,   28,    1,   19,
-       30,   29,    0,    3,    0,   15,   18,   17,    2,    0,
-        0,    4,    0,    0,    0,    0,    3,    0,    3,    0,
-        6,    0,    0,    0,    5,    0,    8,    0,    0,    9,
-        7,    0
+       26,    2,    2,    2,    2,    2,   27,   28,   19,   30,
+       29,    0,    3,    0,   15,   18,   17,    2,    0,    0,
+        4,    0,    0,    0,    0,    3,    0,    3,    0,    6,
+        0,    0,    0,    5,    0,    8,    0,    0,    9,    7,
+        0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    2,    2,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    2,    3,    1,    1,    1,    1,    1,    1,    4,
+        1,    1,    3,    1,    1,    1,    1,    1,    1,    4,
         5,    6,    7,    8,    9,   10,   11,   12,   12,   12,
        12,   12,   12,   12,   12,   12,   12,    1,   13,   14,
        15,   16,    1,    1,   17,   17,   17,   17,   18,   17,
@@ -428,63 +441,69 @@ static yyconst flex_int32_t yy_meta[37] =
         2,    2,    2,    2,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[64] =
+static yyconst flex_int16_t yy_base[63] =
     {   0,
-        0,    0,   92,   93,   89,   75,   93,   93,   78,   93,
-       93,   93,   82,   27,   93,   72,   71,   70,   72,   93,
-       93,   26,   28,   31,   29,   30,   93,   93,   81,   93,
-       93,   93,   70,   38,   37,   93,   93,   93,   69,   68,
-       35,   67,   46,   47,   48,   49,   50,   64,   63,   50,
-       93,   39,   49,   43,   93,   38,   93,   44,   37,   93,
-       93,   93,   61
+        0,    0,   90,   91,   91,   74,   91,   91,   77,   91,
+       91,   91,   81,   27,   91,   71,   70,   69,   71,   91,
+       91,   26,   28,   31,   29,   30,   91,   91,   91,   91,
+       91,   70,   38,   37,   91,   91,   91,   69,   68,   35,
+       67,   46,   47,   48,   49,   50,   64,   63,   50,   91,
+       39,   49,   43,   91,   38,   91,   44,   37,   91,   91,
+       91,   61
     } ;
 
-static yyconst flex_int16_t yy_def[64] =
+static yyconst flex_int16_t yy_def[63] =
     {   0,
-       62,    1,   62,   62,   62,   62,   62,   62,   62,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   63,   62,
-       62,   63,   63,   63,   63,   63,   62,   62,   62,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   63,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
-       62,    0,   62
+       61,    1,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   62,   61,
+       61,   62,   62,   62,   62,   62,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   62,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+        0,   61
     } ;
 
-static yyconst flex_int16_t yy_nxt[130] =
+static yyconst flex_int16_t yy_nxt[128] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,    4,
        13,   14,   15,   16,   17,   18,   19,   19,   20,   21,
        19,   22,   19,   19,   23,   19,   19,   19,   24,   19,
-       19,   19,   25,   26,   27,   28,   33,   39,   34,   39,
-       39,   39,   39,   48,   35,   48,   39,   33,   49,   34,
-       42,   41,   44,   46,   43,   35,   45,   39,   39,   39,
-       39,   47,   40,   61,   50,   60,   59,   35,   58,   57,
-       56,   55,   53,   54,   49,   49,   51,   52,   39,   39,
-       39,   47,   29,   39,   38,   37,   36,   32,   31,   30,
-       29,   62,    3,   62,   62,   62,   62,   62,   62,   62,
+       19,   19,   25,   26,   27,   28,   32,   38,   33,   38,
+       38,   38,   38,   47,   34,   47,   38,   32,   48,   33,
+       41,   40,   43,   45,   42,   34,   44,   38,   38,   38,
+       38,   46,   39,   60,   49,   59,   58,   34,   57,   56,
+       55,   54,   52,   53,   48,   48,   50,   51,   38,   38,
+       38,   46,   38,   37,   36,   35,   31,   30,   29,   61,
+        3,   61,   61,   61,   61,   61,   61,   61,   61,   61,
 
-       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   62
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61
     } ;
 
-static yyconst flex_int16_t yy_chk[130] =
+static yyconst flex_int16_t yy_chk[128] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,   14,   22,   14,   23,
-       25,   26,   24,   35,   14,   35,   41,   34,   35,   34,
-       23,   22,   24,   26,   23,   34,   25,   43,   44,   45,
-       46,   47,   63,   59,   41,   58,   56,   47,   54,   53,
-       52,   50,   45,   46,   49,   48,   43,   44,   42,   40,
-       39,   33,   29,   19,   18,   17,   16,   13,    9,    6,
-        5,    3,   62,   62,   62,   62,   62,   62,   62,   62,
+       25,   26,   24,   34,   14,   34,   40,   33,   34,   33,
+       23,   22,   24,   26,   23,   33,   25,   42,   43,   44,
+       45,   46,   62,   58,   40,   57,   55,   46,   53,   52,
+       51,   49,   44,   45,   48,   47,   42,   43,   41,   39,
+       38,   32,   19,   18,   17,   16,   13,    9,    6,    3,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
 
-       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
-       62,   62,   62,   62,   62,   62,   62,   62,   62
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61
     } ;
+
+/* Table of booleans, true if rule could match eol. */
+static yyconst flex_int32_t yy_rule_can_match_eol[32] =
+    {   0,
+1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -506,10 +525,11 @@ char *yytext;
 	#include <stdio.h>
 	#include <string.h>
 	#include "tokens.h"
-	int val,line=1;
+	void processToken(int);
+	void printToken(int);
+	int val=1;
 	char filename[80];
-/*Regular Expressions*/
-#line 513 "lex.yy.c"
+#line 533 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -696,10 +716,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 19 "step1.fl"
+#line 21 "step1.fl"
 
-
-#line 703 "lex.yy.c"
+#line 722 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -752,13 +771,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 63 )
+				if ( yy_current_state >= 62 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 93 );
+		while ( yy_base[yy_current_state] != 91 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -770,6 +789,16 @@ yy_find_action:
 			}
 
 		YY_DO_BEFORE_ACTION;
+
+		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					   
+    yylineno++;
+;
+			}
 
 do_action:	/* This label is used only to access EOF actions. */
 
@@ -785,160 +814,160 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 21 "step1.fl"
-{};
+#line 22 "step1.fl"
+{yylineno++;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 22 "step1.fl"
-{processToken(ID,line);};
+#line 24 "step1.fl"
+{processToken( ID );}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "step1.fl"
-{processToken(NUMBER,line);};
+#line 25 "step1.fl"
+{processToken( NUMBER );}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "step1.fl"
-{processToken( IF,line );}
+#line 26 "step1.fl"
+{processToken( IF );}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 25 "step1.fl"
-{processToken( ELSE,line );}
+#line 27 "step1.fl"
+{processToken( ELSE );}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 26 "step1.fl"
-{processToken( INT,line );}
+#line 28 "step1.fl"
+{processToken( INT );}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "step1.fl"
-{processToken( RETURN,line );}
+#line 29 "step1.fl"
+{processToken( RETURN );}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "step1.fl"
-{processToken( VOID,line );}
+#line 30 "step1.fl"
+{processToken( VOID );}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "step1.fl"
-{processToken( WHILE,line );}
+#line 31 "step1.fl"
+{processToken( WHILE );}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 31 "step1.fl"
-{processToken( PLUS,line ); }		/*Plus*/
+#line 32 "step1.fl"
+{processToken( PLUS ); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 32 "step1.fl"
-{processToken( MINUS,line ); }		/*Minus*/
+#line 33 "step1.fl"
+{processToken( MINUS ); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 33 "step1.fl"
-{processToken( TIMES,line ); }		/*Multiplication*/
+#line 34 "step1.fl"
+{processToken( TIMES ); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "step1.fl"
-{processToken( DIVIDE,line ); }		/*Division*/
+#line 35 "step1.fl"
+{processToken( DIVIDE ); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 35 "step1.fl"
-{processToken( ST,line ); }			/*Smaller Than*/
+#line 36 "step1.fl"
+{processToken( ST ); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 36 "step1.fl"
-{processToken( SOE,line ); }		/*Smaller or Equal*/
+#line 37 "step1.fl"
+{processToken( SOE ); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 37 "step1.fl"
-{processToken( GT,line ); }			/*Greater Than*/
+#line 38 "step1.fl"
+{processToken( GT ); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 38 "step1.fl"
-{processToken( GOE,line ); }		/*Greater Or Equal*/
+#line 39 "step1.fl"
+{processToken( GOE ); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 39 "step1.fl"
-{processToken( EQV,line ); }		/*Equal Values*/
+#line 40 "step1.fl"
+{processToken( EQV ); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 40 "step1.fl"
-{processToken( NEV,line ); }		/*Not Equal*/
+#line 41 "step1.fl"
+{processToken( NEV ); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 41 "step1.fl"
-{processToken( EV,line ); }			/*Equals*/
+#line 42 "step1.fl"
+{processToken( EV ); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 42 "step1.fl"
-{processToken( SEMICLN,line ); }	/*Semicolon*/
+#line 43 "step1.fl"
+{processToken( SEMICLN ); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 43 "step1.fl"
-{processToken( CMA,line ); }		/*Comma*/
+#line 44 "step1.fl"
+{processToken( CMA ); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 44 "step1.fl"
-{processToken( LPAR,line ); }		/*Left Parenthesis*/
+#line 45 "step1.fl"
+{processToken( LPAR ); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 45 "step1.fl"
-{processToken( RPAR,line ); }		/*Right Parenthesis*/
+#line 46 "step1.fl"
+{processToken( RPAR ); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 46 "step1.fl"
-{processToken( LSQBRA,line ); }		/*Left Square Bracket*/
+#line 47 "step1.fl"
+{processToken( LSQBRA ); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 47 "step1.fl"
-{processToken( RSQBRA,line ); }		/*Right Square Bracket*/
+#line 48 "step1.fl"
+{processToken( RSQBRA ); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 48 "step1.fl"
-{processToken( LBRA,line ); }		/*Left Bracket*/
+#line 49 "step1.fl"
+{processToken( LBRA ); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 49 "step1.fl"
-{processToken( RBRA,line ); }		/*Right Bracket*/
+#line 50 "step1.fl"
+{processToken( RBRA ); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 50 "step1.fl"
-{processToken( LCOM,line ); }		/*Left/Start of comment*/
+#line 51 "step1.fl"
+{processToken( LCOM ); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 51 "step1.fl"
-{processToken( RCOM,line ); }		/*Right/End of comment*/
+#line 52 "step1.fl"
+{processToken( RCOM ); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 53 "step1.fl"
+#line 54 "step1.fl"
 ECHO;
 	YY_BREAK
-#line 942 "lex.yy.c"
+#line 971 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1230,7 +1259,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 63 )
+			if ( yy_current_state >= 62 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1258,11 +1287,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 63 )
+		if ( yy_current_state >= 62 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 62);
+	yy_is_jam = (yy_current_state == 61);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1298,6 +1327,10 @@ static int yy_get_next_buffer (void)
 		}
 
 	*--yy_cp = (char) c;
+
+    if ( c == '\n' ){
+        --yylineno;
+    }
 
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
@@ -1373,6 +1406,11 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
+
+	if ( c == '\n' )
+		   
+    yylineno++;
+;
 
 	return c;
 }
@@ -1844,6 +1882,9 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
+    /* We do not touch yylineno unless the option is enabled. */
+    yylineno =  1;
+    
     (yy_buffer_stack) = 0;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -1936,59 +1977,59 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 53 "step1.fl"
+#line 54 "step1.fl"
 
 
 
-void printToken(int t, int line){
+void printToken(int t){
 	switch(t) {
-		case IF: 		printf("Found an IF on line %d of file %s \n", line, filename);break;
-		case ELSE: 		printf("Found an ELSE on line %d of file %s \n", line, filename);break;
-		case INT: 		printf("Found an INT on line %d of file %s \n", line, filename);break;
-		case RETURN: 	printf("Found a RETURN on line %d of file %s \n", line, filename);break;
-		case VOID: 		printf("Found an VOID on line %d of file %s \n", line, filename);break;
-		case WHILE: 	printf("Found an WHILE on line %d of file %s \n", line, filename);break;
-		case PLUS:		printf("Found a \"+\" on line %d of file \"%s\".\n", line, filename);break;
-		case MINUS:		printf("Found a \"-\" on line %d of file \"%s\".\n", line, filename);break;
-		case TIMES:		printf("Found a \"*\" on line %d of file \"%s\".\n", line, filename);break;
-		case DIVIDE:	printf("Found a \"/\" on line %d of file \"%s\".\n", line, filename);break;		
-		case ST:		printf("Found a \"<\" on line %d of file \"%s\".\n", line, filename);break;
-		case SOE:		printf("Found a \"<=\" on line %d of file \"%s\".\n", line, filename);break;
-		case GT:		printf("Found a \">\" on line %d of file \"%s\".\n", line, filename);break;
-		case GOE:		printf("Found a \">=\" on line %d of file \"%s\".\n", line, filename);break;
-		case EQV:		printf("Found a \"==\" on line %d of file \"%s\".\n", line, filename);break;
-		case NEV:		printf("Found a \"!=\" on line %d of file \"%s\".\n", line, filename);break;	
-		case EV:		printf("Found a \"=\" on line %d of file \"%s\".\n", line, filename);break;
-        case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", line, filename);break;
-        case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", line, filename);break;
-        case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", line, filename);break;
-        case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", line, filename);break;
-		case LSQBRA:	printf("Found a \"[\" on line %d of file \"%s\".\n", line, filename);break;
-		case RSQBRA:	printf("Found a \"]\" on line %d of file \"%s\".\n", line, filename);break;
-		case LBRA:		printf("Found a \"{\" on line %d of file \"%s\".\n", line, filename);break;
-		case RBRA:		printf("Found a \"}\" on line %d of file \"%s\".\n", line, filename);break;
-		case LCOM:		printf("Found a \"/*\" on line %d of file \"%s\".\n", line, filename);break;
-		case RCOM:		printf("Found a \"*/\" on line %d of file \"%s\".\n", line, filename);break;
-		case ID:		printf("Found an ID: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
-		case NUMBER:	printf("Found a NUM: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
-		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
-		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, line, filename);break;
+		case IF: 		printf("Found an IF on line %d of file %s \n", yylineno, filename);break;
+		case ELSE: 		printf("Found an ELSE on line %d of file %s \n", yylineno, filename);break;
+		case INT: 		printf("Found an INT on line %d of file %s \n", yylineno, filename);break;
+		case RETURN: 	printf("Found a RETURN on line %d of file %s \n", yylineno, filename);break;
+		case VOID: 		printf("Found an VOID on line %d of file %s \n", yylineno, filename);break;
+		case WHILE: 	printf("Found an WHILE on line %d of file %s \n", yylineno, filename);break;
+		case PLUS:		printf("Found a \"+\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case MINUS:		printf("Found a \"-\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case TIMES:		printf("Found a \"*\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case DIVIDE:	printf("Found a \"/\" on line %d of file \"%s\".\n", yylineno, filename);break;		
+		case ST:		printf("Found a \"<\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case SOE:		printf("Found a \"<=\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case GT:		printf("Found a \">\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case GOE:		printf("Found a \">=\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case EQV:		printf("Found a \"==\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case NEV:		printf("Found a \"!=\" on line %d of file \"%s\".\n", yylineno, filename);break;	
+		case EV:		printf("Found a \"=\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", yylineno, filename);break;
+        case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LSQBRA:	printf("Found a \"[\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RSQBRA:	printf("Found a \"]\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LBRA:		printf("Found a \"{\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RBRA:		printf("Found a \"}\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LCOM:		printf("Found a \"/*\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RCOM:		printf("Found a \"*/\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case ID:		printf("Found an ID: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case NUMBER:	printf("Found a NUM: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		};
-};
+}
 
-void processToken( int t, int line ){
-	printToken(t,line);
-};
+void processToken(int t){
+	printToken(t);
+}
 
 int main(int argc, char *argv[]) {
-		strcpy(filename, argv[1]);
-        if (argc == 2)
-                yyin = fopen(argv[1], "r");
-        else {
-                printf("No file detected - Exit\n");
-                exit(1);
-        }
+	strcpy(filename, argv[1]);
+	if (argc=2)
+		yyin=fopen(argv[1],"r");
+	else
+	{
+		printf("No file-Exit\n");
+		exit(1);
+	}
 	yylex();
 	return 0;
-};
-
+}
