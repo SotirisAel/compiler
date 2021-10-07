@@ -1993,12 +1993,14 @@ void yyfree (void * ptr )
 
 	/*Function to print our tokens*/
 void printToken(int t){
+	/* Statement to catch and post any comments not processed/ignored (t!=26 any white spaces ignored)*/
 	if(comment==1 && t!=26){
 		if(t!=31)
 			printf("%s",yytext);
 		else
 			printf(" ");
 	}
+
 	else
 	switch(t) {
 		case IF:		printf("Found an IF on line %d of file \"%s\".\n", yylineno, filename);break;
