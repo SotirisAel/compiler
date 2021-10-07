@@ -1,5 +1,26 @@
-int i=0;   /*test /* this is a test int main a b c*/
-while(i<50)
-{
-	i++;
-}
+/* This is a test */
+if	
+else 		
+int 		
+return 	
+void		
+while 	
++ 		
+- 		
+* 		
+/ 		
+< 		
+<= 		
+> 		
+>= 		
+== 		
+!= 		
+= 		
+; 		
+, 		
+( 		
+) 		
+[ 		
+] 		
+{ 		
+} 		
