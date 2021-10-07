@@ -529,7 +529,7 @@ char *yytext;
 	#include "tokens.h"
 	void processToken(int);
 	void printToken(int);
-	int val=1;
+	int val=1, comment=0;
 	char filename[80];
 /*Regular Expressions*/
 #line 536 "lex.yy.c"
@@ -824,7 +824,7 @@ case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
 #line 25 "step1.fl"
-{}
+{processToken( WSPACES );}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
@@ -1991,8 +1991,15 @@ void yyfree (void * ptr )
 
 
 
-/*Function to print our tokens*/
+	/*Function to print our tokens*/
 void printToken(int t){
+	if(comment==1 && t!=26){
+		if(t!=31)
+			printf("%s",yytext);
+		else
+			printf(" ");
+	}
+	else
 	switch(t) {
 		case IF:		printf("Found an IF on line %d of file \"%s\".\n", yylineno, filename);break;
 		case ELSE:		printf("Found an ELSE on line %d of file \"%s\".\n", yylineno, filename);break;
@@ -2019,8 +2026,8 @@ void printToken(int t){
 		case RSQBRA:	printf("Found a \"]\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case LBRA:		printf("Found a \"{\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case RBRA:		printf("Found a \"}\" on line %d of file \"%s\".\n", yylineno, filename);break;
-		case LCOM:		printf("Found a \"/*\" on line %d of file \"%s\".\n", yylineno, filename);break;
-		case RCOM:		printf("Found a \"*/\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LCOM:		printf("Found (/*) the start of a comment on line %d of file \"%s\".\nComments ignored: ", yylineno, filename); comment=1; break;
+		case RCOM:		printf("\nFound (*/) the end of a comment on line %d of file \"%s\".\n", yylineno, filename); comment=0; break;
 		case ID:		printf("Found an ID: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case NUMBER:	printf("Found a NUMBER: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;

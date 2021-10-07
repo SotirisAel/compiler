@@ -1,4 +1,4 @@
-int i=0;
+int i=0;   /*test /* this is a test int main a b c*/
 while(i<50)
 {
 	i++;
