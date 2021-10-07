@@ -522,7 +522,7 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "step1.fl"
-/* CEI222: Project Step[1] ID: [Sotiris Vasiliadis-ID19613]_[Michael-Aggelos Demou-19753] _[Konstantinos Konstantinou-ID3] */
+/* CEI222: Project Step[1] ID: [Sotiris Vasiliadis-ID19613]_[Michael-Aggelos Demou-ID19753] _[Konstantinos Konstantinou-ID20284] */
 #line 4 "step1.fl"
 	#include <stdio.h>
 	#include <string.h>
@@ -1994,12 +1994,12 @@ void yyfree (void * ptr )
 /*Function to print our tokens*/
 void printToken(int t){
 	switch(t) {
-		case IF: 		printf("Found an IF on line %d of file \"%s\".\n", yylineno, filename);break;
-		case ELSE: 		printf("Found an ELSE on line %d of file \"%s\".\n", yylineno, filename);break;
-		case INT: 		printf("Found an INT on line %d of file \"%s\".\n", yylineno, filename);break;
-		case RETURN: 	printf("Found a RETURN on line %d of file \"%s\".\n", yylineno, filename);break;
-		case VOID: 		printf("Found a VOID on line %d of file \"%s\".\n", yylineno, filename);break;
-		case WHILE: 	printf("Found a WHILE on line %d of file \"%s\".\n", yylineno, filename);break;
+		case IF:		printf("Found an IF on line %d of file \"%s\".\n", yylineno, filename);break;
+		case ELSE:		printf("Found an ELSE on line %d of file \"%s\".\n", yylineno, filename);break;
+		case INT:		printf("Found an INT on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RETURN:	printf("Found a RETURN on line %d of file \"%s\".\n", yylineno, filename);break;
+		case VOID:		printf("Found a VOID on line %d of file \"%s\".\n", yylineno, filename);break;
+		case WHILE:		printf("Found a WHILE on line %d of file \"%s\".\n", yylineno, filename);break;
 		case PLUS:		printf("Found a \"+\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case MINUS:		printf("Found a \"-\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case TIMES:		printf("Found a \"*\" on line %d of file \"%s\".\n", yylineno, filename);break;
@@ -2011,10 +2011,10 @@ void printToken(int t){
 		case EQV:		printf("Found a \"==\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case NEV:		printf("Found a \"!=\" on line %d of file \"%s\".\n", yylineno, filename);break;	
 		case EV:		printf("Found a \"=\" on line %d of file \"%s\".\n", yylineno, filename);break;
-        case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", yylineno, filename);break;
-        case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", yylineno, filename);break;
-        case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", yylineno, filename);break;
-        case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case SEMICLN:	printf("Found a \";\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case CMA:		printf("Found a \",\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case LPAR:		printf("Found a \"(\" on line %d of file \"%s\".\n", yylineno, filename);break;
+		case RPAR:		printf("Found a \")\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case LSQBRA:	printf("Found a \"[\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case RSQBRA:	printf("Found a \"]\" on line %d of file \"%s\".\n", yylineno, filename);break;
 		case LBRA:		printf("Found a \"{\" on line %d of file \"%s\".\n", yylineno, filename);break;
