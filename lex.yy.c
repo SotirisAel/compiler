@@ -2050,20 +2050,20 @@ void processToken(int t){
 
 /*Main Function*/
 int main(int argc, char *argv[]) {
-	strcpy(filename, argv[1]);			//copy file name
 	/*If 2 arguments provided (main input.exe etc) then open file, else mistakes were made*/
 	if (argc==2)
 		yyin=fopen(argv[1],"r");
-	else if (argc<2)
+	if (argc<2)
 	{
 		printf("Too little arguments(files) provided - Exit\n");
 		exit(1);
 	}	
-	else
+	if (argc>3)
 	{
-		printf("Error in opening file - Exit\n");
+		printf("Error in opening file, too many arguments(files) provided - Exit\n");
 		exit(1);
 	}
+	strcpy(filename, argv[1]);			//copy file name
 	yylex();
 	return 0;
 }
