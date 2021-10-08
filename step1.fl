@@ -52,13 +52,14 @@ number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?
 "}" 		{processToken( RBRA ); }
 "/*" 		{processToken( LCOM ); }
 "*/" 		{processToken( RCOM ); }
+.			{printf("Unrecognised token: %s on line %d of file \"%s\".\n", yytext, yylineno, filename);}
 
 %%
 
 
 	/*Function to print our tokens*/
 void printToken(int t){
-	/* Statement to catch and post any comments not processed/ignored (t!=26 any white spaces ignored)*/
+	/* IF Statement to catch and post any comments not processed/ignored (t!=26 any white spaces ignored)*/
 	if(comment==1 && t!=26){
 		if(t!=31)
 			printf("%s",yytext);
@@ -99,6 +100,7 @@ void printToken(int t){
 		case NUMBER:	printf("Found a NUMBER: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case WSPACES:   break;
 		};
 }
 

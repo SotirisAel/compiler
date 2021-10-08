@@ -381,8 +381,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 32
-#define YY_END_OF_BUFFER 33
+#define YY_NUM_RULES 33
+#define YY_END_OF_BUFFER 34
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -392,7 +392,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[64] =
     {   0,
-        2,    2,   33,   32,    2,    1,   32,   24,   25,   13,
+        2,    2,   34,   32,    2,    1,   32,   24,   25,   13,
        11,   23,   12,   14,    4,   22,   15,   21,   17,    3,
        26,   27,    3,    3,    3,    3,    3,   28,   29,    2,
        20,   31,   30,    0,    4,    0,   16,   19,   18,    3,
@@ -502,10 +502,10 @@ static yyconst flex_int16_t yy_chk[136] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static yyconst flex_int32_t yy_rule_can_match_eol[33] =
+static yyconst flex_int32_t yy_rule_can_match_eol[34] =
     {   0,
 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     };
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -973,10 +973,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 56 "step1.fl"
+#line 55 "step1.fl"
+{printf("Unrecognised token: %s on line %d of file \"%s\".\n", yytext, yylineno, filename);}
+	YY_BREAK
+case 33:
+YY_RULE_SETUP
+#line 57 "step1.fl"
 ECHO;
 	YY_BREAK
-#line 980 "lex.yy.c"
+#line 985 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1986,14 +1991,14 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 56 "step1.fl"
+#line 57 "step1.fl"
 
 
 
 
 	/*Function to print our tokens*/
 void printToken(int t){
-	/* Statement to catch and post any comments not processed/ignored (t!=26 any white spaces ignored)*/
+	/* IF Statement to catch and post any comments not processed/ignored (t!=26 any white spaces ignored)*/
 	if(comment==1 && t!=26){
 		if(t!=31)
 			printf("%s",yytext);
@@ -2034,6 +2039,7 @@ void printToken(int t){
 		case NUMBER:	printf("Found a NUMBER: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case LETTER:	printf("Found a letter: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
 		case DIGIT:		printf("Found a digit: \"%s\" on line %d of file \"%s\".\n", yytext, yylineno, filename);break;
+		case WSPACES:   break;
 		};
 }
 
