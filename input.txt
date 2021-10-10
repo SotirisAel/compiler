@@ -1,10 +1,10 @@
-int a=0,i=0;
+int asd=0,i=0;
 	while(i<10)
 {
-if(a>3)
-	a=b;
+if(asd>3)
+	asd=b;
 else
-	a=0;
+	asd=0;
 i++;
-a++;
+asd++;
 	}

@@ -11,26 +11,25 @@
 %}
 %option yylineno
 
-	/*Regular Expressions*/
-space     [ \t\n]
-wspaces   {space}*
-letter    [A-Za-z]
-digit     [0-9]
-id        {letter}({letter}?{digit})*
-number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)? 
+space		[ \t\n]
+wspaces		{space}*
+letter		[A-Za-z]
+digit 		[0-9]
+id     		{letter}{letter}*
+number 		{digit}{digit}*
+
 
 %%
 \n 			{yylineno++;}
-
 {wspaces}	{processToken( WSPACES );}
-{id} 		{processToken( ID );}
-{number} 	{processToken( NUMBER );}
-"if" 		{processToken( IF );}
+"if" 			{processToken( IF );}
 "else" 		{processToken( ELSE );}
 "int" 		{processToken( INT );}
-"return" 	{processToken( RETURN );}
-"void" 		{processToken( VOID );}
-"while" 	{processToken( WHILE );}
+"return" 		{processToken( RETURN );}
+"void"		{processToken( VOID );}
+"while" 		{processToken( WHILE );}
+{id} 		{processToken( ID );}
+{number} 	{processToken( NUMBER );}
 "+" 		{processToken( PLUS ); }
 "-" 		{processToken( MINUS ); }
 "*" 		{processToken( TIMES ); }
@@ -53,6 +52,7 @@ number    {digit}+(\.{digit}+)?(E[+-]?{digit}+)?
 "/*" 		{processToken( LCOM ); }
 "*/" 		{processToken( RCOM ); }
 .			{printf("Unrecognised token: %s on line %d of file \"%s\".\n", yytext, yylineno, filename);}
+
 
 %%
 
@@ -111,6 +111,7 @@ void processToken(int t){
 
 /*Main Function*/
 int main(int argc, char *argv[]) {
+	strcpy(filename, argv[1]);			//copy file name	
 	/*If 2 arguments provided (main input.exe etc) then open file, else mistakes were made*/
 	if (argc==2)
 		yyin=fopen(argv[1],"r");
@@ -124,7 +125,6 @@ int main(int argc, char *argv[]) {
 		printf("Error in opening file, too many arguments(files) provided - Exit\n");
 		exit(1);
 	}
-	strcpy(filename, argv[1]);			//copy file name
 	yylex();
 	return 0;
 }
