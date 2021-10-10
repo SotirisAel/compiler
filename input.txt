@@ -1,5 +1,5 @@
 int a=0,i=0;
-	While(i<10)
+	while(i<10)
 {
 if(a>3)
 	a=b;
