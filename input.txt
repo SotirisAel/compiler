@@ -1,10 +1,29 @@
-int asd=0,i=0;
-	while(i<10)
-{
-if(asd>3)
-	asd=b;
-else
-	asd=0;
-i++;
-asd++;
-	}
+/* This is a test */
+if	
+else 		
+int 		
+return 	
+void		
+while 	
++ 		
+- 		
+* 		
+/ 		
+< 		
+<= 		
+> 		
+>= 		
+== 		
+!= 		
+= 		
+; 		
+, 		
+( 		
+) 		
+[ 		
+] 		
+{ 		
+} 		
+.if
+asd
+5.4
