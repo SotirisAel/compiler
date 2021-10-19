@@ -863,7 +863,7 @@ YY_RULE_SETUP
 case 10:
 YY_RULE_SETUP
 #line 30 "step2.fl"
-{yylval.string=yytext; return( ID );}
+{yylval.string=strdup(yytext); return( ID );}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
@@ -972,7 +972,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 54 "step2.fl"
+#line 53 "step2.fl"
 ECHO;
 	YY_BREAK
 #line 979 "lex.yy.c"
@@ -1985,7 +1985,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 54 "step2.fl"
+#line 53 "step2.fl"
 
 
 

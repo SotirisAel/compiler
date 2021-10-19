@@ -60,9 +60,9 @@ typedef union YYSTYPE
 {
 
 /* Line 1685 of yacc.c  */
-#line 12 "step2.y"
+#line 13 "step2.y"
 
-    const char *string;
+    char *string;
     int num; 
 
 

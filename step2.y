@@ -10,10 +10,9 @@ extern char *yytext;
 #define YYDEBUG_LEXER_TEXT yytext
 %}
 %union {
-    const char *string;
+    char *string;
     int num; 
 }
-
 %token<num> NUM
 %token<string> ID
 
@@ -29,18 +28,18 @@ extern char *yytext;
 %token NEV
 
 %%
-program:  {printf("program\ndeclaration_list\n"); } declaration_list;							
+program: declaration_list {printf("program\n"); };							
 					
-declaration_list: declaration_list declaration  { printf("declaration_list\n"); }
-		| declaration   					
+declaration_list: declaration_list declaration {printf("declaration_list\n"); }
+		| declaration
 		;
 					
-declaration: var_declaration 					
-	   | fun_declaration
+declaration: var_declaration
+	   | fun_declaration 
            ;
 					
-var_declaration: type_specifier ID ';'  	        { printf("val_declaration(%s)\n",yytext);} 		
-	       | type_specifier ID '[' NUM ']' ';' 	{ printf("array_declaration(%s[%d])\n",yytext,yytext);} 
+var_declaration: type_specifier ID ';'  	        { printf("var_declaration(%s)\n",$2);} 		
+	       | type_specifier ID '[' NUM ']' ';' 	{ printf("array_declaration(%s[%d])\n",$2,$4);} 
 	       ;
 	
 
@@ -49,13 +48,13 @@ type_specifier: INT   { printf("type_specifier(INT)\n"); }
 	      | VOID  { printf("type_specifier(VOID)\n"); }
 	      ;
 					
-fun_declaration: type_specifier ID fun1; 			   
+fun_declaration:  type_specifier ID fun1 {printf("fun_definition(");};	   
 					
-fun1: {printf("Fun_definition(");} '(' params ')' compound_stmt ;
+fun1:  '(' params ')' compound_stmt { printf("compound_stmt\ndeclaration\n"); };
 					
-params: param_list	{printf("INT-%s\n",yytext);}					 
-      | VOID 		{printf("VOID-%s\n",yytext);}
-      | 		{printf("VOID-%s\n"),yytext;}
+params: param_list	{printf("INT\n");}					 
+      | VOID 		{printf("VOID\n");}
+      | 		{printf("VOID\n");}
       ;
 					
 param_list: param_list ',' param 
@@ -66,9 +65,10 @@ param: type_specifier ID
      | type_specifier ID '[' ']' 
      ;
 
-compound_stmt: '{' local_declarations statement_list '}' { printf("compound_stmt\nDeclaration\n"); };			
+compound_stmt: '{' local_declarations statement_list '}' { printf("local declarations\n"); };			
 					
 local_declarations: local_declarations var_declaration 
+		  | var_declaration 
 		  | {printf("empty\n"); }		
 		  ;
 					
@@ -94,12 +94,14 @@ selection_stmt: IF '(' expression ')' statement {printf("IF_without_else");}
 iteration_stmt:	WHILE '(' expression ')' statement {printf("WHILE\n");};
 
 return_stmt: RETURN ';' 
-           | RETURN expression ';' ;
+           | RETURN expression ';' 
+	   ;
 
 expression: var '=' expression  {printf("expression\n");} 	
-	  | simple_expression ;
+	  | simple_expression 
+	  ;
  
-var: ID 	{printf("var(%s)\n",yytext);}
+var: ID 			{printf("var(%s)\n",$1);}
    | ID '[' expression ']'  	{printf("array(%s[%d])\n",yytext,yytext);} 
    ; 
 
@@ -123,7 +125,7 @@ addop: '+' {printf("addop\n");}
      ; 
 
 term: term mulop factor  {printf("term\n");} 
-    | factor		     {printf("term\n");} 
+    | factor		 {printf("term\n");} 
     ;
  
 mulop: '*' {printf("mulop\n");}
@@ -135,7 +137,7 @@ factor:	'(' expression ')' {printf("factor\n");}
       | call               {printf("factor\n");}
       | NUM                {printf("factor\n");}
       ;
-call: ID '(' args ')' {printf("call input\n");};
+call: ID '(' args ')' {printf("call %s\n",$1);};
 					
 args: arg_list 
     | {printf("args(empty)\n");}
@@ -151,16 +153,16 @@ arg_list: arg_list ',' expression
 int main(int argc, char *argv[])
 {
     if (argc==1){
-		printf("Enter numbers manually and press enter to finish:\n");
-        yyin=stdin;
+	printf("Enter numbers manually and press enter to finish:\n");
+	yyin=stdin;
     }
-	if (argc==2){
-		yyin=fopen(argv[1],"r");
-	}
+    if (argc==2){
+	yyin=fopen(argv[1],"r");
+    }
     yyparse();
     return 0;
 }
 
 void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
+    fprintf (stderr, "%s\n", s);
 }
