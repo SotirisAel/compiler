@@ -1,9 +1,23 @@
-Commands used in command line environment:
+Commands FOR LINUX/MAC
 
-cd .../compiler
+bison -d step2.y
 
-flex step1.fl
+flex step2.fl
 
-gcc lex.yy.c -L"C:\GnuWin32\lib" -lfl -o main
+gcc step2.tab.c -lm     OR    g++ step2.tab.c
 
-main input.txt
+./a.out input.txt    OR    ./a.out
+
+
+Commands used FOR WINDOWS:
+
+bison -dv step2.y
+
+flex step2.fl
+
+gcc -o main step2.tab.c -L"C:\GnuWin32\lib" -lfl
+
+main (to enter input through command)
+
+main input.txt (to enter through text file)
+

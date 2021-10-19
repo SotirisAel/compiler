@@ -7,14 +7,13 @@
 int yylex();
 void yyerror(char const *s);
 %}
-%option noyywrap
 %union {
-    string ident;
+    const char *string;
     int num; 
 }
 
 %token<num> NUM
-%token<ident> ID
+%token<string> ID
 
 %token IF
 %token WHILE
@@ -40,8 +39,8 @@ declaration: var_declaration
 		   | fun_declaration
            ;
 					
-var_declaration: type_specifier ID ';'  	{ printf("val_declaration\n");} 		
-			   | type_specifier ID '[' NUM ']' ';'  
+var_declaration: type_specifier ID ';'  	        { printf("val_declaration(%s)\n",yytext);} 		
+			   | type_specifier ID '[' NUM ']' ';'  { printf("array_declaration(%s[%d])\n",yytext,yytext);} 
 			   ;
 	
 
@@ -100,8 +99,8 @@ return_stmt: RETURN ';'
 expression:	var '=' expression  {printf("expression\n");} 	
 		  | simple_expression ;
  
-var: ID 	{printf("var\n");}
-   | ID '[' expression ']'  	{printf("var_array\n");} 
+var: ID 	{printf("var(%s)\n",yytext);}
+   | ID '[' expression ']'  	{printf("array(%s[%d])\n",yytext,yytext);} 
    ; 
 
 simple_expression: additive_expression relop additive_expression {printf("simple_expression\n");}

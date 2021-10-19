@@ -6,6 +6,7 @@
 	#include "step2.tab.h"
 %}
 %option yylineno
+%option noyywrap
 
 space		[ \t\n]
 wspaces		{space}*
@@ -18,7 +19,7 @@ comments    \/\*{id}*{number}*{wspaces}*\*\/
 
 %%
 \n 			{yylineno++;}
-{wspaces}	{return( WSPACES );}
+{wspaces}	{}
 {comments}  {}
 "if" 		{return( IF );}
 "else" 		{return( ELSE );}
@@ -26,8 +27,8 @@ comments    \/\*{id}*{number}*{wspaces}*\*\/
 "return" 	{return( RETURN );}
 "void"		{return( VOID );}
 "while" 	{return( WHILE );}
-{id} 		{yylval.ident=yytext; return( ID );}
-{number} 	{yylval.num=atoi(yytext); return( NUMBER );}
+{id} 		{yylval.string=yytext; return( ID );}
+{number} 	{yylval.num=atoi(yytext); return( NUM );}
 "+" 		{return( yytext[0] ); }
 "-" 		{return( yytext[0] ); }
 "*" 		{return( yytext[0] ); }
@@ -47,8 +48,6 @@ comments    \/\*{id}*{number}*{wspaces}*\*\/
 "]" 		{return( yytext[0] ); }
 "{" 		{return( yytext[0] ); }
 "}" 		{return( yytext[0] ); }
-"/*" 		{return( LCOM ); }
-"*/" 		{return( RCOM ); }
 .			{printf("Unrecognised token: %s on line %d.\n", yytext, yylineno);}
 
 
