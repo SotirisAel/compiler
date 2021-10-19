@@ -46,12 +46,10 @@
      INT = 263,
      RETURN = 264,
      VOID = 265,
-     COM = 266,
-     SOE = 267,
-     GOE = 268,
-     EQV = 269,
-     NEV = 270,
-     NEWLINE = 271
+     SOE = 266,
+     GOE = 267,
+     EQV = 268,
+     NEV = 269
    };
 #endif
 
@@ -62,7 +60,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1685 of yacc.c  */
-#line 10 "step2.y"
+#line 12 "step2.y"
 
     const char *string;
     int num; 
@@ -70,7 +68,7 @@ typedef union YYSTYPE
 
 
 /* Line 1685 of yacc.c  */
-#line 74 "step2.tab.h"
+#line 72 "step2.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
