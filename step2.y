@@ -36,12 +36,12 @@ declaration_list: declaration_list declaration  { printf("declaration_list\n"); 
 		;
 					
 declaration: var_declaration 					
-		   | fun_declaration
+	   | fun_declaration
            ;
 					
 var_declaration: type_specifier ID ';'  	        { printf("val_declaration(%s)\n",yytext);} 		
-		| type_specifier ID '[' NUM ']' ';'  { printf("array_declaration(%s[%d])\n",yytext,yytext);} 
-		;
+	       | type_specifier ID '[' NUM ']' ';' 	{ printf("array_declaration(%s[%d])\n",yytext,yytext);} 
+	       ;
 	
 
 				
@@ -55,7 +55,7 @@ fun1: {printf("Fun_definition(");} '(' params ')' compound_stmt ;
 					
 params: param_list	{printf("INT-%s\n",yytext);}					 
       | VOID 		{printf("VOID-%s\n",yytext);}
-      |             {printf("VOID-%s\n"),yytext;}
+      | 		{printf("VOID-%s\n"),yytext;}
       ;
 					
 param_list: param_list ',' param 
@@ -73,7 +73,7 @@ local_declarations: local_declarations var_declaration
 		  ;
 					
 statement_list: statement_list statement 	{printf("statement_list\n");}
-	      | {printf("statement_list(empty)\n");}
+	      | 				{printf("statement_list(empty)\n");}
 	      ;
 					
 statement: expression_stmt 				
