@@ -1,0 +1,55 @@
+/* CEI222: Project Step[1] ID: [Sotiris Vasiliadis-ID19613]_[Michael-Aggelos Demou-ID19753]_[Konstantinos Konstantinou-ID20284]_[Giorgos Tsovilis-ID19971] */
+
+%{
+	#include <stdio.h>
+	#include <string.h>
+	#include "step2.tab.h"
+%}
+%option yylineno
+
+space		[ \t\n]
+wspaces		{space}*
+letter		[A-Za-z]
+digit 		[0-9]
+id     		{letter}{letter}*
+number 		{digit}{digit}*
+comments    \/\*{id}*{number}*{wspaces}*\*\/
+
+
+%%
+\n 			{yylineno++;}
+{wspaces}	{return( WSPACES );}
+{comments}  {}
+"if" 		{return( IF );}
+"else" 		{return( ELSE );}
+"int" 		{return( INT );}
+"return" 	{return( RETURN );}
+"void"		{return( VOID );}
+"while" 	{return( WHILE );}
+{id} 		{yylval.ident=yytext; return( ID );}
+{number} 	{yylval.num=atoi(yytext); return( NUMBER );}
+"+" 		{return( yytext[0] ); }
+"-" 		{return( yytext[0] ); }
+"*" 		{return( yytext[0] ); }
+"/" 		{return( yytext[0] ); }
+"<" 		{return( yytext[0] ); }
+"<=" 		{return( SOE ); }
+">" 		{return( yytext[0] ); }
+">=" 		{return( GOE ); }
+"==" 		{return( EQV ); }
+"!=" 		{return( NEV ); }
+"=" 		{return( yytext[0] ); }
+";" 		{return( yytext[0] ); }
+"," 		{return( yytext[0] ); }
+"(" 		{return( yytext[0] ); }
+")" 		{return( yytext[0] ); }
+"[" 		{return( yytext[0] ); }
+"]" 		{return( yytext[0] ); }
+"{" 		{return( yytext[0] ); }
+"}" 		{return( yytext[0] ); }
+"/*" 		{return( LCOM ); }
+"*/" 		{return( RCOM ); }
+.			{printf("Unrecognised token: %s on line %d.\n", yytext, yylineno);}
+
+
+%%
