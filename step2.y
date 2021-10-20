@@ -26,9 +26,9 @@ extern char *yytext;
 %token GOE
 %token EQV
 %token NEV
-
+%start program
 %%
-program: declaration_list {printf("program\n"); };							
+program: declaration_list {printf("program\n"); } ;							
 					
 declaration_list: declaration_list declaration {printf("declaration_list\n"); }
 		| declaration
@@ -48,7 +48,7 @@ type_specifier: INT   { printf("type_specifier(INT)\n"); }
 	      | VOID  { printf("type_specifier(VOID)\n"); }
 	      ;
 					
-fun_declaration:  type_specifier ID fun1 {printf("fun_definition(");};	   
+fun_declaration:  type_specifier ID fun1 {printf("fun_definition\n");};	   
 					
 fun1:  '(' params ')' compound_stmt { printf("compound_stmt\ndeclaration\n"); };
 					

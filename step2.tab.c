@@ -1,9 +1,10 @@
-/* A Bison parser, made by GNU Bison 2.4.2.  */
+
+/* A Bison parser, made by GNU Bison 2.4.1.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2006, 2009-2010 Free Software
-   Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +46,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.2"
+#define YYBISON_VERSION "2.4.1"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -74,7 +75,6 @@
 #include "step2.tab.h"
 #include "lex.yy.c"
 #include <string.h>
-#define yydebug 1
 int yylex();
 void yyerror(char const *s);
 extern char *yytext;
@@ -131,7 +131,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 13 "step2.y"
+#line 12 "step2.y"
 
     char *string;
     int num; 
@@ -201,7 +201,7 @@ typedef short int yytype_int16;
 #define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
-# if defined YYENABLE_NLS && YYENABLE_NLS
+# if YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
 #   define YY_(msgid) dgettext ("bison-runtime", msgid)
@@ -457,13 +457,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    32,    32,    34,    35,    38,    39,    42,    43,    48,
-      49,    52,    54,    56,    57,    58,    61,    62,    65,    66,
-      69,    71,    72,    73,    76,    77,    80,    81,    82,    83,
-      84,    87,    88,    91,    92,    95,    97,    98,   101,   102,
-     105,   106,   109,   110,   113,   114,   115,   116,   117,   118,
-     121,   122,   124,   125,   128,   129,   132,   133,   136,   137,
-     138,   139,   141,   143,   144,   148,   149
+       0,    31,    31,    33,    34,    37,    38,    41,    42,    47,
+      48,    51,    53,    55,    56,    57,    60,    61,    64,    65,
+      68,    70,    71,    72,    75,    76,    79,    80,    81,    82,
+      83,    86,    87,    90,    91,    94,    96,    97,   100,   101,
+     104,   105,   108,   109,   112,   113,   114,   115,   116,   117,
+     120,   121,   123,   124,   127,   128,   131,   132,   135,   136,
+     137,   138,   140,   142,   143,   147,   148
 };
 #endif
 
@@ -638,18 +638,9 @@ static const yytype_uint8 yystos[] =
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
-   Once GCC version 2 has supplanted version 1, this can go.  However,
-   YYFAIL appears to be in use.  Nevertheless, it is formally deprecated
-   in Bison 2.4.2's NEWS entry, where a plan to phase it out is
-   discussed.  */
+   Once GCC version 2 has supplanted version 1, this can go.  */
 
 #define YYFAIL		goto yyerrlab
-#if defined YYFAIL
-  /* This is here to suppress warnings from the GCC cpp's
-     -Wunused-macros.  Normally we don't worry about that warning, but
-     some users do, and we want to make it easy for users to remove
-     YYFAIL uses, which will produce warnings from Bison 2.5.  */
-#endif
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
@@ -706,7 +697,7 @@ while (YYID (0))
    we won't break user code: when these are the locations we know.  */
 
 #ifndef YY_LOCATION_PRINT
-# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
+# if YYLTYPE_IS_TRIVIAL
 #  define YY_LOCATION_PRINT(File, Loc)			\
      fprintf (File, "%d.%d-%d.%d",			\
 	      (Loc).first_line, (Loc).first_column,	\
@@ -1445,260 +1436,260 @@ yyreduce:
     {
         case 2:
 
-/* Line 1464 of yacc.c  */
-#line 32 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 31 "step2.y"
     {printf("program\n"); ;}
     break;
 
   case 3:
 
-/* Line 1464 of yacc.c  */
-#line 34 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 33 "step2.y"
     {printf("declaration_list\n"); ;}
     break;
 
   case 7:
 
-/* Line 1464 of yacc.c  */
-#line 42 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 41 "step2.y"
     { printf("var_declaration(%s)\n",(yyvsp[(2) - (3)].string));;}
     break;
 
   case 8:
 
-/* Line 1464 of yacc.c  */
-#line 43 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 42 "step2.y"
     { printf("array_declaration(%s[%d])\n",(yyvsp[(2) - (6)].string),(yyvsp[(4) - (6)].num));;}
     break;
 
   case 9:
 
-/* Line 1464 of yacc.c  */
-#line 48 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 47 "step2.y"
     { printf("type_specifier(INT)\n"); ;}
     break;
 
   case 10:
 
-/* Line 1464 of yacc.c  */
-#line 49 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 48 "step2.y"
     { printf("type_specifier(VOID)\n"); ;}
     break;
 
   case 11:
 
-/* Line 1464 of yacc.c  */
-#line 52 "step2.y"
-    {printf("fun_definition(");;}
+/* Line 1455 of yacc.c  */
+#line 51 "step2.y"
+    {printf("fun_definition\n");;}
     break;
 
   case 12:
 
-/* Line 1464 of yacc.c  */
-#line 54 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 53 "step2.y"
     { printf("compound_stmt\ndeclaration\n"); ;}
     break;
 
   case 13:
 
-/* Line 1464 of yacc.c  */
-#line 56 "step2.y"
-    {printf("INT)\n");;}
+/* Line 1455 of yacc.c  */
+#line 55 "step2.y"
+    {printf("INT\n");;}
     break;
 
   case 14:
 
-/* Line 1464 of yacc.c  */
-#line 57 "step2.y"
-    {printf("VOID)\n");;}
+/* Line 1455 of yacc.c  */
+#line 56 "step2.y"
+    {printf("VOID\n");;}
     break;
 
   case 15:
 
-/* Line 1464 of yacc.c  */
-#line 58 "step2.y"
-    {printf("VOID)\n");;}
+/* Line 1455 of yacc.c  */
+#line 57 "step2.y"
+    {printf("VOID\n");;}
     break;
 
   case 20:
 
-/* Line 1464 of yacc.c  */
-#line 69 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 68 "step2.y"
     { printf("local declarations\n"); ;}
     break;
 
   case 23:
 
-/* Line 1464 of yacc.c  */
-#line 73 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 72 "step2.y"
     {printf("empty\n"); ;}
     break;
 
   case 24:
 
-/* Line 1464 of yacc.c  */
-#line 76 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 75 "step2.y"
     {printf("statement_list\n");;}
     break;
 
   case 25:
 
-/* Line 1464 of yacc.c  */
-#line 77 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 76 "step2.y"
     {printf("statement_list(empty)\n");;}
     break;
 
   case 31:
 
-/* Line 1464 of yacc.c  */
-#line 87 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 86 "step2.y"
     {printf("expression_stmt\n");;}
     break;
 
   case 33:
 
-/* Line 1464 of yacc.c  */
-#line 91 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 90 "step2.y"
     {printf("IF_without_else");;}
     break;
 
   case 34:
 
-/* Line 1464 of yacc.c  */
-#line 92 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 91 "step2.y"
     {printf("IF_with_else");;}
     break;
 
   case 35:
 
-/* Line 1464 of yacc.c  */
-#line 95 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 94 "step2.y"
     {printf("WHILE\n");;}
     break;
 
   case 38:
 
-/* Line 1464 of yacc.c  */
-#line 101 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 100 "step2.y"
     {printf("expression\n");;}
     break;
 
   case 40:
 
-/* Line 1464 of yacc.c  */
-#line 105 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 104 "step2.y"
     {printf("var(%s)\n",(yyvsp[(1) - (1)].string));;}
     break;
 
   case 41:
 
-/* Line 1464 of yacc.c  */
-#line 106 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 105 "step2.y"
     {printf("array(%s[%d])\n",yytext,yytext);;}
     break;
 
   case 42:
 
-/* Line 1464 of yacc.c  */
-#line 109 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 108 "step2.y"
     {printf("simple_expression\n");;}
     break;
 
   case 43:
 
-/* Line 1464 of yacc.c  */
-#line 110 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 109 "step2.y"
     {printf("additive_expression\n");;}
     break;
 
   case 52:
 
-/* Line 1464 of yacc.c  */
-#line 124 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 123 "step2.y"
     {printf("addop\n");;}
     break;
 
   case 53:
 
-/* Line 1464 of yacc.c  */
-#line 125 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 124 "step2.y"
     {printf("minusop\n");;}
     break;
 
   case 54:
 
-/* Line 1464 of yacc.c  */
-#line 128 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 127 "step2.y"
     {printf("term\n");;}
     break;
 
   case 55:
 
-/* Line 1464 of yacc.c  */
-#line 129 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 128 "step2.y"
     {printf("term\n");;}
     break;
 
   case 56:
 
-/* Line 1464 of yacc.c  */
-#line 132 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 131 "step2.y"
     {printf("mulop\n");;}
     break;
 
   case 57:
 
-/* Line 1464 of yacc.c  */
-#line 133 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 132 "step2.y"
     {printf("divop\n");;}
     break;
 
   case 58:
 
-/* Line 1464 of yacc.c  */
-#line 136 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 135 "step2.y"
     {printf("factor\n");;}
     break;
 
   case 59:
 
-/* Line 1464 of yacc.c  */
-#line 137 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 136 "step2.y"
     {printf("factor\n");;}
     break;
 
   case 60:
 
-/* Line 1464 of yacc.c  */
-#line 138 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 137 "step2.y"
     {printf("factor\n");;}
     break;
 
   case 61:
 
-/* Line 1464 of yacc.c  */
-#line 139 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 138 "step2.y"
     {printf("factor\n");;}
     break;
 
   case 62:
 
-/* Line 1464 of yacc.c  */
-#line 141 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 140 "step2.y"
     {printf("call %s\n",(yyvsp[(1) - (4)].string));;}
     break;
 
   case 64:
 
-/* Line 1464 of yacc.c  */
-#line 144 "step2.y"
+/* Line 1455 of yacc.c  */
+#line 143 "step2.y"
     {printf("args(empty)\n");;}
     break;
 
 
 
-/* Line 1464 of yacc.c  */
-#line 1702 "step2.tab.c"
+/* Line 1455 of yacc.c  */
+#line 1693 "step2.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1909,8 +1900,8 @@ yyreturn:
 
 
 
-/* Line 1684 of yacc.c  */
-#line 152 "step2.y"
+/* Line 1675 of yacc.c  */
+#line 151 "step2.y"
 
 
 int main(int argc, char *argv[])
