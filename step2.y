@@ -26,9 +26,9 @@ extern char *yytext;
 %token GOE
 %token EQV
 %token NEV
-%start program
 %%
-program: declaration_list {printf("program\n"); } ;							
+program: declaration_list {printf("program\n"); }
+	| {printf("test")} ;							
 					
 declaration_list: declaration_list declaration {printf("declaration_list\n"); }
 		| declaration
