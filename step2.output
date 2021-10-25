@@ -8,8 +8,8 @@ Grammar
 
     1 program: declaration_list
 
-    2 declaration_list: declaration_list declaration
-    3                 | declaration
+    2 declaration_list: declaration
+    3                 | declaration_list declaration
 
     4 declaration: var_declaration
     5            | fun_declaration
@@ -142,7 +142,7 @@ $accept (30)
 program (31)
     on left: 1, on right: 0
 declaration_list (32)
-    on left: 2 3, on right: 1 2
+    on left: 2 3, on right: 1 3
 declaration (33)
     on left: 4 5, on right: 2 3
 var_declaration (34)
@@ -240,7 +240,7 @@ state 3
 state 4
 
     1 program: declaration_list .
-    2 declaration_list: declaration_list . declaration
+    3 declaration_list: declaration_list . declaration
 
     INT   shift, and go to state 1
     VOID  shift, and go to state 2
@@ -255,9 +255,9 @@ state 4
 
 state 5
 
-    3 declaration_list: declaration .
+    2 declaration_list: declaration .
 
-    $default  reduce using rule 3 (declaration_list)
+    $default  reduce using rule 2 (declaration_list)
 
 
 state 6
@@ -292,9 +292,9 @@ state 9
 
 state 10
 
-    2 declaration_list: declaration_list declaration .
+    3 declaration_list: declaration_list declaration .
 
-    $default  reduce using rule 2 (declaration_list)
+    $default  reduce using rule 3 (declaration_list)
 
 
 state 11

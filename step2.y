@@ -1,17 +1,25 @@
+/* CEI222: Project Step[1] ID: [Sotiris Vasiliadis-ID19613]_[Michael-Aggelos Demou-ID19753]_[Konstantinos Konstantinou-ID20284]_[Giorgos Tsovilis-ID19971] */
+
 %{ 
-#include <stdio.h>
-#include <string.h>
+#include <iostream>
 #include "step2.tab.h"
 #include "lex.yy.c"
-#include <string.h>
+#include <string>
+#include <vector>
+using namespace std;
+
 int yylex();
 void yyerror(char const *s);
 extern char *yytext;
 #define YYDEBUG_LEXER_TEXT yytext
+vector<string> tree;
 %}
+
+
+
 %union {
     char *string;
-    int num; 
+    int num;  
 }
 %token<num> NUM
 %token<string> ID
@@ -28,33 +36,33 @@ extern char *yytext;
 %token NEV
 
 %%
-program: declaration_list {printf("program\n"); };							
+program: declaration_list {tree.push_back("program"); for (auto i = tree.rbegin(); i != tree.rend(); i++) cout<<*i<<endl;};							
 					
-declaration_list: declaration_list declaration {printf("declaration_list\n"); }
-		| declaration
+declaration_list: declaration
+		| declaration_list declaration {tree.push_back("declaration_list"); }
 		;
 					
 declaration: var_declaration
 	   | fun_declaration 
            ;
 					
-var_declaration: type_specifier ID ';'  	        { printf("var_declaration(%s)\n",$2);} 		
-	       | type_specifier ID '[' NUM ']' ';' 	{ printf("array_declaration(%s[%d])\n",$2,$4);} 
+var_declaration: type_specifier ID ';'  	        { tree.push_back("var_declaration");} 		
+	       | type_specifier ID '[' NUM ']' ';' 	{ tree.push_back("array_declaration");} 
 	       ;
 	
 
 				
-type_specifier: INT   { printf("type_specifier(INT)\n"); }
-	      | VOID  { printf("type_specifier(VOID)\n"); }
+type_specifier: INT   { tree.push_back("type_specifier(INT)"); }
+	      | VOID  { tree.push_back("type_specifier(VOID)"); }
 	      ;
 					
-fun_declaration:  type_specifier ID fun1 {printf("fun_definition(");};	   
+fun_declaration:  type_specifier ID fun1 {tree.push_back("fun_definition");};	   
 					
-fun1:  '(' params ')' compound_stmt { printf("compound_stmt\ndeclaration\n"); };
+fun1:  '(' params ')' compound_stmt { tree.push_back("compound_stmtdeclaration"); };
 					
-params: param_list	{printf("INT\n");}					 
-      | VOID 		{printf("VOID\n");}
-      | 		{printf("VOID\n");}
+params: param_list	{tree.push_back("INT");}					 
+      | VOID 		{tree.push_back("VOID");}
+      | 		{tree.push_back("VOID");}
       ;
 					
 param_list: param_list ',' param 
@@ -65,15 +73,15 @@ param: type_specifier ID
      | type_specifier ID '[' ']' 
      ;
 
-compound_stmt: '{' local_declarations statement_list '}' { printf("local declarations\n"); };			
+compound_stmt: '{' local_declarations statement_list '}' { tree.push_back("local declarations"); };			
 					
 local_declarations: local_declarations var_declaration 
 		  | var_declaration 
-		  | {printf("empty\n"); }		
+		  | {tree.push_back("empty"); }		
 		  ;
 					
-statement_list: statement_list statement 	{printf("statement_list\n");}
-	      | 				{printf("statement_list(empty)\n");}
+statement_list: statement_list statement 	{tree.push_back("statement_list");}
+	      | 				{tree.push_back("statement_list(empty)");}
 	      ;
 					
 statement: expression_stmt 				
@@ -83,30 +91,30 @@ statement: expression_stmt
 	 | return_stmt 
 	 ;
 					
-expression_stmt: expression ';' 	{printf("expression_stmt\n");}
+expression_stmt: expression ';' 	{tree.push_back("expression_stmt");}
 	       | ';' 		   
 	       ;
 						
-selection_stmt: IF '(' expression ')' statement {printf("IF_without_else");}
-	      | IF '(' expression ')' statement ELSE statement {printf("IF_with_else");}
+selection_stmt: IF '(' expression ')' statement {tree.push_back("IF_without_else");}
+	      | IF '(' expression ')' statement ELSE statement {tree.push_back("IF_with_else");}
               ;
 
-iteration_stmt:	WHILE '(' expression ')' statement {printf("WHILE\n");};
+iteration_stmt:	WHILE '(' expression ')' statement {tree.push_back("WHILE");};
 
 return_stmt: RETURN ';' 
            | RETURN expression ';' 
 	   ;
 
-expression: var '=' expression  {printf("expression\n");} 	
+expression: var '=' expression  {tree.push_back("expression");} 	
 	  | simple_expression 
 	  ;
  
-var: ID 			{printf("var(%s)\n",$1);}
-   | ID '[' expression ']'  	{printf("array(%s[%d])\n",yytext,yytext);} 
+var: ID 			{tree.push_back("var");}
+   | ID '[' expression ']'  	{tree.push_back("array");} 
    ; 
 
-simple_expression: additive_expression relop additive_expression {printf("simple_expression\n");}
-		 | additive_expression 	{printf("additive_expression\n");}
+simple_expression: additive_expression relop additive_expression {tree.push_back("simple_expression");}
+		 | additive_expression 	{tree.push_back("additive_expression");}
 		 ;
 
 relop: '<' 
@@ -120,27 +128,27 @@ relop: '<'
 additive_expression: additive_expression addop term 
                    | term ;
  
-addop: '+' {printf("addop\n");}
-     | '-' {printf("minusop\n");}
+addop: '+' {tree.push_back("addop");}
+     | '-' {tree.push_back("minusop");}
      ; 
 
-term: term mulop factor  {printf("term\n");} 
-    | factor		 {printf("term\n");} 
+term: term mulop factor  {tree.push_back("term");} 
+    | factor		 {tree.push_back("term");} 
     ;
  
-mulop: '*' {printf("mulop\n");}
-     | '/' {printf("divop\n");}
+mulop: '*' {tree.push_back("mulop");}
+     | '/' {tree.push_back("divop");}
      ;   	
 
-factor:	'(' expression ')' {printf("factor\n");}
-      | var                {printf("factor\n");}
-      | call               {printf("factor\n");}
-      | NUM                {printf("factor\n");}
+factor:	'(' expression ')' {tree.push_back("factor");}
+      | var                {tree.push_back("factor");}
+      | call               {tree.push_back("factor");}
+      | NUM                {tree.push_back("factor");}
       ;
-call: ID '(' args ')' {printf("call %s\n",$1);};
+call: ID '(' args ')' {tree.push_back("call");tree.push_back($1) ;};
 					
 args: arg_list 
-    | {printf("args(empty)\n");}
+    | {tree.push_back("args(empty)");}
     ;
 
 
@@ -153,7 +161,7 @@ arg_list: arg_list ',' expression
 int main(int argc, char *argv[])
 {
     if (argc==1){
-	printf("Enter numbers manually and press enter to finish:\n");
+	printf("Enter numbers manually and press enter to finish:");
 	yyin=stdin;
     }
     if (argc==2){

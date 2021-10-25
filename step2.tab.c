@@ -67,22 +67,24 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 189 of yacc.c  */
-#line 1 "step2.y"
+#line 3 "step2.y"
  
-#include <stdio.h>
-#include <string.h>
+#include <iostream>
 #include "step2.tab.h"
 #include "lex.yy.c"
-#include <string.h>
-#define yydebug 1
+#include <string>
+#include <vector>
+using namespace std;
+
 int yylex();
 void yyerror(char const *s);
 extern char *yytext;
 #define YYDEBUG_LEXER_TEXT yytext
+vector<string> tree;
 
 
 /* Line 189 of yacc.c  */
-#line 86 "step2.tab.c"
+#line 88 "step2.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -131,15 +133,15 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 13 "step2.y"
+#line 20 "step2.y"
 
     char *string;
-    int num; 
+    int num;  
 
 
 
 /* Line 214 of yacc.c  */
-#line 143 "step2.tab.c"
+#line 145 "step2.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -151,7 +153,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 155 "step2.tab.c"
+#line 157 "step2.tab.c"
 
 #ifdef short
 # undef short
@@ -421,7 +423,7 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     5,     8,    10,    12,    14,    18,    25,
+       0,     0,     3,     5,     7,    10,    12,    14,    18,    25,
       27,    29,    33,    38,    40,    42,    43,    47,    49,    52,
       57,    62,    65,    67,    68,    71,    72,    74,    76,    78,
       80,    82,    85,    87,    93,   101,   107,   110,   114,   118,
@@ -433,7 +435,7 @@ static const yytype_uint8 yyprhs[] =
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      31,     0,    -1,    32,    -1,    32,    33,    -1,    33,    -1,
+      31,     0,    -1,    32,    -1,    33,    -1,    32,    33,    -1,
       34,    -1,    36,    -1,    35,     4,    15,    -1,    35,     4,
       16,     3,    17,    15,    -1,     8,    -1,    10,    -1,    35,
        4,    37,    -1,    18,    38,    19,    41,    -1,    39,    -1,
@@ -457,13 +459,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    32,    32,    34,    35,    38,    39,    42,    43,    48,
-      49,    52,    54,    56,    57,    58,    61,    62,    65,    66,
-      69,    71,    72,    73,    76,    77,    80,    81,    82,    83,
-      84,    87,    88,    91,    92,    95,    97,    98,   101,   102,
-     105,   106,   109,   110,   113,   114,   115,   116,   117,   118,
-     121,   122,   124,   125,   128,   129,   132,   133,   136,   137,
-     138,   139,   141,   143,   144,   148,   149
+       0,    39,    39,    41,    42,    45,    46,    49,    50,    55,
+      56,    59,    61,    63,    64,    65,    68,    69,    72,    73,
+      76,    78,    79,    80,    83,    84,    87,    88,    89,    90,
+      91,    94,    95,    98,    99,   102,   104,   105,   108,   109,
+     112,   113,   116,   117,   120,   121,   122,   123,   124,   125,
+     128,   129,   131,   132,   135,   136,   139,   140,   143,   144,
+     145,   146,   148,   150,   151,   155,   156
 };
 #endif
 
@@ -511,7 +513,7 @@ static const yytype_uint8 yyr1[] =
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     2,     1,     1,     1,     3,     6,     1,
+       0,     2,     1,     1,     2,     1,     1,     3,     6,     1,
        1,     3,     4,     1,     1,     0,     3,     1,     2,     4,
        4,     2,     1,     0,     2,     0,     1,     1,     1,     1,
        1,     2,     1,     5,     7,     5,     2,     3,     3,     1,
@@ -525,8 +527,8 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     9,    10,     0,     2,     4,     5,     0,     6,     1,
-       3,     0,     7,     0,    15,    11,     0,    10,     0,     0,
+       0,     9,    10,     0,     2,     3,     5,     0,     6,     1,
+       4,     0,     7,     0,    15,    11,     0,    10,     0,     0,
       13,    17,     0,    18,     0,     0,     8,     0,    23,    12,
       16,    19,    22,     0,    25,     0,    21,     0,    61,    40,
        0,     0,     0,    32,     0,    20,    27,    24,    26,    28,
@@ -1446,259 +1448,259 @@ yyreduce:
         case 2:
 
 /* Line 1464 of yacc.c  */
-#line 32 "step2.y"
-    {printf("program\n"); ;}
+#line 39 "step2.y"
+    {tree.push_back("program"); for (auto i = tree.rbegin(); i != tree.rend(); i++) cout<<*i<<endl;;}
     break;
 
-  case 3:
+  case 4:
 
 /* Line 1464 of yacc.c  */
-#line 34 "step2.y"
-    {printf("declaration_list\n"); ;}
+#line 42 "step2.y"
+    {tree.push_back("declaration_list"); ;}
     break;
 
   case 7:
 
 /* Line 1464 of yacc.c  */
-#line 42 "step2.y"
-    { printf("var_declaration(%s)\n",(yyvsp[(2) - (3)].string));;}
+#line 49 "step2.y"
+    { tree.push_back("var_declaration");;}
     break;
 
   case 8:
 
 /* Line 1464 of yacc.c  */
-#line 43 "step2.y"
-    { printf("array_declaration(%s[%d])\n",(yyvsp[(2) - (6)].string),(yyvsp[(4) - (6)].num));;}
+#line 50 "step2.y"
+    { tree.push_back("array_declaration");;}
     break;
 
   case 9:
 
 /* Line 1464 of yacc.c  */
-#line 48 "step2.y"
-    { printf("type_specifier(INT)\n"); ;}
+#line 55 "step2.y"
+    { tree.push_back("type_specifier(INT)"); ;}
     break;
 
   case 10:
 
 /* Line 1464 of yacc.c  */
-#line 49 "step2.y"
-    { printf("type_specifier(VOID)\n"); ;}
+#line 56 "step2.y"
+    { tree.push_back("type_specifier(VOID)"); ;}
     break;
 
   case 11:
 
 /* Line 1464 of yacc.c  */
-#line 52 "step2.y"
-    {printf("fun_definition(");;}
+#line 59 "step2.y"
+    {tree.push_back("fun_definition");;}
     break;
 
   case 12:
 
 /* Line 1464 of yacc.c  */
-#line 54 "step2.y"
-    { printf("compound_stmt\ndeclaration\n"); ;}
+#line 61 "step2.y"
+    { tree.push_back("compound_stmtdeclaration"); ;}
     break;
 
   case 13:
 
 /* Line 1464 of yacc.c  */
-#line 56 "step2.y"
-    {printf("INT)\n");;}
+#line 63 "step2.y"
+    {tree.push_back("INT");;}
     break;
 
   case 14:
 
 /* Line 1464 of yacc.c  */
-#line 57 "step2.y"
-    {printf("VOID)\n");;}
+#line 64 "step2.y"
+    {tree.push_back("VOID");;}
     break;
 
   case 15:
 
 /* Line 1464 of yacc.c  */
-#line 58 "step2.y"
-    {printf("VOID)\n");;}
+#line 65 "step2.y"
+    {tree.push_back("VOID");;}
     break;
 
   case 20:
 
 /* Line 1464 of yacc.c  */
-#line 69 "step2.y"
-    { printf("local declarations\n"); ;}
+#line 76 "step2.y"
+    { tree.push_back("local declarations"); ;}
     break;
 
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 73 "step2.y"
-    {printf("empty\n"); ;}
+#line 80 "step2.y"
+    {tree.push_back("empty"); ;}
     break;
 
   case 24:
 
 /* Line 1464 of yacc.c  */
-#line 76 "step2.y"
-    {printf("statement_list\n");;}
+#line 83 "step2.y"
+    {tree.push_back("statement_list");;}
     break;
 
   case 25:
 
 /* Line 1464 of yacc.c  */
-#line 77 "step2.y"
-    {printf("statement_list(empty)\n");;}
+#line 84 "step2.y"
+    {tree.push_back("statement_list(empty)");;}
     break;
 
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 87 "step2.y"
-    {printf("expression_stmt\n");;}
+#line 94 "step2.y"
+    {tree.push_back("expression_stmt");;}
     break;
 
   case 33:
 
 /* Line 1464 of yacc.c  */
-#line 91 "step2.y"
-    {printf("IF_without_else");;}
+#line 98 "step2.y"
+    {tree.push_back("IF_without_else");;}
     break;
 
   case 34:
 
 /* Line 1464 of yacc.c  */
-#line 92 "step2.y"
-    {printf("IF_with_else");;}
+#line 99 "step2.y"
+    {tree.push_back("IF_with_else");;}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 95 "step2.y"
-    {printf("WHILE\n");;}
+#line 102 "step2.y"
+    {tree.push_back("WHILE");;}
     break;
 
   case 38:
 
 /* Line 1464 of yacc.c  */
-#line 101 "step2.y"
-    {printf("expression\n");;}
+#line 108 "step2.y"
+    {tree.push_back("expression");;}
     break;
 
   case 40:
 
 /* Line 1464 of yacc.c  */
-#line 105 "step2.y"
-    {printf("var(%s)\n",(yyvsp[(1) - (1)].string));;}
+#line 112 "step2.y"
+    {tree.push_back("var");;}
     break;
 
   case 41:
 
 /* Line 1464 of yacc.c  */
-#line 106 "step2.y"
-    {printf("array(%s[%d])\n",yytext,yytext);;}
+#line 113 "step2.y"
+    {tree.push_back("array");;}
     break;
 
   case 42:
 
 /* Line 1464 of yacc.c  */
-#line 109 "step2.y"
-    {printf("simple_expression\n");;}
+#line 116 "step2.y"
+    {tree.push_back("simple_expression");;}
     break;
 
   case 43:
 
 /* Line 1464 of yacc.c  */
-#line 110 "step2.y"
-    {printf("additive_expression\n");;}
+#line 117 "step2.y"
+    {tree.push_back("additive_expression");;}
     break;
 
   case 52:
 
 /* Line 1464 of yacc.c  */
-#line 124 "step2.y"
-    {printf("addop\n");;}
+#line 131 "step2.y"
+    {tree.push_back("addop");;}
     break;
 
   case 53:
 
 /* Line 1464 of yacc.c  */
-#line 125 "step2.y"
-    {printf("minusop\n");;}
+#line 132 "step2.y"
+    {tree.push_back("minusop");;}
     break;
 
   case 54:
 
 /* Line 1464 of yacc.c  */
-#line 128 "step2.y"
-    {printf("term\n");;}
+#line 135 "step2.y"
+    {tree.push_back("term");;}
     break;
 
   case 55:
 
 /* Line 1464 of yacc.c  */
-#line 129 "step2.y"
-    {printf("term\n");;}
+#line 136 "step2.y"
+    {tree.push_back("term");;}
     break;
 
   case 56:
 
 /* Line 1464 of yacc.c  */
-#line 132 "step2.y"
-    {printf("mulop\n");;}
+#line 139 "step2.y"
+    {tree.push_back("mulop");;}
     break;
 
   case 57:
 
 /* Line 1464 of yacc.c  */
-#line 133 "step2.y"
-    {printf("divop\n");;}
+#line 140 "step2.y"
+    {tree.push_back("divop");;}
     break;
 
   case 58:
 
 /* Line 1464 of yacc.c  */
-#line 136 "step2.y"
-    {printf("factor\n");;}
+#line 143 "step2.y"
+    {tree.push_back("factor");;}
     break;
 
   case 59:
 
 /* Line 1464 of yacc.c  */
-#line 137 "step2.y"
-    {printf("factor\n");;}
+#line 144 "step2.y"
+    {tree.push_back("factor");;}
     break;
 
   case 60:
 
 /* Line 1464 of yacc.c  */
-#line 138 "step2.y"
-    {printf("factor\n");;}
+#line 145 "step2.y"
+    {tree.push_back("factor");;}
     break;
 
   case 61:
 
 /* Line 1464 of yacc.c  */
-#line 139 "step2.y"
-    {printf("factor\n");;}
+#line 146 "step2.y"
+    {tree.push_back("factor");;}
     break;
 
   case 62:
 
 /* Line 1464 of yacc.c  */
-#line 141 "step2.y"
-    {printf("call %s\n",(yyvsp[(1) - (4)].string));;}
+#line 148 "step2.y"
+    {tree.push_back("call");tree.push_back((yyvsp[(1) - (4)].string)) ;;}
     break;
 
   case 64:
 
 /* Line 1464 of yacc.c  */
-#line 144 "step2.y"
-    {printf("args(empty)\n");;}
+#line 151 "step2.y"
+    {tree.push_back("args(empty)");;}
     break;
 
 
 
 /* Line 1464 of yacc.c  */
-#line 1702 "step2.tab.c"
+#line 1704 "step2.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1910,13 +1912,13 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 152 "step2.y"
+#line 159 "step2.y"
 
 
 int main(int argc, char *argv[])
 {
     if (argc==1){
-	printf("Enter numbers manually and press enter to finish:\n");
+	printf("Enter numbers manually and press enter to finish:");
 	yyin=stdin;
     }
     if (argc==2){
