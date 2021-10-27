@@ -26,113 +26,112 @@ Grammar
 
    12 params: param_list
    13       | VOID
-   14       | /* empty */
 
-   15 param_list: param_list ',' param
-   16           | param
+   14 param_list: param
+   15           | param_list ',' param
 
-   17 param: type_specifier ID
-   18      | type_specifier ID '[' ']'
+   16 param: type_specifier ID
+   17      | type_specifier ID '[' ']'
 
-   19 compound_stmt: '{' local_declarations statement_list '}'
+   18 compound_stmt: '{' local_declarations statement_list '}'
 
-   20 local_declarations: local_declarations var_declaration
-   21                   | var_declaration
-   22                   | /* empty */
+   19 local_declarations: var_declaration
+   20                   | local_declarations var_declaration
+   21                   | /* empty */
 
-   23 statement_list: statement_list statement
-   24               | /* empty */
+   22 statement_list: statement_list statement
+   23               | /* empty */
 
-   25 statement: expression_stmt
-   26          | compound_stmt
-   27          | selection_stmt
-   28          | iteration_stmt
-   29          | return_stmt
+   24 statement: expression_stmt
+   25          | compound_stmt
+   26          | selection_stmt
+   27          | iteration_stmt
+   28          | return_stmt
 
-   30 expression_stmt: expression ';'
-   31                | ';'
+   29 expression_stmt: expression ';'
+   30                | ';'
 
-   32 selection_stmt: IF '(' expression ')' statement
-   33               | IF '(' expression ')' statement ELSE statement
+   31 selection_stmt: IF '(' expression ')' statement
+   32               | IF '(' expression ')' statement ELSE statement
 
-   34 iteration_stmt: WHILE '(' expression ')' statement
+   33 iteration_stmt: WHILE '(' expression ')' statement
 
-   35 return_stmt: RETURN ';'
-   36            | RETURN expression ';'
+   34 return_stmt: RETURN ';'
+   35            | RETURN expression ';'
 
-   37 expression: var '=' expression
-   38           | simple_expression
+   36 expression: var '=' expression
+   37           | simple_expression
 
-   39 var: ID
-   40    | ID '[' expression ']'
+   38 var: ID
+   39    | ID '[' expression ']'
 
-   41 simple_expression: additive_expression relop additive_expression
-   42                  | additive_expression
+   40 simple_expression: additive_expression relop additive_expression
+   41                  | additive_expression
 
-   43 relop: '<'
-   44      | SOE
-   45      | '>'
-   46      | GOE
-   47      | EQV
-   48      | NEV
+   42 relop: '<'
+   43      | SOE
+   44      | '>'
+   45      | GOE
+   46      | EQV
+   47      | NEV
 
-   49 additive_expression: additive_expression addop term
-   50                    | term
+   48 additive_expression: additive_expression addop term
+   49                    | term
 
-   51 addop: '+'
-   52      | '-'
+   50 addop: '+'
+   51      | '-'
 
-   53 term: term mulop factor
-   54     | factor
+   52 term: term mulop factor
+   53     | factor
 
-   55 mulop: '*'
-   56      | '/'
+   54 mulop: '*'
+   55      | '/'
 
-   57 factor: '(' expression ')'
-   58       | var
-   59       | call
-   60       | NUM
+   56 factor: '(' expression ')'
+   57       | var
+   58       | call
+   59       | NUM
 
-   61 call: ID '(' args ')'
+   60 call: ID '(' args ')'
 
-   62 args: arg_list
-   63     | /* empty */
+   61 args: arg_list
+   62     | /* empty */
 
-   64 arg_list: arg_list ',' expression
-   65         | expression
+   63 arg_list: arg_list ',' expression
+   64         | expression
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 11 32 33 34 57 61
-')' (41) 11 32 33 34 57 61
-'*' (42) 55
-'+' (43) 51
-',' (44) 15 64
-'-' (45) 52
-'/' (47) 56
-';' (59) 6 7 30 31 35 36
-'<' (60) 43
-'=' (61) 37
-'>' (62) 45
-'[' (91) 7 18 40
-']' (93) 7 18 40
-'{' (123) 19
-'}' (125) 19
+'(' (40) 11 31 32 33 56 60
+')' (41) 11 31 32 33 56 60
+'*' (42) 54
+'+' (43) 50
+',' (44) 15 63
+'-' (45) 51
+'/' (47) 55
+';' (59) 6 7 29 30 34 35
+'<' (60) 42
+'=' (61) 36
+'>' (62) 44
+'[' (91) 7 17 39
+']' (93) 7 17 39
+'{' (123) 18
+'}' (125) 18
 error (256)
-NUM (258) 7 60
-ID (259) 6 7 10 17 18 39 40 61
-IF (260) 32 33
-WHILE (261) 34
-ELSE (262) 33
+NUM (258) 7 59
+ID (259) 6 7 10 16 17 38 39 60
+IF (260) 31 32
+WHILE (261) 33
+ELSE (262) 32
 INT (263) 8
-RETURN (264) 35 36
+RETURN (264) 34 35
 VOID (265) 9 13
-SOE (266) 44
-GOE (267) 46
-EQV (268) 47
-NEV (269) 48
+SOE (266) 43
+GOE (267) 45
+EQV (268) 46
+NEV (269) 47
 
 
 Nonterminals, with rules where they appear
@@ -146,59 +145,59 @@ declaration_list (32)
 declaration (33)
     on left: 4 5, on right: 2 3
 var_declaration (34)
-    on left: 6 7, on right: 4 20 21
+    on left: 6 7, on right: 4 19 20
 type_specifier (35)
-    on left: 8 9, on right: 6 7 10 17 18
+    on left: 8 9, on right: 6 7 10 16 17
 fun_declaration (36)
     on left: 10, on right: 5
 fun1 (37)
     on left: 11, on right: 10
 params (38)
-    on left: 12 13 14, on right: 11
+    on left: 12 13, on right: 11
 param_list (39)
-    on left: 15 16, on right: 12 15
+    on left: 14 15, on right: 12 15
 param (40)
-    on left: 17 18, on right: 15 16
+    on left: 16 17, on right: 14 15
 compound_stmt (41)
-    on left: 19, on right: 11 26
+    on left: 18, on right: 11 25
 local_declarations (42)
-    on left: 20 21 22, on right: 19 20
+    on left: 19 20 21, on right: 18 20
 statement_list (43)
-    on left: 23 24, on right: 19 23
+    on left: 22 23, on right: 18 22
 statement (44)
-    on left: 25 26 27 28 29, on right: 23 32 33 34
+    on left: 24 25 26 27 28, on right: 22 31 32 33
 expression_stmt (45)
-    on left: 30 31, on right: 25
+    on left: 29 30, on right: 24
 selection_stmt (46)
-    on left: 32 33, on right: 27
+    on left: 31 32, on right: 26
 iteration_stmt (47)
-    on left: 34, on right: 28
+    on left: 33, on right: 27
 return_stmt (48)
-    on left: 35 36, on right: 29
+    on left: 34 35, on right: 28
 expression (49)
-    on left: 37 38, on right: 30 32 33 34 36 37 40 57 64 65
+    on left: 36 37, on right: 29 31 32 33 35 36 39 56 63 64
 var (50)
-    on left: 39 40, on right: 37 58
+    on left: 38 39, on right: 36 57
 simple_expression (51)
-    on left: 41 42, on right: 38
+    on left: 40 41, on right: 37
 relop (52)
-    on left: 43 44 45 46 47 48, on right: 41
+    on left: 42 43 44 45 46 47, on right: 40
 additive_expression (53)
-    on left: 49 50, on right: 41 42 49
+    on left: 48 49, on right: 40 41 48
 addop (54)
-    on left: 51 52, on right: 49
+    on left: 50 51, on right: 48
 term (55)
-    on left: 53 54, on right: 49 50 53
+    on left: 52 53, on right: 48 49 52
 mulop (56)
-    on left: 55 56, on right: 53
+    on left: 54 55, on right: 52
 factor (57)
-    on left: 57 58 59 60, on right: 53 54
+    on left: 56 57 58 59, on right: 52 53
 call (58)
-    on left: 61, on right: 59
+    on left: 60, on right: 58
 args (59)
-    on left: 62 63, on right: 61
+    on left: 61 62, on right: 60
 arg_list (60)
-    on left: 64 65, on right: 62 64
+    on left: 63 64, on right: 61 63
 
 
 state 0
@@ -331,8 +330,6 @@ state 14
     INT   shift, and go to state 1
     VOID  shift, and go to state 17
 
-    $default  reduce using rule 14 (params)
-
     type_specifier  go to state 18
     params          go to state 19
     param_list      go to state 20
@@ -364,8 +361,8 @@ state 17
 
 state 18
 
-   17 param: type_specifier . ID
-   18      | type_specifier . ID '[' ']'
+   16 param: type_specifier . ID
+   17      | type_specifier . ID '[' ']'
 
     ID  shift, and go to state 23
 
@@ -389,9 +386,9 @@ state 20
 
 state 21
 
-   16 param_list: param .
+   14 param_list: param .
 
-    $default  reduce using rule 16 (param_list)
+    $default  reduce using rule 14 (param_list)
 
 
 state 22
@@ -403,12 +400,12 @@ state 22
 
 state 23
 
-   17 param: type_specifier ID .
-   18      | type_specifier ID . '[' ']'
+   16 param: type_specifier ID .
+   17      | type_specifier ID . '[' ']'
 
     '['  shift, and go to state 27
 
-    $default  reduce using rule 17 (param)
+    $default  reduce using rule 16 (param)
 
 
 state 24
@@ -440,21 +437,21 @@ state 26
 
 state 27
 
-   18 param: type_specifier ID '[' . ']'
+   17 param: type_specifier ID '[' . ']'
 
     ']'  shift, and go to state 31
 
 
 state 28
 
-   19 compound_stmt: '{' . local_declarations statement_list '}'
+   18 compound_stmt: '{' . local_declarations statement_list '}'
 
     INT   shift, and go to state 1
     VOID  shift, and go to state 2
 
-    INT       [reduce using rule 22 (local_declarations)]
-    VOID      [reduce using rule 22 (local_declarations)]
-    $default  reduce using rule 22 (local_declarations)
+    INT       [reduce using rule 21 (local_declarations)]
+    VOID      [reduce using rule 21 (local_declarations)]
+    $default  reduce using rule 21 (local_declarations)
 
     var_declaration     go to state 32
     type_specifier      go to state 33
@@ -477,16 +474,16 @@ state 30
 
 state 31
 
-   18 param: type_specifier ID '[' ']' .
+   17 param: type_specifier ID '[' ']' .
 
-    $default  reduce using rule 18 (param)
+    $default  reduce using rule 17 (param)
 
 
 state 32
 
-   21 local_declarations: var_declaration .
+   19 local_declarations: var_declaration .
 
-    $default  reduce using rule 21 (local_declarations)
+    $default  reduce using rule 19 (local_declarations)
 
 
 state 33
@@ -499,13 +496,13 @@ state 33
 
 state 34
 
-   19 compound_stmt: '{' local_declarations . statement_list '}'
+   18 compound_stmt: '{' local_declarations . statement_list '}'
    20 local_declarations: local_declarations . var_declaration
 
     INT   shift, and go to state 1
     VOID  shift, and go to state 2
 
-    $default  reduce using rule 24 (statement_list)
+    $default  reduce using rule 23 (statement_list)
 
     var_declaration  go to state 36
     type_specifier   go to state 33
@@ -530,8 +527,8 @@ state 36
 
 state 37
 
-   19 compound_stmt: '{' local_declarations statement_list . '}'
-   23 statement_list: statement_list . statement
+   18 compound_stmt: '{' local_declarations statement_list . '}'
+   22 statement_list: statement_list . statement
 
     NUM     shift, and go to state 38
     ID      shift, and go to state 39
@@ -560,42 +557,42 @@ state 37
 
 state 38
 
-   60 factor: NUM .
+   59 factor: NUM .
 
-    $default  reduce using rule 60 (factor)
+    $default  reduce using rule 59 (factor)
 
 
 state 39
 
-   39 var: ID .
-   40    | ID . '[' expression ']'
-   61 call: ID . '(' args ')'
+   38 var: ID .
+   39    | ID . '[' expression ']'
+   60 call: ID . '(' args ')'
 
     '['  shift, and go to state 59
     '('  shift, and go to state 60
 
-    $default  reduce using rule 39 (var)
+    $default  reduce using rule 38 (var)
 
 
 state 40
 
-   32 selection_stmt: IF . '(' expression ')' statement
-   33               | IF . '(' expression ')' statement ELSE statement
+   31 selection_stmt: IF . '(' expression ')' statement
+   32               | IF . '(' expression ')' statement ELSE statement
 
     '('  shift, and go to state 61
 
 
 state 41
 
-   34 iteration_stmt: WHILE . '(' expression ')' statement
+   33 iteration_stmt: WHILE . '(' expression ')' statement
 
     '('  shift, and go to state 62
 
 
 state 42
 
-   35 return_stmt: RETURN . ';'
-   36            | RETURN . expression ';'
+   34 return_stmt: RETURN . ';'
+   35            | RETURN . expression ';'
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -613,14 +610,14 @@ state 42
 
 state 43
 
-   31 expression_stmt: ';' .
+   30 expression_stmt: ';' .
 
-    $default  reduce using rule 31 (expression_stmt)
+    $default  reduce using rule 30 (expression_stmt)
 
 
 state 44
 
-   57 factor: '(' . expression ')'
+   56 factor: '(' . expression ')'
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -637,82 +634,82 @@ state 44
 
 state 45
 
-   19 compound_stmt: '{' local_declarations statement_list '}' .
+   18 compound_stmt: '{' local_declarations statement_list '}' .
 
-    $default  reduce using rule 19 (compound_stmt)
+    $default  reduce using rule 18 (compound_stmt)
 
 
 state 46
 
-   26 statement: compound_stmt .
-
-    $default  reduce using rule 26 (statement)
-
-
-state 47
-
-   23 statement_list: statement_list statement .
-
-    $default  reduce using rule 23 (statement_list)
-
-
-state 48
-
-   25 statement: expression_stmt .
+   25 statement: compound_stmt .
 
     $default  reduce using rule 25 (statement)
 
 
+state 47
+
+   22 statement_list: statement_list statement .
+
+    $default  reduce using rule 22 (statement_list)
+
+
+state 48
+
+   24 statement: expression_stmt .
+
+    $default  reduce using rule 24 (statement)
+
+
 state 49
 
-   27 statement: selection_stmt .
+   26 statement: selection_stmt .
 
-    $default  reduce using rule 27 (statement)
+    $default  reduce using rule 26 (statement)
 
 
 state 50
 
-   28 statement: iteration_stmt .
+   27 statement: iteration_stmt .
 
-    $default  reduce using rule 28 (statement)
+    $default  reduce using rule 27 (statement)
 
 
 state 51
 
-   29 statement: return_stmt .
+   28 statement: return_stmt .
 
-    $default  reduce using rule 29 (statement)
+    $default  reduce using rule 28 (statement)
 
 
 state 52
 
-   30 expression_stmt: expression . ';'
+   29 expression_stmt: expression . ';'
 
     ';'  shift, and go to state 66
 
 
 state 53
 
-   37 expression: var . '=' expression
-   58 factor: var .
+   36 expression: var . '=' expression
+   57 factor: var .
 
     '='  shift, and go to state 67
 
-    $default  reduce using rule 58 (factor)
+    $default  reduce using rule 57 (factor)
 
 
 state 54
 
-   38 expression: simple_expression .
+   37 expression: simple_expression .
 
-    $default  reduce using rule 38 (expression)
+    $default  reduce using rule 37 (expression)
 
 
 state 55
 
-   41 simple_expression: additive_expression . relop additive_expression
-   42                  | additive_expression .
-   49 additive_expression: additive_expression . addop term
+   40 simple_expression: additive_expression . relop additive_expression
+   41                  | additive_expression .
+   48 additive_expression: additive_expression . addop term
 
     SOE  shift, and go to state 68
     GOE  shift, and go to state 69
@@ -723,7 +720,7 @@ state 55
     '+'  shift, and go to state 74
     '-'  shift, and go to state 75
 
-    $default  reduce using rule 42 (simple_expression)
+    $default  reduce using rule 41 (simple_expression)
 
     relop  go to state 76
     addop  go to state 77
@@ -731,34 +728,34 @@ state 55
 
 state 56
 
-   50 additive_expression: term .
-   53 term: term . mulop factor
+   49 additive_expression: term .
+   52 term: term . mulop factor
 
     '*'  shift, and go to state 78
     '/'  shift, and go to state 79
 
-    $default  reduce using rule 50 (additive_expression)
+    $default  reduce using rule 49 (additive_expression)
 
     mulop  go to state 80
 
 
 state 57
 
-   54 term: factor .
+   53 term: factor .
 
-    $default  reduce using rule 54 (term)
+    $default  reduce using rule 53 (term)
 
 
 state 58
 
-   59 factor: call .
+   58 factor: call .
 
-    $default  reduce using rule 59 (factor)
+    $default  reduce using rule 58 (factor)
 
 
 state 59
 
-   40 var: ID '[' . expression ']'
+   39 var: ID '[' . expression ']'
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -775,13 +772,13 @@ state 59
 
 state 60
 
-   61 call: ID '(' . args ')'
+   60 call: ID '(' . args ')'
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
     '('  shift, and go to state 44
 
-    $default  reduce using rule 63 (args)
+    $default  reduce using rule 62 (args)
 
     expression           go to state 82
     var                  go to state 53
@@ -796,8 +793,8 @@ state 60
 
 state 61
 
-   32 selection_stmt: IF '(' . expression ')' statement
-   33               | IF '(' . expression ')' statement ELSE statement
+   31 selection_stmt: IF '(' . expression ')' statement
+   32               | IF '(' . expression ')' statement ELSE statement
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -814,7 +811,7 @@ state 61
 
 state 62
 
-   34 iteration_stmt: WHILE '(' . expression ')' statement
+   33 iteration_stmt: WHILE '(' . expression ')' statement
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -831,35 +828,35 @@ state 62
 
 state 63
 
-   35 return_stmt: RETURN ';' .
+   34 return_stmt: RETURN ';' .
 
-    $default  reduce using rule 35 (return_stmt)
+    $default  reduce using rule 34 (return_stmt)
 
 
 state 64
 
-   36 return_stmt: RETURN expression . ';'
+   35 return_stmt: RETURN expression . ';'
 
     ';'  shift, and go to state 87
 
 
 state 65
 
-   57 factor: '(' expression . ')'
+   56 factor: '(' expression . ')'
 
     ')'  shift, and go to state 88
 
 
 state 66
 
-   30 expression_stmt: expression ';' .
+   29 expression_stmt: expression ';' .
 
-    $default  reduce using rule 30 (expression_stmt)
+    $default  reduce using rule 29 (expression_stmt)
 
 
 state 67
 
-   37 expression: var '=' . expression
+   36 expression: var '=' . expression
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -876,63 +873,63 @@ state 67
 
 state 68
 
-   44 relop: SOE .
-
-    $default  reduce using rule 44 (relop)
-
-
-state 69
-
-   46 relop: GOE .
-
-    $default  reduce using rule 46 (relop)
-
-
-state 70
-
-   47 relop: EQV .
-
-    $default  reduce using rule 47 (relop)
-
-
-state 71
-
-   48 relop: NEV .
-
-    $default  reduce using rule 48 (relop)
-
-
-state 72
-
-   43 relop: '<' .
+   43 relop: SOE .
 
     $default  reduce using rule 43 (relop)
 
 
-state 73
+state 69
 
-   45 relop: '>' .
+   45 relop: GOE .
 
     $default  reduce using rule 45 (relop)
 
 
+state 70
+
+   46 relop: EQV .
+
+    $default  reduce using rule 46 (relop)
+
+
+state 71
+
+   47 relop: NEV .
+
+    $default  reduce using rule 47 (relop)
+
+
+state 72
+
+   42 relop: '<' .
+
+    $default  reduce using rule 42 (relop)
+
+
+state 73
+
+   44 relop: '>' .
+
+    $default  reduce using rule 44 (relop)
+
+
 state 74
 
-   51 addop: '+' .
+   50 addop: '+' .
 
-    $default  reduce using rule 51 (addop)
+    $default  reduce using rule 50 (addop)
 
 
 state 75
 
-   52 addop: '-' .
+   51 addop: '-' .
 
-    $default  reduce using rule 52 (addop)
+    $default  reduce using rule 51 (addop)
 
 
 state 76
 
-   41 simple_expression: additive_expression relop . additive_expression
+   40 simple_expression: additive_expression relop . additive_expression
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -947,7 +944,7 @@ state 76
 
 state 77
 
-   49 additive_expression: additive_expression addop . term
+   48 additive_expression: additive_expression addop . term
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -961,21 +958,21 @@ state 77
 
 state 78
 
-   55 mulop: '*' .
+   54 mulop: '*' .
 
-    $default  reduce using rule 55 (mulop)
+    $default  reduce using rule 54 (mulop)
 
 
 state 79
 
-   56 mulop: '/' .
+   55 mulop: '/' .
 
-    $default  reduce using rule 56 (mulop)
+    $default  reduce using rule 55 (mulop)
 
 
 state 80
 
-   53 term: term mulop . factor
+   52 term: term mulop . factor
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -988,128 +985,128 @@ state 80
 
 state 81
 
-   40 var: ID '[' expression . ']'
+   39 var: ID '[' expression . ']'
 
     ']'  shift, and go to state 94
 
 
 state 82
 
-   65 arg_list: expression .
+   64 arg_list: expression .
 
-    $default  reduce using rule 65 (arg_list)
+    $default  reduce using rule 64 (arg_list)
 
 
 state 83
 
-   61 call: ID '(' args . ')'
+   60 call: ID '(' args . ')'
 
     ')'  shift, and go to state 95
 
 
 state 84
 
-   62 args: arg_list .
-   64 arg_list: arg_list . ',' expression
+   61 args: arg_list .
+   63 arg_list: arg_list . ',' expression
 
     ','  shift, and go to state 96
 
-    $default  reduce using rule 62 (args)
+    $default  reduce using rule 61 (args)
 
 
 state 85
 
-   32 selection_stmt: IF '(' expression . ')' statement
-   33               | IF '(' expression . ')' statement ELSE statement
+   31 selection_stmt: IF '(' expression . ')' statement
+   32               | IF '(' expression . ')' statement ELSE statement
 
     ')'  shift, and go to state 97
 
 
 state 86
 
-   34 iteration_stmt: WHILE '(' expression . ')' statement
+   33 iteration_stmt: WHILE '(' expression . ')' statement
 
     ')'  shift, and go to state 98
 
 
 state 87
 
-   36 return_stmt: RETURN expression ';' .
+   35 return_stmt: RETURN expression ';' .
 
-    $default  reduce using rule 36 (return_stmt)
+    $default  reduce using rule 35 (return_stmt)
 
 
 state 88
 
-   57 factor: '(' expression ')' .
+   56 factor: '(' expression ')' .
 
-    $default  reduce using rule 57 (factor)
+    $default  reduce using rule 56 (factor)
 
 
 state 89
 
-   37 expression: var '=' expression .
+   36 expression: var '=' expression .
 
-    $default  reduce using rule 37 (expression)
+    $default  reduce using rule 36 (expression)
 
 
 state 90
 
-   58 factor: var .
+   57 factor: var .
 
-    $default  reduce using rule 58 (factor)
+    $default  reduce using rule 57 (factor)
 
 
 state 91
 
-   41 simple_expression: additive_expression relop additive_expression .
-   49 additive_expression: additive_expression . addop term
+   40 simple_expression: additive_expression relop additive_expression .
+   48 additive_expression: additive_expression . addop term
 
     '+'  shift, and go to state 74
     '-'  shift, and go to state 75
 
-    $default  reduce using rule 41 (simple_expression)
+    $default  reduce using rule 40 (simple_expression)
 
     addop  go to state 77
 
 
 state 92
 
-   49 additive_expression: additive_expression addop term .
-   53 term: term . mulop factor
+   48 additive_expression: additive_expression addop term .
+   52 term: term . mulop factor
 
     '*'  shift, and go to state 78
     '/'  shift, and go to state 79
 
-    $default  reduce using rule 49 (additive_expression)
+    $default  reduce using rule 48 (additive_expression)
 
     mulop  go to state 80
 
 
 state 93
 
-   53 term: term mulop factor .
+   52 term: term mulop factor .
 
-    $default  reduce using rule 53 (term)
+    $default  reduce using rule 52 (term)
 
 
 state 94
 
-   40 var: ID '[' expression ']' .
+   39 var: ID '[' expression ']' .
 
-    $default  reduce using rule 40 (var)
+    $default  reduce using rule 39 (var)
 
 
 state 95
 
-   61 call: ID '(' args ')' .
+   60 call: ID '(' args ')' .
 
-    $default  reduce using rule 61 (call)
+    $default  reduce using rule 60 (call)
 
 
 state 96
 
-   64 arg_list: arg_list ',' . expression
+   63 arg_list: arg_list ',' . expression
 
     NUM  shift, and go to state 38
     ID   shift, and go to state 39
@@ -1126,8 +1123,8 @@ state 96
 
 state 97
 
-   32 selection_stmt: IF '(' expression ')' . statement
-   33               | IF '(' expression ')' . statement ELSE statement
+   31 selection_stmt: IF '(' expression ')' . statement
+   32               | IF '(' expression ')' . statement ELSE statement
 
     NUM     shift, and go to state 38
     ID      shift, and go to state 39
@@ -1155,7 +1152,7 @@ state 97
 
 state 98
 
-   34 iteration_stmt: WHILE '(' expression ')' . statement
+   33 iteration_stmt: WHILE '(' expression ')' . statement
 
     NUM     shift, and go to state 38
     ID      shift, and go to state 39
@@ -1183,32 +1180,32 @@ state 98
 
 state 99
 
-   64 arg_list: arg_list ',' expression .
+   63 arg_list: arg_list ',' expression .
 
-    $default  reduce using rule 64 (arg_list)
+    $default  reduce using rule 63 (arg_list)
 
 
 state 100
 
-   32 selection_stmt: IF '(' expression ')' statement .
-   33               | IF '(' expression ')' statement . ELSE statement
+   31 selection_stmt: IF '(' expression ')' statement .
+   32               | IF '(' expression ')' statement . ELSE statement
 
     ELSE  shift, and go to state 102
 
-    ELSE      [reduce using rule 32 (selection_stmt)]
-    $default  reduce using rule 32 (selection_stmt)
+    ELSE      [reduce using rule 31 (selection_stmt)]
+    $default  reduce using rule 31 (selection_stmt)
 
 
 state 101
 
-   34 iteration_stmt: WHILE '(' expression ')' statement .
+   33 iteration_stmt: WHILE '(' expression ')' statement .
 
-    $default  reduce using rule 34 (iteration_stmt)
+    $default  reduce using rule 33 (iteration_stmt)
 
 
 state 102
 
-   33 selection_stmt: IF '(' expression ')' statement ELSE . statement
+   32 selection_stmt: IF '(' expression ')' statement ELSE . statement
 
     NUM     shift, and go to state 38
     ID      shift, and go to state 39
@@ -1236,6 +1233,6 @@ state 102
 
 state 103
 
-   33 selection_stmt: IF '(' expression ')' statement ELSE statement .
+   32 selection_stmt: IF '(' expression ')' statement ELSE statement .
 
-    $default  reduce using rule 33 (selection_stmt)
+    $default  reduce using rule 32 (selection_stmt)

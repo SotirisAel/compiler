@@ -1,3 +1,5 @@
+/*A program*/
+
 void main(void)
 {
 	int x; int y;

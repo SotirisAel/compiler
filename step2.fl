@@ -14,13 +14,11 @@ letter		[A-Za-z]
 digit 		[0-9]
 id     		{letter}{letter}*
 number 		{digit}{digit}*
-comments   	\/\*{id}*{number}*{wspaces}*\*\/
 
 
 %%
 \n 		{yylineno++;}
 {wspaces}	{}
-{comments}  	{}
 "if" 		{return( IF );}
 "else" 		{return( ELSE );}
 "int" 		{return( INT );}
@@ -48,6 +46,7 @@ comments   	\/\*{id}*{number}*{wspaces}*\*\/
 "]" 		{return( yytext[0] ); }
 "{" 		{return( yytext[0] ); }
 "}" 		{return( yytext[0] ); }
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]       {}
 .		{printf("Unrecognised token: %s on line %d.\n", yytext, yylineno);}
 
 %%

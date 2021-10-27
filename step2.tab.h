@@ -62,7 +62,7 @@ typedef union YYSTYPE
 /* Line 1685 of yacc.c  */
 #line 20 "step2.y"
 
-    char *string;
+    char* string;
     int num;  
 
 
