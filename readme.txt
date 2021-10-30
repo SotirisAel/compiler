@@ -6,7 +6,7 @@ bison -d step2.y
 
 flex step2.fl
 
-g++ step2.tab.c
+g++ step2.tab.c -w
 
 ./a.out input.txt    OR    ./a.out
 
@@ -17,7 +17,7 @@ bison -dv step2.y
 
 flex step2.fl
 
-g++ -o main step2.tab.c -L"C:\GnuWin32\lib" -lfl
+g++ -o main step2.tab.c -L"C:\GnuWin32\lib" -lfl -w
 
 main (to enter input through command)
 

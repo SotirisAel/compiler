@@ -39,7 +39,7 @@ vector<string> tree;
 %token NEV
 
 %%
-program: declaration_list {tree.push_back("program\n"); for (auto i = tree.rbegin(); i != tree.rend(); i++) cout<<*i;};							
+program: declaration_list {tree.push_back("Program\n"); for (auto i = tree.rbegin(); i != tree.rend(); i++) cout<<*i;};							
 					
 declaration_list: declaration {tree.push_back("declaration_list\n"); }
 		| declaration_list declaration 
@@ -63,11 +63,12 @@ fun_declaration:  type_specifier ID fun1 {tree.push_back(")\n");tree.push_back($
 					
 fun1:  '(' params ')' compound_stmt {tree.push_back(")\n");tree.push_back($2); tree.push_back("params("); tree.push_back("compound_stmt\n"); };
 					
-params: param_list	{$$=$1;}				 
-      | VOID 		{$$="VOID";}
+params: param_list	{ $$ = $1; }				 
+      | VOID 		{ $$ = "VOID"; }
+      | 		{ $$ = "VOID"; }
       ;
 					
-param_list: param 			{$$=$1}
+param_list: param 			{ $$ = $1; }
 	  | param_list ',' param 
 	  ;
  
@@ -77,12 +78,13 @@ param: type_specifier ID
 
 compound_stmt: '{' local_declarations statement_list '}' { tree.push_back("local_declarations\n"); };			
 					
-local_declarations: var_declaration
-		  | local_declarations var_declaration
+local_declarations: local_declarations var_declaration
+		  | var_declaration
 		  | {tree.push_back("empty"); }		
 		  ;
 					
-statement_list: statement_list statement 	{tree.push_back("statement_list\n");}
+statement_list: statement			{tree.push_back("statement\n");}
+	      | statement statement_list  	{tree.push_back("statement_list\n");}
 	      | 				{tree.push_back("statement_list(empty)\n");}
 	      ;
 					
@@ -97,8 +99,8 @@ expression_stmt: expression ';' 	{tree.push_back("expression_stmt\n");}
 	       | ';' 		   
 	       ;
 						
-selection_stmt: IF '(' expression ')' statement {tree.push_back("IF_without_else\n");}
-	      | IF '(' expression ')' statement ELSE statement {tree.push_back("IF_with_else\n");}
+selection_stmt: IF '(' expression ')' statement 		{tree.push_back("IF_without_else\n");}
+	      | IF '(' expression ')' statement ELSE statement  {tree.push_back("IF_with_else\n");}
               ;
 
 iteration_stmt:	WHILE '(' expression ')' statement {tree.push_back("WHILE\n");};
@@ -108,15 +110,15 @@ return_stmt: RETURN ';'
 	   ;
 
 expression: var '=' expression  {tree.push_back("expression\n");} 	
-	  | simple_expression 
+	  | simple_expression   {tree.push_back("simple_expression\n");}
 	  ;
  
 var: ID 			{tree.push_back(")\n");tree.push_back($1);tree.push_back("var(");}
    | ID '[' expression ']'  	{tree.push_back("array\n");} 
    ; 
 
-simple_expression: additive_expression relop additive_expression {tree.push_back("simple_expression\n");}
-		 | additive_expression 	{tree.push_back("additive_expression\n");}
+simple_expression: additive_expression 				  {tree.push_back("additive_expression\n");}
+		 | additive_expression relop additive_expression 
 		 ;
 
 relop: '<' 
@@ -127,15 +129,16 @@ relop: '<'
      | NEV
      ;
 
-additive_expression: additive_expression addop term 
-                   | term ;
+additive_expression: term 
+                   | additive_expression addop term {tree.push_back("additive_expression(ADDOP)\n");}
+		   ;
  
 addop: '+' {tree.push_back("addop(+)\n");}
      | '-' {tree.push_back("minusop\n");}
      ; 
 
-term: term mulop factor  {tree.push_back("term\n");} 
-    | factor		 {tree.push_back("term\n");} 
+term: factor		 {tree.push_back("term\n");} 
+    | term mulop factor  {tree.push_back("term\n");} 
     ;
  
 mulop: '*' {tree.push_back("mulop");}
@@ -143,19 +146,19 @@ mulop: '*' {tree.push_back("mulop");}
      ;   	
 
 factor:	'(' expression ')' {tree.push_back("factor\n");}
-      | var                {tree.push_back("factor\n");}
+      | var                {tree.push_back("factor_var\n");}
       | call               {tree.push_back("factor\n");}
-      | NUM                {tree.push_back("factor\n");}
+      | NUM                {tree.push_back(")\n"); tree.push_back(to_string($1)); tree.push_back("factor(");}
       ;
 call: ID '(' args ')' {tree.push_back("\n");tree.push_back($1);tree.push_back("call ");};
 					
-args: arg_list 
-    | {tree.push_back("args(empty)\n");}
+args: arg_list  {tree.push_back("arg_list\n");}
+    | 		{tree.push_back("args(empty)\n");}
     ;
 
 
-arg_list: arg_list ',' expression 
-	| expression 
+arg_list: expression 
+	| arg_list ',' expression 
 	;
 			
 %%
