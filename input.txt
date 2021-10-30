@@ -2,7 +2,10 @@
 
 void main(void)
 {
-	int x; int y;
-	x = input();
-	y = x + 5;
+	int x[10]; int y;
+	y=2;
+	while(y!=8){
+	x[y] = y;
+	y = y + 1;
+	}
 }

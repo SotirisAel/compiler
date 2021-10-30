@@ -112,7 +112,10 @@ vector<string> tree;
 # define YYERROR_VERBOSE 0
 #endif
 
-
+/* Use api.header.include to #include this header
+   instead of duplicating it here.  */
+#ifndef YY_YY_STEP2_TAB_H_INCLUDED
+# define YY_YY_STEP2_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -150,7 +153,7 @@ union YYSTYPE
     char* string;
     int num;  
 
-#line 154 "step2.tab.c"
+#line 157 "step2.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -163,7 +166,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-
+#endif /* !YY_YY_STEP2_TAB_H_INCLUDED  */
 
 
 
@@ -1397,251 +1400,251 @@ yyreduce:
   case 2:
 #line 42 "step2.y"
                           {tree.push_back("Program\n"); for (auto i = tree.rbegin(); i != tree.rend(); i++) cout<<*i;}
-#line 1401 "step2.tab.c"
+#line 1404 "step2.tab.c"
     break;
 
   case 3:
 #line 44 "step2.y"
                               {tree.push_back("declaration_list\n"); }
-#line 1407 "step2.tab.c"
+#line 1410 "step2.tab.c"
     break;
 
   case 6:
 #line 49 "step2.y"
                              {tree.push_back("declaration\n"); }
-#line 1413 "step2.tab.c"
+#line 1416 "step2.tab.c"
     break;
 
   case 7:
 #line 52 "step2.y"
                                                         {tree.push_back(")\n"); tree.push_back((yyvsp[-1].string)); tree.push_back("("); tree.push_back("var_declaration");}
-#line 1419 "step2.tab.c"
+#line 1422 "step2.tab.c"
     break;
 
   case 8:
 #line 53 "step2.y"
                                                         {tree.push_back("])\n"); tree.push_back(to_string((yyvsp[-2].num))); tree.push_back("["); tree.push_back((yyvsp[-4].string)); tree.push_back("("); tree.push_back("array_declaration");}
-#line 1425 "step2.tab.c"
+#line 1428 "step2.tab.c"
     break;
 
   case 9:
 #line 58 "step2.y"
                       { (yyval.string) = "INT"; }
-#line 1431 "step2.tab.c"
+#line 1434 "step2.tab.c"
     break;
 
   case 10:
 #line 59 "step2.y"
                       { (yyval.string) = "VOID"; }
-#line 1437 "step2.tab.c"
+#line 1440 "step2.tab.c"
     break;
 
   case 11:
 #line 62 "step2.y"
                                          {tree.push_back(")\n");tree.push_back((yyvsp[-1].string));tree.push_back("-");tree.push_back((yyvsp[-2].string)); tree.push_back("("); tree.push_back("fun_definition");}
-#line 1443 "step2.tab.c"
+#line 1446 "step2.tab.c"
     break;
 
   case 12:
 #line 64 "step2.y"
                                     {tree.push_back(")\n");tree.push_back((yyvsp[-2].string)); tree.push_back("params("); tree.push_back("compound_stmt\n"); }
-#line 1449 "step2.tab.c"
+#line 1452 "step2.tab.c"
     break;
 
   case 13:
 #line 66 "step2.y"
                         { (yyval.string) = (yyvsp[0].string); }
-#line 1455 "step2.tab.c"
+#line 1458 "step2.tab.c"
     break;
 
   case 14:
 #line 67 "step2.y"
                         { (yyval.string) = "VOID"; }
-#line 1461 "step2.tab.c"
+#line 1464 "step2.tab.c"
     break;
 
   case 15:
 #line 68 "step2.y"
                         { (yyval.string) = "VOID"; }
-#line 1467 "step2.tab.c"
+#line 1470 "step2.tab.c"
     break;
 
   case 16:
 #line 71 "step2.y"
                                         { (yyval.string) = (yyvsp[0].string); }
-#line 1473 "step2.tab.c"
+#line 1476 "step2.tab.c"
     break;
 
   case 20:
 #line 79 "step2.y"
                                                          { tree.push_back("local_declarations\n"); }
-#line 1479 "step2.tab.c"
+#line 1482 "step2.tab.c"
     break;
 
   case 23:
 #line 83 "step2.y"
                     {tree.push_back("empty"); }
-#line 1485 "step2.tab.c"
+#line 1488 "step2.tab.c"
     break;
 
   case 24:
 #line 86 "step2.y"
                                                 {tree.push_back("statement\n");}
-#line 1491 "step2.tab.c"
+#line 1494 "step2.tab.c"
     break;
 
   case 25:
 #line 87 "step2.y"
                                                 {tree.push_back("statement_list\n");}
-#line 1497 "step2.tab.c"
+#line 1500 "step2.tab.c"
     break;
 
   case 26:
 #line 88 "step2.y"
                                                 {tree.push_back("statement_list(empty)\n");}
-#line 1503 "step2.tab.c"
+#line 1506 "step2.tab.c"
     break;
 
   case 32:
 #line 98 "step2.y"
                                         {tree.push_back("expression_stmt\n");}
-#line 1509 "step2.tab.c"
+#line 1512 "step2.tab.c"
     break;
 
   case 34:
 #line 102 "step2.y"
                                                                 {tree.push_back("IF_without_else\n");}
-#line 1515 "step2.tab.c"
+#line 1518 "step2.tab.c"
     break;
 
   case 35:
 #line 103 "step2.y"
                                                                 {tree.push_back("IF_with_else\n");}
-#line 1521 "step2.tab.c"
+#line 1524 "step2.tab.c"
     break;
 
   case 36:
 #line 106 "step2.y"
                                                    {tree.push_back("WHILE\n");}
-#line 1527 "step2.tab.c"
+#line 1530 "step2.tab.c"
     break;
 
   case 39:
 #line 112 "step2.y"
                                 {tree.push_back("expression\n");}
-#line 1533 "step2.tab.c"
+#line 1536 "step2.tab.c"
     break;
 
   case 40:
 #line 113 "step2.y"
                                 {tree.push_back("simple_expression\n");}
-#line 1539 "step2.tab.c"
+#line 1542 "step2.tab.c"
     break;
 
   case 41:
 #line 116 "step2.y"
                                 {tree.push_back(")\n");tree.push_back((yyvsp[0].string));tree.push_back("var(");}
-#line 1545 "step2.tab.c"
+#line 1548 "step2.tab.c"
     break;
 
   case 42:
 #line 117 "step2.y"
                                 {tree.push_back("array\n");}
-#line 1551 "step2.tab.c"
+#line 1554 "step2.tab.c"
     break;
 
   case 43:
 #line 120 "step2.y"
                                                                   {tree.push_back("additive_expression\n");}
-#line 1557 "step2.tab.c"
+#line 1560 "step2.tab.c"
     break;
 
   case 52:
 #line 133 "step2.y"
                                                     {tree.push_back("additive_expression(ADDOP)\n");}
-#line 1563 "step2.tab.c"
+#line 1566 "step2.tab.c"
     break;
 
   case 53:
 #line 136 "step2.y"
            {tree.push_back("addop(+)\n");}
-#line 1569 "step2.tab.c"
+#line 1572 "step2.tab.c"
     break;
 
   case 54:
 #line 137 "step2.y"
            {tree.push_back("minusop\n");}
-#line 1575 "step2.tab.c"
+#line 1578 "step2.tab.c"
     break;
 
   case 55:
 #line 140 "step2.y"
                          {tree.push_back("term\n");}
-#line 1581 "step2.tab.c"
+#line 1584 "step2.tab.c"
     break;
 
   case 56:
 #line 141 "step2.y"
                          {tree.push_back("term\n");}
-#line 1587 "step2.tab.c"
+#line 1590 "step2.tab.c"
     break;
 
   case 57:
 #line 144 "step2.y"
            {tree.push_back("mulop");}
-#line 1593 "step2.tab.c"
+#line 1596 "step2.tab.c"
     break;
 
   case 58:
 #line 145 "step2.y"
            {tree.push_back("divop");}
-#line 1599 "step2.tab.c"
+#line 1602 "step2.tab.c"
     break;
 
   case 59:
 #line 148 "step2.y"
                            {tree.push_back("factor\n");}
-#line 1605 "step2.tab.c"
+#line 1608 "step2.tab.c"
     break;
 
   case 60:
 #line 149 "step2.y"
                            {tree.push_back("factor_var\n");}
-#line 1611 "step2.tab.c"
+#line 1614 "step2.tab.c"
     break;
 
   case 61:
 #line 150 "step2.y"
                            {tree.push_back("factor\n");}
-#line 1617 "step2.tab.c"
+#line 1620 "step2.tab.c"
     break;
 
   case 62:
 #line 151 "step2.y"
                            {tree.push_back(")\n"); tree.push_back(to_string((yyvsp[0].num))); tree.push_back("factor(");}
-#line 1623 "step2.tab.c"
+#line 1626 "step2.tab.c"
     break;
 
   case 63:
 #line 153 "step2.y"
                       {tree.push_back("\n");tree.push_back((yyvsp[-3].string));tree.push_back("call ");}
-#line 1629 "step2.tab.c"
+#line 1632 "step2.tab.c"
     break;
 
   case 64:
 #line 155 "step2.y"
                 {tree.push_back("arg_list\n");}
-#line 1635 "step2.tab.c"
+#line 1638 "step2.tab.c"
     break;
 
   case 65:
 #line 156 "step2.y"
                 {tree.push_back("args(empty)\n");}
-#line 1641 "step2.tab.c"
+#line 1644 "step2.tab.c"
     break;
 
 
-#line 1645 "step2.tab.c"
+#line 1648 "step2.tab.c"
 
       default: break;
     }
