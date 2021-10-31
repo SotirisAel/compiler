@@ -76,11 +76,11 @@ param: type_specifier ID
      | type_specifier ID '[' ']'
      ;
 
-compound_stmt: '{' local_declarations statement_list '}' { tree.push_back("local_declarations\n"); };			
+compound_stmt: '{' local_declarations statement_list '}' { tree.push_back("compound_stmt\n"); tree.push_back("local_declarations\n"); };			
 					
 local_declarations: local_declarations var_declaration
 		  | var_declaration
-		  | {tree.push_back("empty"); }		
+		  | {tree.push_back("local declerations(empty)\n"); }		
 		  ;
 					
 statement_list: statement			{tree.push_back("statement\n");}
