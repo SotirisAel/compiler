@@ -5,26 +5,25 @@ int b5;
 int c;
 int d;
 
-void average(int a, int a, int b)
+void average(int a, int b)
 {
 	a = 10;
 	c = 10;
 	d = 10;
+	return d;
 }
 
-void average(int c, int d, int f)
+void average(int a, int b)
 {
-
 	a = 10;
-	c = 10;
-	d = 10;
 }
+
 
 void main(void)
 {
-	int x; int y;
+	int y; int y;
 	x = input();
-	y = x + 5;
+	y = x + 5;	
 	if ( x > 5 )
- 	y = average();
+ 	y = average(a,b,z);
 }
