@@ -1,0 +1,30 @@
+/* A program*/
+int b[10];
+float z;
+int b5;
+int c;
+int d;
+
+void average(int a, int a, int b)
+{
+	a = 10;
+	c = 10;
+	d = 10;
+}
+
+void average(int c, int d, int f)
+{
+
+	a = 10;
+	c = 10;
+	d = 10;
+}
+
+void main(void)
+{
+	int x; int y;
+	x = input();
+	y = x + 5;
+	if ( x > 5 )
+ 	y = average();
+}

@@ -537,14 +537,14 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    41,    41,    43,    44,    47,    48,    51,    58,    65,
-      70,    71,    72,    76,    80,    75,    90,    91,    94,    95,
-      98,   106,   114,   118,   125,   126,   127,   130,   131,   132,
-     135,   136,   137,   138,   139,   140,   143,   144,   147,   148,
-     151,   154,   159,   166,   169,   176,   187,   196,   197,   221,
-     222,   223,   224,   225,   226,   229,   230,   239,   240,   243,
-     244,   256,   257,   258,   261,   262,   263,   264,   267,   290,
-     291,   294,   298
+       0,    41,    41,    43,    44,    47,    48,    51,    60,    67,
+      72,    73,    74,    78,    82,    77,    93,    94,    97,    98,
+     101,   109,   117,   121,   128,   129,   130,   133,   134,   135,
+     138,   139,   140,   141,   142,   143,   146,   147,   150,   151,
+     154,   157,   161,   171,   174,   182,   191,   200,   201,   225,
+     226,   227,   228,   229,   230,   233,   234,   243,   244,   247,
+     248,   260,   261,   262,   265,   266,   267,   268,   271,   294,
+     295,   298,   302
 };
 #endif
 
@@ -1424,76 +1424,79 @@ yyreduce:
   case 7:
 #line 51 "step3.y"
                                        {
-		if((yyvsp[-2].num)==1)
-      			ProgramSymtable.insertvtable((yyvsp[-1].str), level, 0, 0);
+		if((yyvsp[-2].num)==1){
+      			if(ProgramSymtable.insertvtable((yyvsp[-1].str), level, 0, 0))
+			      yyerror("Redefined variable declaration");
+		}
 		else
 			yyerror("Invalid type specifier (did you mean int?)");	
                 }
-#line 1433 "step3.tab.c"
+#line 1435 "step3.tab.c"
     break;
 
   case 8:
-#line 59 "step3.y"
+#line 61 "step3.y"
                {
 		if((yyvsp[-5].num)==1)
       			ProgramSymtable.insertvtable((yyvsp[-4].str), level, 0, (yyvsp[-2].num));
 		else
 			yyerror("Invalid type specifier (did you mean int?)");	
                }
-#line 1444 "step3.tab.c"
+#line 1446 "step3.tab.c"
     break;
 
   case 9:
-#line 65 "step3.y"
+#line 67 "step3.y"
                            {}
-#line 1450 "step3.tab.c"
+#line 1452 "step3.tab.c"
     break;
 
   case 10:
-#line 70 "step3.y"
+#line 72 "step3.y"
                                 { (yyval.num)=1;	}
-#line 1456 "step3.tab.c"
+#line 1458 "step3.tab.c"
     break;
 
   case 11:
-#line 71 "step3.y"
+#line 73 "step3.y"
                                 { (yyval.num)=0;	}
-#line 1462 "step3.tab.c"
+#line 1464 "step3.tab.c"
     break;
 
   case 12:
-#line 72 "step3.y"
+#line 74 "step3.y"
                             {yyerror("Invalid type specifier (did you mean int?)");}
-#line 1468 "step3.tab.c"
+#line 1470 "step3.tab.c"
     break;
 
   case 13:
-#line 76 "step3.y"
+#line 78 "step3.y"
                 {   
 			level++;
                 }
-#line 1476 "step3.tab.c"
+#line 1478 "step3.tab.c"
     break;
 
   case 14:
-#line 80 "step3.y"
+#line 82 "step3.y"
                 { 	  
-                    ProgramSymtable.insertftable((yyvsp[-3].str), level, (yyvsp[-4].num), parameters );
+                    if(ProgramSymtable.insertftable((yyvsp[-3].str), level, (yyvsp[-4].num), parameters, yylineno, filename ))
+		    	yyerror("Redefined function declaration");
 		    parameters.clear();
                 }
-#line 1485 "step3.tab.c"
+#line 1488 "step3.tab.c"
     break;
 
   case 15:
-#line 85 "step3.y"
+#line 88 "step3.y"
                 {
                    
                 }
-#line 1493 "step3.tab.c"
+#line 1496 "step3.tab.c"
     break;
 
   case 20:
-#line 99 "step3.y"
+#line 102 "step3.y"
       {  
 	if((yyvsp[-1].num)==1)
       		parameters.push_back((yyvsp[0].str));
@@ -1501,11 +1504,11 @@ yyreduce:
 		yyerror("Incompatible types in parameter declaration (did you mean int?)");	
 	
       }
-#line 1505 "step3.tab.c"
+#line 1508 "step3.tab.c"
     break;
 
   case 21:
-#line 107 "step3.y"
+#line 110 "step3.y"
       {
         if((yyvsp[-3].num)==1){
       		parameters.push_back((yyvsp[-2].str));
@@ -1513,156 +1516,157 @@ yyreduce:
 	else
 		yyerror("Incompatible types in parameter declaration (did you mean int?)");
       }
-#line 1517 "step3.tab.c"
+#line 1520 "step3.tab.c"
     break;
 
   case 22:
-#line 114 "step3.y"
+#line 117 "step3.y"
                   {yyerror("Invalid Parameters");}
-#line 1523 "step3.tab.c"
+#line 1526 "step3.tab.c"
     break;
 
   case 23:
-#line 120 "step3.y"
+#line 123 "step3.y"
                 {
                     
                 }
-#line 1531 "step3.tab.c"
+#line 1534 "step3.tab.c"
     break;
 
   case 26:
-#line 127 "step3.y"
+#line 130 "step3.y"
                     {}
-#line 1537 "step3.tab.c"
+#line 1540 "step3.tab.c"
     break;
 
   case 29:
-#line 132 "step3.y"
+#line 135 "step3.y"
            {}
-#line 1543 "step3.tab.c"
+#line 1546 "step3.tab.c"
     break;
 
   case 30:
-#line 135 "step3.y"
+#line 138 "step3.y"
                            { (yyval.num) = (yyvsp[0].num); }
-#line 1549 "step3.tab.c"
+#line 1552 "step3.tab.c"
     break;
 
   case 32:
-#line 137 "step3.y"
+#line 140 "step3.y"
                           { (yyval.num) = (yyvsp[0].num); }
-#line 1555 "step3.tab.c"
+#line 1558 "step3.tab.c"
     break;
 
   case 33:
-#line 138 "step3.y"
+#line 141 "step3.y"
                           { (yyval.num) = (yyvsp[0].num); }
-#line 1561 "step3.tab.c"
+#line 1564 "step3.tab.c"
     break;
 
   case 34:
-#line 139 "step3.y"
+#line 142 "step3.y"
                        { (yyval.num) = (yyvsp[0].num); }
-#line 1567 "step3.tab.c"
+#line 1570 "step3.tab.c"
     break;
 
   case 35:
-#line 140 "step3.y"
+#line 143 "step3.y"
                        { (yyval.num) = (yyvsp[0].num); }
-#line 1573 "step3.tab.c"
+#line 1576 "step3.tab.c"
     break;
 
   case 37:
-#line 144 "step3.y"
+#line 147 "step3.y"
                      {(yyval.num) = 0;}
-#line 1579 "step3.tab.c"
+#line 1582 "step3.tab.c"
     break;
 
   case 38:
-#line 147 "step3.y"
+#line 150 "step3.y"
                                                 {(yyval.num)=0;}
-#line 1585 "step3.tab.c"
+#line 1588 "step3.tab.c"
     break;
 
   case 39:
-#line 148 "step3.y"
+#line 151 "step3.y"
                                                                {(yyval.num)=0;}
-#line 1591 "step3.tab.c"
+#line 1594 "step3.tab.c"
     break;
 
   case 40:
-#line 151 "step3.y"
+#line 154 "step3.y"
                                                    {(yyval.num)=0;}
-#line 1597 "step3.tab.c"
+#line 1600 "step3.tab.c"
     break;
 
   case 41:
-#line 155 "step3.y"
+#line 158 "step3.y"
            {
-		ProgramSymtable.assignfunval(level, 0);
 		(yyval.num)=0;
 	   }
-#line 1606 "step3.tab.c"
+#line 1608 "step3.tab.c"
     break;
 
   case 42:
-#line 160 "step3.y"
+#line 162 "step3.y"
            {
-		ProgramSymtable.assignfunval(level, (yyvsp[-1].num));   
+		if(ProgramSymtable.returnftype(level))
+			ProgramSymtable.assignfunval(level, (yyvsp[-1].num)); 
+		else
+			yyerror("Return type of a function");
 		(yyval.num)=(yyvsp[-1].num);
 	   }
-#line 1615 "step3.tab.c"
+#line 1620 "step3.tab.c"
     break;
 
   case 43:
-#line 166 "step3.y"
+#line 171 "step3.y"
                               {(yyval.num) = (yyvsp[0].num);}
-#line 1621 "step3.tab.c"
+#line 1626 "step3.tab.c"
     break;
 
   case 44:
-#line 170 "step3.y"
+#line 175 "step3.y"
            {
-		ProgramSymtable.modifyvtable((yyvsp[-2].str), level, (yyvsp[0].num));
+		if(!ProgramSymtable.modifyvtable((yyvsp[-2].str), level, (yyvsp[0].num)))
+			yyerror("Undefined variable");
 		(yyval.num)=(yyvsp[0].num);
            }
-#line 1630 "step3.tab.c"
+#line 1636 "step3.tab.c"
     break;
 
   case 45:
-#line 177 "step3.y"
+#line 183 "step3.y"
    {
         if(ProgramSymtable.isanArray((yyvsp[0].str), level))
 		yyerror("Incompatible types in assignment (illegal assignment)");
 	else{
 		if(ProgramSymtable.vtablesearch((yyvsp[0].str),level))
 			(yyval.str)=(yyvsp[0].str);
-		else
-			yyerror("Undefined variable");
 		}
         }
-#line 1645 "step3.tab.c"
+#line 1649 "step3.tab.c"
     break;
 
   case 46:
-#line 188 "step3.y"
+#line 192 "step3.y"
    {
         if(!ProgramSymtable.isanArray((yyvsp[-3].str), level))
 		(yyval.str)=(yyvsp[-3].str);            
         else
                 yyerror("Undefined variable");
    }
-#line 1656 "step3.tab.c"
+#line 1660 "step3.tab.c"
     break;
 
   case 47:
-#line 196 "step3.y"
+#line 200 "step3.y"
                                        {(yyval.num) = (yyvsp[0].num);}
-#line 1662 "step3.tab.c"
+#line 1666 "step3.tab.c"
     break;
 
   case 48:
-#line 198 "step3.y"
+#line 202 "step3.y"
                  {
                  if((yyvsp[-1].str)=="<=")
 			(yyval.num)=(yyvsp[-2].num)<=(yyvsp[0].num);
@@ -1684,82 +1688,82 @@ yyreduce:
 		 else	    
 			yyerror("Type mismatch or void in simple_expression");  
                  }
-#line 1688 "step3.tab.c"
+#line 1692 "step3.tab.c"
     break;
 
   case 49:
-#line 221 "step3.y"
+#line 225 "step3.y"
               {(yyval.str)="<=";}
-#line 1694 "step3.tab.c"
+#line 1698 "step3.tab.c"
     break;
 
   case 50:
-#line 222 "step3.y"
+#line 226 "step3.y"
               {(yyval.str)="<";}
-#line 1700 "step3.tab.c"
+#line 1704 "step3.tab.c"
     break;
 
   case 51:
-#line 223 "step3.y"
+#line 227 "step3.y"
               {(yyval.str)=">";}
-#line 1706 "step3.tab.c"
+#line 1710 "step3.tab.c"
     break;
 
   case 52:
-#line 224 "step3.y"
+#line 228 "step3.y"
               {(yyval.str)=">=";}
-#line 1712 "step3.tab.c"
+#line 1716 "step3.tab.c"
     break;
 
   case 53:
-#line 225 "step3.y"
+#line 229 "step3.y"
               {(yyval.str)="==";}
-#line 1718 "step3.tab.c"
+#line 1722 "step3.tab.c"
     break;
 
   case 54:
-#line 226 "step3.y"
+#line 230 "step3.y"
               {(yyval.str)="!=";}
-#line 1724 "step3.tab.c"
+#line 1728 "step3.tab.c"
     break;
 
   case 55:
-#line 229 "step3.y"
+#line 233 "step3.y"
                           {(yyval.num) = (yyvsp[0].num);}
-#line 1730 "step3.tab.c"
+#line 1734 "step3.tab.c"
     break;
 
   case 56:
-#line 231 "step3.y"
+#line 235 "step3.y"
                    { 
 			if((yyvsp[-1].str)=="+")
 			    (yyval.num)=(yyvsp[-2].num)+(yyvsp[0].num);
 			else if((yyvsp[-1].str)=="-")
 			    (yyval.num)=(yyvsp[-2].num)-(yyvsp[0].num);
 		   }
-#line 1741 "step3.tab.c"
+#line 1745 "step3.tab.c"
     break;
 
   case 57:
-#line 239 "step3.y"
+#line 243 "step3.y"
            {(yyval.str) = "+";}
-#line 1747 "step3.tab.c"
+#line 1751 "step3.tab.c"
     break;
 
   case 58:
-#line 240 "step3.y"
+#line 244 "step3.y"
            {(yyval.str) = "-";}
-#line 1753 "step3.tab.c"
+#line 1757 "step3.tab.c"
     break;
 
   case 59:
-#line 243 "step3.y"
+#line 247 "step3.y"
              {(yyval.num) = (yyvsp[0].num);}
-#line 1759 "step3.tab.c"
+#line 1763 "step3.tab.c"
     break;
 
   case 60:
-#line 245 "step3.y"
+#line 249 "step3.y"
     {  
 	if((yyvsp[-1].str)=="*")
 	    (yyval.num)=(yyvsp[-2].num)*(yyvsp[0].num);
@@ -1770,53 +1774,53 @@ yyreduce:
 	else
 	    yyerror("Type mismatch or void in term/factor exp");        
     }
-#line 1774 "step3.tab.c"
+#line 1778 "step3.tab.c"
     break;
 
   case 61:
-#line 256 "step3.y"
+#line 260 "step3.y"
             {(yyval.str) = "*";}
-#line 1780 "step3.tab.c"
+#line 1784 "step3.tab.c"
     break;
 
   case 62:
-#line 257 "step3.y"
+#line 261 "step3.y"
             {(yyval.str) = "/";}
-#line 1786 "step3.tab.c"
+#line 1790 "step3.tab.c"
     break;
 
   case 63:
-#line 258 "step3.y"
+#line 262 "step3.y"
             {(yyval.str) = "%";}
-#line 1792 "step3.tab.c"
+#line 1796 "step3.tab.c"
     break;
 
   case 64:
-#line 261 "step3.y"
+#line 265 "step3.y"
                            {(yyval.num) = (yyvsp[-1].num);}
-#line 1798 "step3.tab.c"
+#line 1802 "step3.tab.c"
     break;
 
   case 65:
-#line 262 "step3.y"
+#line 266 "step3.y"
              {(yyval.num)=(yyvsp[0].num);}
-#line 1804 "step3.tab.c"
+#line 1808 "step3.tab.c"
     break;
 
   case 66:
-#line 263 "step3.y"
+#line 267 "step3.y"
              {(yyval.num)=ProgramSymtable.valuevtablesearch((yyvsp[0].str), level);}
-#line 1810 "step3.tab.c"
+#line 1814 "step3.tab.c"
     break;
 
   case 67:
-#line 264 "step3.y"
+#line 268 "step3.y"
              {(yyval.num) = (yyvsp[0].num);}
-#line 1816 "step3.tab.c"
+#line 1820 "step3.tab.c"
     break;
 
   case 68:
-#line 268 "step3.y"
+#line 272 "step3.y"
     {	
 	unsigned int size=arguments.size();
         if(ProgramSymtable.vtablesearch((yyvsp[-3].str), level))
@@ -1837,33 +1841,33 @@ yyreduce:
 	}
 	
    }
-#line 1841 "step3.tab.c"
+#line 1845 "step3.tab.c"
     break;
 
   case 70:
-#line 291 "step3.y"
+#line 295 "step3.y"
       {}
-#line 1847 "step3.tab.c"
+#line 1851 "step3.tab.c"
     break;
 
   case 71:
-#line 295 "step3.y"
+#line 299 "step3.y"
         {
                 arguments.push_back((yyvsp[0].num));
         }
-#line 1855 "step3.tab.c"
+#line 1859 "step3.tab.c"
     break;
 
   case 72:
-#line 299 "step3.y"
+#line 303 "step3.y"
         {  
                 arguments.push_back((yyvsp[-2].num));
         }
-#line 1863 "step3.tab.c"
+#line 1867 "step3.tab.c"
     break;
 
 
-#line 1867 "step3.tab.c"
+#line 1871 "step3.tab.c"
 
       default: break;
     }
@@ -2095,7 +2099,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 303 "step3.y"
+#line 307 "step3.y"
 
 
 int main(int argc, char *argv[])

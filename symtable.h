@@ -28,22 +28,23 @@ struct funtable{
 class symtable{
     public:
 	symtable(){}
-        void insertvtable(string varname, int sco, int val, int size);
-	void insertftable(string funname, int sco, int ftype, vector<string> args);
+        bool insertvtable(string varname, int sco, int val, int size);
+	bool insertftable(string funname, int sco, int ftype, vector<string> args, int line, char filename[80]);
 	void assignfunval(int sco, int val);
         void deletevtable(int sco);
 	void deleteftable(int sco);
-        void modifyvtable(string varname, int sco, int val);
+        bool modifyvtable(string varname, int sco, int val);
 	void modifyparamvtable(int sco, int val, unsigned int params);
 	void modifyfuntable(int sco, int val);
 	bool isanArray(string varname, int sco);
 	bool vtablesearch(string varname, int sco);
+	bool argvtablesearch(string varname, int sco);
 	int valuevtablesearch(string varname, int sco);
 	bool ftablesearch(string funname);
 	bool ftableargsearch(string funname, unsigned int size );
 	int returnfunvalue(string funname, unsigned int size);
 	void printeverything();
-
+	int returnftype(int sco);
     private:
         vector<vartable> vtable;
         vector<funtable> ftable;

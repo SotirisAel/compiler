@@ -49,8 +49,10 @@ declaration: var_declaration
            ;
 
 var_declaration: type_specifier ID ';' {
-		if($1==1)
-      			ProgramSymtable.insertvtable($2, level, 0, 0);
+		if($1==1){
+      			if(ProgramSymtable.insertvtable($2, level, 0, 0))
+			      yyerror("Redefined variable declaration");
+		}
 		else
 			yyerror("Invalid type specifier (did you mean int?)");	
                 }
@@ -78,7 +80,8 @@ fun_declaration : type_specifier ID '('
                 }
                 params
                 { 	  
-                    ProgramSymtable.insertftable($2, level, $1, parameters );
+                    if(ProgramSymtable.insertftable($2, level, $1, parameters, yylineno, filename ))
+		    	yyerror("Redefined function declaration");
 		    parameters.clear();
                 }
                 ')' compound_stmt
@@ -153,12 +156,14 @@ iteration_stmt: WHILE '(' expression ')' statement {$$=0;}
 
 return_stmt: RETURN  ';' 
 	   {
-		ProgramSymtable.assignfunval(level, 0);
 		$$=0;
 	   }
            | RETURN expression ';' 
 	   {
-		ProgramSymtable.assignfunval(level, $2);   
+		if(ProgramSymtable.returnftype(level))
+			ProgramSymtable.assignfunval(level, $2); 
+		else
+			yyerror("Return type of a function");
 		$$=$2;
 	   }
            ;
@@ -168,7 +173,8 @@ expression: simple_expression {$$ = $1;}
 
 assign_stmt: var '=' expression_stmt 
            {
-		ProgramSymtable.modifyvtable($1, level, $3);
+		if(!ProgramSymtable.modifyvtable($1, level, $3))
+			yyerror("Undefined variable");
 		$$=$3;
            }
            ;
@@ -180,8 +186,6 @@ var: ID
 	else{
 		if(ProgramSymtable.vtablesearch($1,level))
 			$$=$1;
-		else
-			yyerror("Undefined variable");
 		}
         }
    | ID '[' expression ']'

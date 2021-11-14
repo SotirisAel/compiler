@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void symtable::insertvtable(string varname, int sco, int val, int size){
+bool symtable::insertvtable(string varname, int sco, int val, int size){
 	bool exists=false;
 	for (auto it=vtable.begin(); it!=vtable.end(); ++it){
 		if(it->name==varname && it->scope==sco)
@@ -14,25 +14,27 @@ void symtable::insertvtable(string varname, int sco, int val, int size){
 	if(!exists){
 		vtable.push_back({varname, sco, val,size});
 	}
-	else
-		cout<<"Error: Redefined variable declaration"<<endl;
+	return exists;
 
 }
 
 
-void symtable::insertftable(string funname, int sco, int ftype, vector<string> args){
+bool symtable::insertftable(string funname, int sco, int ftype, vector<string> args, int line, char filename[]){
 	bool exists=false;
 	for (auto it=ftable.begin(); it!=ftable.end(); ++it)
 		if(it->name==funname && it->type==ftype && it->args==args)
 			exists=true;
 	if(!exists){
 		ftable.push_back({funname, sco, ftype, 0, args});
-		for (auto it=args.begin(); it!=args.end(); ++it)
-			vtable.push_back({*it, sco, 0, 0});
+		for (auto it=args.begin(); it!=args.end(); ++it){
+			if(!argvtablesearch(*it,sco))
+				vtable.push_back({*it, sco, 0, 0});
+			else
+			 	printf("%c:- %d Redefined (duplicate) variable declaration in parameters list of a function",filename,line);
 		}
-	else
-		printf("declaring %s",funname);
 	}
+	return exists;
+}
 
 void symtable::assignfunval(int sco, int val){
 	bool exists=false;
@@ -56,14 +58,14 @@ void symtable::deleteftable(int sco){
 	deletevtable(sco);
 }
 
-void symtable::modifyvtable(string varname, int sco, int val){
-	
+bool symtable::modifyvtable(string varname, int sco, int val){
 	bool found=false;
 	for (auto it=vtable.begin(); it!=vtable.end(); ++it){
 		if(it->name==varname)
 			if(it->scope==sco){
 				it->value=val;
 				found=true;
+				break;
 			}
 
 	}
@@ -72,10 +74,9 @@ void symtable::modifyvtable(string varname, int sco, int val){
 			if (it->scope==0 && !found){
 				it->value=val;
 				found=true;
-		}
-	if(!found)
-		cout<<"Error: Undefined variable"<<endl;
-
+				break;
+			}
+	return found;
 }
 
 void symtable::modifyparamvtable(int sco, int val, unsigned int params){
@@ -122,12 +123,21 @@ bool symtable::vtablesearch(string varname, int sco){
 	for (auto it=vtable.begin(); it!=vtable.end(); ++it)
 		if(it->name==varname)
 			if(it->scope==sco)
-					found=true;
+				found=true;
 
 	for (auto it=vtable.begin(); it!=vtable.end(); ++it)
 		if(it->name==varname)
 			if (it->scope==0 && !found)
-					found=true;
+				found=true;
+	return found;
+}
+
+bool symtable::argvtablesearch(string varname, int sco){
+	bool found=false;
+	for (auto it=vtable.begin(); it!=vtable.end(); ++it)
+		if(it->name==varname)
+			if(it->scope==sco)
+				found=true;
 	return found;
 }
 
@@ -152,7 +162,7 @@ bool symtable::ftablesearch(string funname){
 	bool found=false;
 	for (auto it=ftable.begin(); it!=ftable.end(); ++it)
 		if(it->name==funname)
-				found=true;
+			found=true;
 	return found;
 }
 
@@ -170,6 +180,13 @@ int symtable::returnfunvalue(string funname, unsigned int size){
 		if(it->name==funname)
 			if(it->args.size()==size)
 				return it->value;
+	return 0;
+}
+
+int symtable::returnftype(int sco){
+	for (auto it=ftable.begin(); it!=ftable.end(); ++it)
+		if(it->scope==sco)
+			return it->type;
 	return 0;
 }
 
