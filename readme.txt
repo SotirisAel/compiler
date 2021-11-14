@@ -2,22 +2,22 @@ G++ IS NEEDED TO COMPILE, C++ COMMANDS WERE USED
 
 Commands FOR LINUX/MAC
 
-bison -d step2.y
+bison -d step3.y
 
-flex step2.fl
+flex step3.fl
 
-g++ step2.tab.c -w
+g++ step3.tab.c symtable.cpp -w
 
 ./a.out input.txt    OR    ./a.out
 
 
 Commands used FOR WINDOWS:
 
-bison -dv step2.y
+bison -dv step3.y
 
-flex step2.fl
+flex step3.fl
 
-g++ -o main step2.tab.c -L"C:\GnuWin32\lib" -lfl -w
+g++ -o main step3.tab.c symtable.cpp -L"C:\GnuWin32\lib" -lfl -w
 
 main (to enter input through command)
 

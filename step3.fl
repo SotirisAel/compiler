@@ -1,9 +1,10 @@
-/* CEI222: Project Step[2] ID: [Sotiris Vasiliadis-ID19613]_[Michael-Aggelos Demou-ID19753]_[Konstantinos Konstantinou-ID20284]_[Giorgos Tsovilis-ID19971] */
+/* CEI222: Project Step[1] ID: [Sotiris Vasiliadis-ID19613]_[Michael-Aggelos Demou-ID19753]_[Konstantinos Konstantinou-ID20284]_[Giorgos Tsovilis-ID19971] */
 
 %{
-	#include <stdio.h>
-	#include <string.h>
-	#include "step2.tab.h"
+#include <iostream>
+#include <string>
+#include "step3.tab.h"
+using namespace std;
 %}
 %option yylineno
 %option noyywrap
@@ -17,15 +18,15 @@ number 		{digit}{digit}*
 
 
 %%
-\n 		{yylineno++;}
 {wspaces}	{}
 "if" 		{return( IF );}
 "else" 		{return( ELSE );}
 "int" 		{return( INT );}
 "return" 	{return( RETURN );}
 "void"		{return( VOID );}
+"VOID"		{return( VOID );}
 "while" 	{return( WHILE );}
-{id} 		{yylval.string=strdup(yytext); return( ID );}
+{id} 		{yylval.str=strdup(yytext); return( ID );}
 {number} 	{yylval.num=atoi(yytext); return( NUM );}
 "+" 		{return( yytext[0] ); }
 "-" 		{return( yytext[0] ); }
@@ -47,6 +48,6 @@ number 		{digit}{digit}*
 "{" 		{return( yytext[0] ); }
 "}" 		{return( yytext[0] ); }
 [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]       {}
-.		{printf("Unrecognised token: %s on line %d.\n", yytext, yylineno);}
+
 
 %%
