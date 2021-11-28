@@ -1,25 +1,15 @@
 /* A program*/
 int b[10];
-float z;
-
-void input(int a, int b)
-{
-	a = 10;
-	c = 10;
-	return d;
-}
-
-void input(int a, int b)
-{
-	return p;
-}
-
+int c;
+int d;
 
 void main(void)
 {
-	int y; int y;
-	x = input();
-	y = x + 5;	
-	while ( x > 5 )
- 	y = average(a,b,z);
+	int x; int y; int i;
+	x = 3;
+	y = x + 5;
+	while(i>5){
+		y=y+5;
+		i=i+1;
+	}	
 }

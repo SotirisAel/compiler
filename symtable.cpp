@@ -12,14 +12,27 @@ bool symtable::insertvtable(string varname, int sco, int val, int size){
 			exists=true;
 	}
 	if(!exists){
-		vtable.push_back({varname, sco, val,size});
+		vtable.push_back({varname, sco, val,size,varname});
 	}
 	return exists;
 
 }
 
+string symtable::getvarlabel(string varname, int sco){
+	bool exists=false;
+	for (auto it=vtable.begin(); it!=vtable.end(); ++it){
+		if(it->name==varname && it->scope==sco)
+			return it->label;
+		if(it->name==varname && it->scope==0)
+			exists=true;		
+	}
+	if(exists)
+		return varname;
+	return "ERROR";
+	
+}
 
-bool symtable::insertftable(string funname, int sco, int ftype, vector<string> args, int line, char filename[]){
+bool symtable::insertftable(string funname, int sco, int ftype, vector<string> args, int line, char filename[], int vartemp){
 	bool exists=false;
 	for (auto it=ftable.begin(); it!=ftable.end(); ++it)
 		if(it->name==funname && it->type==ftype && it->args==args)
@@ -27,8 +40,11 @@ bool symtable::insertftable(string funname, int sco, int ftype, vector<string> a
 	if(!exists){
 		ftable.push_back({funname, sco, ftype, 0, args});
 		for (auto it=args.begin(); it!=args.end(); ++it){
-			if(!argvtablesearch(*it,sco))
-				vtable.push_back({*it, sco, 0, 0});
+			if(!argvtablesearch(*it,sco)){				
+				string temp="_t";
+				temp.append(to_string(vartemp++));
+				vtable.push_back({*it, sco, 0, 0, temp});
+			}
 			else
 			 	printf("%c:- %d Redefined (duplicate) variable declaration in parameters list of a function",filename,line);
 		}
@@ -109,6 +125,8 @@ bool symtable::isanArray(string varname, int sco){
 			if(it->scope==sco)
 				if(it->size>0)
 					found=true;
+				else
+					return false;
 
 	for (auto it=vtable.begin(); it!=vtable.end(); ++it)
 		if(it->name==varname)
@@ -196,5 +214,5 @@ void symtable::printeverything(){
 		cout<<it->name<<" "<<it-> scope<<" "<<it->type<<" "<<it->value<<endl;
 	cout<<endl<<"Variables: "<<endl;
 	for (auto it=vtable.begin(); it!=vtable.end(); ++it)
-		cout<<it->name<<" "<<it-> scope<<" "<<it->value<<endl;
+		cout<<it->name<<" "<<it-> scope<<" "<<it->value<<" "<<it->label<<endl;
 }

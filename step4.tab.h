@@ -34,8 +34,8 @@
 /* Undocumented macros, especially those whose name start with YY_,
    are private implementation details.  Do not rely on them.  */
 
-#ifndef YY_YY_STEP3_TAB_H_INCLUDED
-# define YY_YY_STEP3_TAB_H_INCLUDED
+#ifndef YY_YY_STEP4_TAB_H_INCLUDED
+# define YY_YY_STEP4_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -68,12 +68,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "step3.y"
+#line 34 "step4.y"
 
     char* str;
     int num;
 
-#line 77 "step3.tab.h"
+#line 77 "step4.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -86,4 +86,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_STEP3_TAB_H_INCLUDED  */
+#endif /* !YY_YY_STEP4_TAB_H_INCLUDED  */

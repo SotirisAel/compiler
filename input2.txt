@@ -1,29 +1,18 @@
 /* A program*/
 int b[10];
-float z;
-int b5;
 int c;
 int d;
 
-void average(int a, int b)
+void average(int c)
 {
-	a = 10;
 	c = 10;
-	d = 10;
-	return d;
 }
-
-void average(int a, int b)
-{
-	a = 10;
-}
-
 
 void main(void)
 {
-	int y; int y;
-	x = input();
-	y = x + 5;	
+	int x; int y;
+	x = 3;
+	y = x + 5;
 	if ( x > 5 )
- 	y = average(a,b,z);
+ 		y = average(x);
 }

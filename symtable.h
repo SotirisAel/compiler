@@ -9,6 +9,7 @@ struct vartable{
 	int scope,
             value,
 	    size;
+	string label;
 };
 
 struct arguments{
@@ -29,7 +30,8 @@ class symtable{
     public:
 	symtable(){}
         bool insertvtable(string varname, int sco, int val, int size);
-	bool insertftable(string funname, int sco, int ftype, vector<string> args, int line, char filename[80]);
+	string getvarlabel(string varname, int sco);
+	bool insertftable(string funname, int sco, int ftype, vector<string> args, int line, char filename[80], int vartemp);
 	void assignfunval(int sco, int val);
         void deletevtable(int sco);
 	void deleteftable(int sco);

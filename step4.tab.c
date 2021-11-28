@@ -66,30 +66,37 @@
 
 
 /* First part of user prologue.  */
-#line 3 "step3.y"
+#line 3 "step4.y"
  
 #include <iostream>
 #include "symtable.h"
 #include "lex.yy.c"
 #include <string>
 #include <vector>
-#include "step3.tab.h"
+#include "step4.tab.h"
 using namespace std;
 extern int yylex();
 extern int yyparse();
 void yyerror(char const *s);
 extern char *yytext;
 extern int yylineno;
+static int temp;
+static int cnttemp;
 static int level=0;
-static int offset=0;
-static int goffset=0;
-static int maxoffset=0;
+static int tempcnt=0;
+static int vartemp=0;
+static int looptemp=0;
+static int iftemp=0;
+unsigned int ptr;
+static bool firsttimerun=1;
 char filename[80];
 vector<string> parameters;
 vector<int> arguments;
+vector<string> code;
+vector<string> varhelper;
 symtable ProgramSymtable;
 
-#line 93 "step3.tab.c"
+#line 100 "step4.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -122,8 +129,8 @@ symtable ProgramSymtable;
 
 /* Use api.header.include to #include this header
    instead of duplicating it here.  */
-#ifndef YY_YY_STEP3_TAB_H_INCLUDED
-# define YY_YY_STEP3_TAB_H_INCLUDED
+#ifndef YY_YY_STEP4_TAB_H_INCLUDED
+# define YY_YY_STEP4_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -156,12 +163,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "step3.y"
+#line 34 "step4.y"
 
     char* str;
     int num;
 
-#line 165 "step3.tab.c"
+#line 172 "step4.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -174,7 +181,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_STEP3_TAB_H_INCLUDED  */
+#endif /* !YY_YY_STEP4_TAB_H_INCLUDED  */
 
 
 
@@ -480,16 +487,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  11
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   147
+#define YYLAST   141
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  31
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  33
+#define YYNNTS  37
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  72
+#define YYNRULES  76
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  113
+#define YYNSTATES  117
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   269
@@ -537,14 +544,14 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    41,    41,    43,    44,    47,    48,    51,    60,    67,
-      72,    73,    74,    78,    82,    77,    93,    94,    97,    98,
-     101,   109,   117,   121,   128,   129,   130,   133,   134,   135,
-     138,   139,   140,   141,   142,   143,   146,   147,   150,   151,
-     154,   157,   161,   171,   174,   182,   191,   200,   201,   225,
-     226,   227,   228,   229,   230,   233,   234,   243,   244,   247,
-     248,   260,   261,   262,   265,   266,   267,   268,   271,   294,
-     295,   298,   302
+       0,    48,    48,    50,    51,    54,    55,    58,    70,    83,
+      88,    89,    90,    94,    98,    93,   118,   119,   122,   123,
+     126,   134,   142,   146,   153,   154,   155,   158,   159,   160,
+     163,   164,   165,   166,   167,   168,   171,   172,   175,   175,
+     177,   191,   207,   207,   207,   224,   229,   240,   243,   254,
+     263,   272,   273,   310,   311,   312,   313,   314,   315,   318,
+     319,   340,   341,   344,   345,   369,   370,   371,   374,   375,
+     376,   377,   380,   410,   411,   414,   418
 };
 #endif
 
@@ -560,10 +567,10 @@ static const char *const yytname[] =
   "declaration", "var_declaration", "type_specifier", "fun_declaration",
   "$@1", "$@2", "params", "param_list", "param", "compound_stmt",
   "local_declarations", "stmt_list", "statement", "expression_stmt",
-  "selection_stmt", "iteration_stmt", "return_stmt", "expression",
-  "assign_stmt", "var", "simple_expression", "relop",
-  "additive_expression", "addop", "term", "mulop", "factor", "call",
-  "args", "arg_list", YY_NULLPTR
+  "selection_stmt", "$@3", "red_selection_stmt", "iteration_stmt", "$@4",
+  "$@5", "return_stmt", "expression", "assign_stmt", "var",
+  "simple_expression", "relop", "additive_expression", "addop", "term",
+  "mulop", "factor", "call", "args", "arg_list", YY_NULLPTR
 };
 #endif
 
@@ -579,7 +586,7 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-66)
+#define YYPACT_NINF (-47)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -593,18 +600,18 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      37,    24,   -66,   -66,     2,   -66,    93,   -66,     4,   -66,
-     -66,   -66,   -66,    67,   -66,    46,   -66,    62,    53,    49,
-      -4,    51,    82,   -66,   -66,    80,   -66,   -66,   -66,    86,
-      89,    88,    90,    91,   -66,   -66,    22,   -66,    47,   105,
-      69,   -66,    44,   -66,    17,    92,    95,    73,   -66,     6,
-     -66,    94,    69,   -66,   -66,   -66,   -66,    96,   -66,    97,
-      -7,   -13,    76,   -66,   -66,     6,     6,     6,     6,   -66,
-      99,   -66,    98,   -66,   -66,   -66,    77,   -66,   -66,   -66,
-     -66,   -66,   -66,     6,   -66,   -66,     6,   -66,   -66,   -66,
-       6,   101,   102,   100,   -66,   104,   106,   -66,   -66,   -66,
-     -13,    76,   -66,   -66,     6,   -66,    69,    69,   -66,   108,
-     -66,    69,   -66
+      52,   -13,   -47,   -47,    46,   -47,    47,   -47,    12,   -47,
+     -47,   -47,   -47,    60,   -47,    48,   -47,    37,    88,    49,
+      -5,    42,    75,   -47,   -47,    73,   -47,   -47,   -47,    86,
+      89,    91,    90,    92,   -47,   -47,    21,   -47,    62,   105,
+      82,   -47,    25,   -47,    16,    93,   -47,    34,   -47,     5,
+     -47,    94,    82,   -47,   -47,   -47,   -47,    95,   -47,    96,
+      -7,    55,    76,   -47,   -47,     5,     5,     5,    97,   -47,
+      99,   -47,    98,   -47,   -47,   -47,    41,   -47,   -47,   -47,
+     -47,   -47,   -47,     5,   -47,   -47,     5,   -47,   -47,   -47,
+       5,   101,   100,   102,   -47,   103,     5,   -47,   -47,   -47,
+      55,    76,   -47,   -47,     5,   -47,   -47,   104,   -47,    82,
+     -47,   117,   -47,    82,    82,   -47,   -47
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -616,32 +623,32 @@ static const yytype_int8 yydefact[] =
        9,     1,     4,     0,     7,     0,    13,     0,     0,     0,
        0,    11,     0,    14,    17,    18,     8,    12,    22,    20,
        0,     0,     0,     0,    19,    21,     0,    15,     0,     0,
-      29,    25,     0,    65,    45,     0,     0,     0,    37,     0,
-      31,     0,    27,    30,    32,    33,    35,     0,    34,    66,
-      43,    47,    55,    59,    67,     0,    70,     0,     0,    41,
-       0,    66,     0,    23,    28,    36,     0,    49,    52,    53,
-      54,    50,    51,     0,    57,    58,     0,    61,    62,    63,
-       0,     0,    71,     0,    69,     0,     0,    42,    64,    44,
-      48,    56,    60,    46,     0,    68,     0,     0,    72,    38,
-      40,     0,    39
+      29,    25,     0,    69,    49,     0,    42,     0,    37,     0,
+      31,     0,    27,    30,    32,    33,    35,     0,    34,    70,
+      47,    51,    59,    63,    71,     0,    74,     0,     0,    45,
+       0,    70,     0,    23,    28,    36,     0,    53,    56,    57,
+      58,    54,    55,     0,    61,    62,     0,    65,    66,    67,
+       0,     0,    75,     0,    73,     0,     0,    46,    68,    48,
+      52,    60,    64,    50,     0,    72,    38,     0,    76,     0,
+      43,    40,    39,     0,     0,    44,    41
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -66,   -66,   115,   -66,    61,    -2,   -66,   -66,   -66,   -66,
-     103,   -66,   107,   109,    72,   -65,    50,   -66,   -66,   -66,
-     -46,   -66,   -40,   -66,   -66,    45,   -66,    41,   -66,    39,
-     -66,   -66,    26
+     -47,   -47,   106,   -47,   -25,    -3,   -47,   -47,   -47,   -47,
+     107,   -47,   108,    87,    74,   -19,    51,   -47,   -47,   -47,
+     -47,   -47,   -47,   -47,   -46,   -47,   -40,   -47,   -47,    45,
+     -47,    43,   -47,    40,   -47,   -47,    27
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
       -1,     4,     5,     6,     7,     8,     9,    18,    30,    23,
-      24,    25,    50,    40,    51,    52,    53,    54,    55,    56,
-      57,    58,    71,    60,    83,    61,    86,    62,    90,    63,
-      64,    93,    94
+      24,    25,    50,    40,    51,    52,    53,    54,   109,   112,
+      55,    68,   113,    56,    57,    58,    71,    60,    83,    61,
+      86,    62,    90,    63,    64,    93,    94
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -649,40 +656,40 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      59,    70,    11,    72,    77,    78,    79,    80,    13,    43,
-      44,    27,    59,    84,    85,    28,    22,    81,    82,    91,
-      92,    95,    96,     1,    49,   -26,   -26,   -26,   -26,    22,
-       2,   -26,     3,    65,    39,    66,    39,   -26,     1,    10,
-     -26,   109,   110,   -26,   -26,     2,   112,     3,     1,    17,
-     -24,   -24,   -24,   -24,    20,     2,   -24,     3,    92,    14,
-      15,     2,   -24,    21,    26,   -24,    59,    59,   -24,   -24,
-     -16,    59,    43,    44,    45,    46,    43,    44,    47,    19,
-      43,    44,    14,    15,    48,    16,    29,    49,    69,    20,
-      36,    49,    48,    -3,     1,    49,     2,    38,     3,    38,
-      31,     2,    32,     3,    87,    88,    89,    35,    33,    42,
-      67,    75,    36,    68,    97,   111,    73,    98,   103,   105,
-      76,    12,   104,   106,    74,   107,    99,   101,   100,   102,
-     108,     0,     0,     0,    34,     0,     0,     0,     0,     0,
-      37,     0,     0,     0,     0,     0,     0,    41
+      59,    70,    10,    72,    77,    78,    79,    80,    43,    44,
+      27,    38,    59,    38,    28,    22,    13,    81,    82,    91,
+      92,    95,     1,    49,   -26,   -26,   -26,   -26,    22,     2,
+     -26,     3,    65,    39,    66,    39,   -26,    43,    44,   -26,
+      14,    15,   -26,   -26,    43,    44,    11,    -3,     1,    69,
+     107,    17,    49,     1,    19,     2,    48,     3,    92,    49,
+       2,   -16,     3,     1,    26,   -24,   -24,   -24,   -24,    59,
+       2,   -24,     3,    59,    59,    14,    15,   -24,    16,    29,
+     -24,    84,    85,   -24,   -24,    43,    44,    45,    46,    20,
+     111,    47,    20,    31,   115,   116,     2,    48,    21,     2,
+      49,     3,    32,    36,    87,    88,    89,    35,    33,    42,
+      75,    67,    12,    36,    97,    96,    73,    98,   103,    76,
+     104,   105,   106,   110,   114,    41,    74,    99,   100,   101,
+     102,   108,     0,     0,     0,     0,     0,     0,    34,     0,
+       0,    37
 };
 
 static const yytype_int8 yycheck[] =
 {
-      40,    47,     0,    49,    11,    12,    13,    14,     4,     3,
-       4,    15,    52,    26,    27,    19,    18,    24,    25,    65,
-      66,    67,    68,     1,    18,     3,     4,     5,     6,    31,
-       8,     9,    10,    16,    36,    18,    38,    15,     1,    15,
-      18,   106,   107,    21,    22,     8,   111,    10,     1,     3,
-       3,     4,     5,     6,     1,     8,     9,    10,   104,    15,
-      16,     8,    15,    10,    15,    18,   106,   107,    21,    22,
-      19,   111,     3,     4,     5,     6,     3,     4,     9,    17,
-       3,     4,    15,    16,    15,    18,     4,    18,    15,     1,
-      21,    18,    15,     0,     1,    18,     8,    36,    10,    38,
-      20,     8,    16,    10,    28,    29,    30,    17,    19,     4,
-      18,    15,    21,    18,    15,     7,    22,    19,    17,    19,
-      23,     6,    20,    19,    52,    19,    76,    86,    83,    90,
-     104,    -1,    -1,    -1,    31,    -1,    -1,    -1,    -1,    -1,
-      33,    -1,    -1,    -1,    -1,    -1,    -1,    38
+      40,    47,    15,    49,    11,    12,    13,    14,     3,     4,
+      15,    36,    52,    38,    19,    18,     4,    24,    25,    65,
+      66,    67,     1,    18,     3,     4,     5,     6,    31,     8,
+       9,    10,    16,    36,    18,    38,    15,     3,     4,    18,
+      15,    16,    21,    22,     3,     4,     0,     0,     1,    15,
+      96,     3,    18,     1,    17,     8,    15,    10,   104,    18,
+       8,    19,    10,     1,    15,     3,     4,     5,     6,   109,
+       8,     9,    10,   113,   114,    15,    16,    15,    18,     4,
+      18,    26,    27,    21,    22,     3,     4,     5,     6,     1,
+     109,     9,     1,    20,   113,   114,     8,    15,    10,     8,
+      18,    10,    16,    21,    28,    29,    30,    17,    19,     4,
+      15,    18,     6,    21,    15,    18,    22,    19,    17,    23,
+      20,    19,    19,    19,     7,    38,    52,    76,    83,    86,
+      90,   104,    -1,    -1,    -1,    -1,    -1,    -1,    31,    -1,
+      -1,    33
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -694,13 +701,13 @@ static const yytype_int8 yystos[] =
        1,    10,    36,    40,    41,    42,    15,    15,    19,     4,
       39,    20,    16,    19,    41,    17,    21,    43,    35,    36,
       44,    44,     4,     3,     4,     5,     6,     9,    15,    18,
-      43,    45,    46,    47,    48,    49,    50,    51,    52,    53,
-      54,    56,    58,    60,    61,    16,    18,    18,    18,    15,
-      51,    53,    51,    22,    45,    15,    23,    11,    12,    13,
-      14,    24,    25,    55,    26,    27,    57,    28,    29,    30,
-      59,    51,    51,    62,    63,    51,    51,    15,    19,    47,
-      56,    58,    60,    17,    20,    19,    19,    19,    63,    46,
-      46,     7,    46
+      43,    45,    46,    47,    48,    51,    54,    55,    56,    57,
+      58,    60,    62,    64,    65,    16,    18,    18,    52,    15,
+      55,    57,    55,    22,    45,    15,    23,    11,    12,    13,
+      14,    24,    25,    59,    26,    27,    61,    28,    29,    30,
+      63,    55,    55,    66,    67,    55,    18,    15,    19,    47,
+      60,    62,    64,    17,    20,    19,    19,    55,    67,    49,
+      19,    46,    50,    53,     7,    46,    46
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -709,11 +716,11 @@ static const yytype_int8 yyr1[] =
        0,    31,    32,    33,    33,    34,    34,    35,    35,    35,
       36,    36,    36,    38,    39,    37,    40,    40,    41,    41,
       42,    42,    42,    43,    44,    44,    44,    45,    45,    45,
-      46,    46,    46,    46,    46,    46,    47,    47,    48,    48,
-      49,    50,    50,    51,    52,    53,    53,    54,    54,    55,
-      55,    55,    55,    55,    55,    56,    56,    57,    57,    58,
-      58,    59,    59,    59,    60,    60,    60,    60,    61,    62,
-      62,    63,    63
+      46,    46,    46,    46,    46,    46,    47,    47,    49,    48,
+      50,    50,    52,    53,    51,    54,    54,    55,    56,    57,
+      57,    58,    58,    59,    59,    59,    59,    59,    59,    60,
+      60,    61,    61,    62,    62,    63,    63,    63,    64,    64,
+      64,    64,    65,    66,    66,    67,    67
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -722,11 +729,11 @@ static const yytype_int8 yyr2[] =
        0,     2,     1,     1,     2,     1,     1,     3,     6,     2,
        1,     1,     2,     0,     0,     8,     1,     1,     1,     3,
        2,     4,     2,     4,     1,     2,     0,     1,     2,     0,
-       1,     1,     1,     1,     1,     1,     2,     1,     5,     7,
-       5,     2,     3,     1,     3,     1,     4,     1,     3,     1,
-       1,     1,     1,     1,     1,     1,     3,     1,     1,     1,
-       3,     1,     1,     1,     3,     1,     1,     1,     4,     1,
-       0,     1,     3
+       1,     1,     1,     1,     1,     1,     2,     1,     0,     6,
+       1,     3,     0,     0,     7,     2,     3,     1,     3,     1,
+       4,     1,     3,     1,     1,     1,     1,     1,     1,     1,
+       3,     1,     1,     1,     3,     1,     1,     1,     3,     1,
+       1,     1,     4,     1,     0,     1,     3
 };
 
 
@@ -1421,82 +1428,106 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 2:
+#line 48 "step4.y"
+                                {for (auto i = code.begin(); i != code.end(); i++) cout<<*i;}
+#line 1435 "step4.tab.c"
+    break;
+
   case 7:
-#line 51 "step3.y"
+#line 58 "step4.y"
                                        {
 		if((yyvsp[-2].num)==1){
       			if(ProgramSymtable.insertvtable((yyvsp[-1].str), level, 0, 0))
-			      yyerror("Redefined variable declaration");
+				yyerror("Redefined variable declaration");
+			else
+				code.push_back(to_string(tempcnt++)); code.push_back(": VARDECL "); code.push_back((yyvsp[-1].str)); code.push_back(" 4\n");
+
 		}
 		else
 			yyerror("Invalid type specifier (did you mean int?)");	
                 }
-#line 1435 "step3.tab.c"
+#line 1451 "step4.tab.c"
     break;
 
   case 8:
-#line 61 "step3.y"
+#line 71 "step4.y"
                {
 		if((yyvsp[-5].num)==1)
-      			ProgramSymtable.insertvtable((yyvsp[-4].str), level, 0, (yyvsp[-2].num));
+      			if(ProgramSymtable.insertvtable((yyvsp[-4].str), level, 0, (yyvsp[-2].num)))
+				yyerror("Redefined variable declaration");
+			else{
+				temp=4*(yyvsp[-2].num);
+				 code.push_back(to_string(tempcnt++)); code.push_back(": VARDECL "); code.push_back((yyvsp[-4].str)); code.push_back(" "); code.push_back(to_string(temp));  code.push_back("\n");
+			}
+
 		else
 			yyerror("Invalid type specifier (did you mean int?)");	
                }
-#line 1446 "step3.tab.c"
+#line 1468 "step4.tab.c"
     break;
 
   case 9:
-#line 67 "step3.y"
-                           {}
-#line 1452 "step3.tab.c"
+#line 83 "step4.y"
+                           {yyerror("Invalid type specifier (did you mean int?)");}
+#line 1474 "step4.tab.c"
     break;
 
   case 10:
-#line 72 "step3.y"
+#line 88 "step4.y"
                                 { (yyval.num)=1;	}
-#line 1458 "step3.tab.c"
+#line 1480 "step4.tab.c"
     break;
 
   case 11:
-#line 73 "step3.y"
+#line 89 "step4.y"
                                 { (yyval.num)=0;	}
-#line 1464 "step3.tab.c"
+#line 1486 "step4.tab.c"
     break;
 
   case 12:
-#line 74 "step3.y"
+#line 90 "step4.y"
                             {yyerror("Invalid type specifier (did you mean int?)");}
-#line 1470 "step3.tab.c"
+#line 1492 "step4.tab.c"
     break;
 
   case 13:
-#line 78 "step3.y"
+#line 94 "step4.y"
                 {   
 			level++;
                 }
-#line 1478 "step3.tab.c"
+#line 1500 "step4.tab.c"
     break;
 
   case 14:
-#line 82 "step3.y"
+#line 98 "step4.y"
                 { 	  
-                    if(ProgramSymtable.insertftable((yyvsp[-3].str), level, (yyvsp[-4].num), parameters, yylineno, filename ))
+                    if(ProgramSymtable.insertftable((yyvsp[-3].str), level, (yyvsp[-4].num), parameters, yylineno, filename, vartemp ))
 		    	yyerror("Redefined function declaration");
+		    
+		    if(firsttimerun){
+		    	 code.push_back(to_string(tempcnt++)); code.push_back(": GOTO main\n");
+			firsttimerun=0;
+		    }
+		     code.push_back(to_string(tempcnt++)); code.push_back(": LABEL "); code.push_back((yyvsp[-3].str)); code.push_back("\n"); 
+		    for(auto i=0;i<parameters.size();i++){
+			 code.push_back(to_string(tempcnt++)); code.push_back(": PARAMOUT"); code.push_back(" _t"); code.push_back(to_string(vartemp++)); code.push_back("\n");
+		    }
 		    parameters.clear();
                 }
-#line 1488 "step3.tab.c"
+#line 1519 "step4.tab.c"
     break;
 
   case 15:
-#line 88 "step3.y"
+#line 113 "step4.y"
                 {
                    
                 }
-#line 1496 "step3.tab.c"
+#line 1527 "step4.tab.c"
     break;
 
   case 20:
-#line 102 "step3.y"
+#line 127 "step4.y"
       {  
 	if((yyvsp[-1].num)==1)
       		parameters.push_back((yyvsp[0].str));
@@ -1504,11 +1535,11 @@ yyreduce:
 		yyerror("Incompatible types in parameter declaration (did you mean int?)");	
 	
       }
-#line 1508 "step3.tab.c"
+#line 1539 "step4.tab.c"
     break;
 
   case 21:
-#line 110 "step3.y"
+#line 135 "step4.y"
       {
         if((yyvsp[-3].num)==1){
       		parameters.push_back((yyvsp[-2].str));
@@ -1516,127 +1547,194 @@ yyreduce:
 	else
 		yyerror("Incompatible types in parameter declaration (did you mean int?)");
       }
-#line 1520 "step3.tab.c"
+#line 1551 "step4.tab.c"
     break;
 
   case 22:
-#line 117 "step3.y"
+#line 142 "step4.y"
                   {yyerror("Invalid Parameters");}
-#line 1526 "step3.tab.c"
+#line 1557 "step4.tab.c"
     break;
 
   case 23:
-#line 123 "step3.y"
+#line 148 "step4.y"
                 {
                     
                 }
-#line 1534 "step3.tab.c"
+#line 1565 "step4.tab.c"
     break;
 
   case 26:
-#line 130 "step3.y"
+#line 155 "step4.y"
                     {}
-#line 1540 "step3.tab.c"
+#line 1571 "step4.tab.c"
     break;
 
   case 29:
-#line 135 "step3.y"
+#line 160 "step4.y"
            {}
-#line 1546 "step3.tab.c"
+#line 1577 "step4.tab.c"
     break;
 
   case 30:
-#line 138 "step3.y"
+#line 163 "step4.y"
                            { (yyval.num) = (yyvsp[0].num); }
-#line 1552 "step3.tab.c"
+#line 1583 "step4.tab.c"
     break;
 
   case 32:
-#line 140 "step3.y"
+#line 165 "step4.y"
                           { (yyval.num) = (yyvsp[0].num); }
-#line 1558 "step3.tab.c"
+#line 1589 "step4.tab.c"
     break;
 
   case 33:
-#line 141 "step3.y"
+#line 166 "step4.y"
                           { (yyval.num) = (yyvsp[0].num); }
-#line 1564 "step3.tab.c"
+#line 1595 "step4.tab.c"
     break;
 
   case 34:
-#line 142 "step3.y"
+#line 167 "step4.y"
                        { (yyval.num) = (yyvsp[0].num); }
-#line 1570 "step3.tab.c"
+#line 1601 "step4.tab.c"
     break;
 
   case 35:
-#line 143 "step3.y"
+#line 168 "step4.y"
                        { (yyval.num) = (yyvsp[0].num); }
-#line 1576 "step3.tab.c"
+#line 1607 "step4.tab.c"
     break;
 
   case 37:
-#line 147 "step3.y"
+#line 172 "step4.y"
                      {(yyval.num) = 0;}
-#line 1582 "step3.tab.c"
+#line 1613 "step4.tab.c"
     break;
 
   case 38:
-#line 150 "step3.y"
-                                                {(yyval.num)=0;}
-#line 1588 "step3.tab.c"
+#line 175 "step4.y"
+                                      {code.push_back(" _l"); code.push_back(to_string(vartemp)); ptr=code.size(); code.push_back("\n"); code.push_back( to_string(tempcnt++)); code.push_back("\n"); code.push_back( to_string(tempcnt++)); iftemp=vartemp; }
+#line 1619 "step4.tab.c"
     break;
 
   case 39:
-#line 151 "step3.y"
-                                                               {(yyval.num)=0;}
-#line 1594 "step3.tab.c"
+#line 175 "step4.y"
+                                                                                                                                                                                                                                                                                  {(yyval.num)=(yyvsp[-3].num);}
+#line 1625 "step4.tab.c"
     break;
 
   case 40:
-#line 154 "step3.y"
-                                                   {(yyval.num)=0;}
-#line 1600 "step3.tab.c"
+#line 177 "step4.y"
+                              {(yyval.num)=0;
+			
+			if(iftemp!=vartemp){	
+				iftemp=vartemp++;
+				unsigned int temp=code.size()-ptr;
+				auto loc=code.end()-temp-1;
+				*loc=to_string(iftemp);
+				loc+=2;
+				code.insert(++loc,": GOTO "); code.insert(++loc,"_l"); code.insert(++loc,to_string(vartemp));
+				loc+=2;
+				code.insert(++loc,": LABEL "); code.insert(++loc,"_l"); code.insert(++loc,to_string(--vartemp)); code.insert(++loc,"\n"); vartemp++;
+				code.push_back( to_string(tempcnt++)); code.push_back(": LABEL "); code.push_back("_l"); code.push_back(to_string(vartemp++)); code.push_back("\n");
+				}
+			}
+#line 1644 "step4.tab.c"
     break;
 
   case 41:
-#line 158 "step3.y"
-           {
-		(yyval.num)=0;
-	   }
-#line 1608 "step3.tab.c"
+#line 191 "step4.y"
+                                              {
+		      (yyval.num)=0;
+		      if(iftemp!=vartemp){	
+				iftemp=vartemp++;
+				unsigned int temp=code.size()-ptr;
+				auto loc=code.end()-temp-1;
+				*loc=to_string(iftemp);
+				loc+=2;
+				code.insert(++loc,": GOTO "); code.insert(++loc,"_l"); code.insert(++loc,to_string(vartemp));
+				loc+=2;
+				code.insert(++loc,": LABEL "); code.insert(++loc,"_l"); code.insert(++loc,to_string(--vartemp)); code.insert(++loc,"\n"); vartemp++;
+				code.push_back( to_string(tempcnt++)); code.push_back(": LABEL "); code.push_back("_l"); code.push_back(to_string(vartemp++)); code.push_back("\n");
+				}
+		      }
+#line 1663 "step4.tab.c"
     break;
 
   case 42:
-#line 162 "step3.y"
+#line 207 "step4.y"
+                      {code.push_back(to_string(tempcnt++)); code.push_back(": LABEL _l"); code.push_back(to_string(vartemp)); code.push_back("\n"); looptemp=vartemp++; }
+#line 1669 "step4.tab.c"
+    break;
+
+  case 43:
+#line 207 "step4.y"
+                                                                                                                                                                                              {code.push_back(" _l"); code.push_back(to_string(vartemp)); iftemp=vartemp++; ptr=code.size(); code.push_back("\n"); code.push_back( to_string(tempcnt++));cnttemp=tempcnt++;}
+#line 1675 "step4.tab.c"
+    break;
+
+  case 44:
+#line 208 "step4.y"
+                           {(yyval.num)=0;
+				 if(iftemp!=vartemp){	
+					iftemp=vartemp++;
+					unsigned int temp=code.size()-ptr;
+					auto loc=code.end()-temp-1;
+					*loc=to_string(iftemp);
+					loc+=2;
+					code.insert(++loc,": GOTO "); code.insert(++loc,"_l"); code.insert(++loc,to_string(vartemp)); code.insert(++loc,"\n");
+					code.insert(++loc,to_string(cnttemp));code.insert(++loc,": LABEL "); code.insert(++loc,"_l"); code.insert(++loc,to_string(--vartemp)); code.insert(++loc,"\n"); vartemp++; 
+					code.push_back( to_string(tempcnt++)); code.push_back(": GOTO "); code.push_back("_l"); code.push_back(to_string(looptemp)); code.push_back("\n");
+					code.push_back( to_string(tempcnt++)); code.push_back(": LABEL "); code.push_back("_l"); code.push_back(to_string(vartemp++)); code.push_back("\n");
+				}
+			}
+#line 1693 "step4.tab.c"
+    break;
+
+  case 45:
+#line 225 "step4.y"
+           {
+		(yyval.num)=0;
+		code.push_back(to_string(tempcnt++)); code.push_back(": RETURN\n");
+	   }
+#line 1702 "step4.tab.c"
+    break;
+
+  case 46:
+#line 230 "step4.y"
            {
 		if(ProgramSymtable.returnftype(level))
 			ProgramSymtable.assignfunval(level, (yyvsp[-1].num)); 
 		else
 			yyerror("Return type of a function");
 		(yyval.num)=(yyvsp[-1].num);
+		 code.push_back(to_string(tempcnt++)); code.push_back(": RETURN "); code.push_back("_t");code.push_back(to_string(--vartemp)); code.push_back("\n"); vartemp++;
 	   }
-#line 1620 "step3.tab.c"
+#line 1715 "step4.tab.c"
     break;
 
-  case 43:
-#line 171 "step3.y"
+  case 47:
+#line 240 "step4.y"
                               {(yyval.num) = (yyvsp[0].num);}
-#line 1626 "step3.tab.c"
+#line 1721 "step4.tab.c"
     break;
 
-  case 44:
-#line 175 "step3.y"
+  case 48:
+#line 244 "step4.y"
            {
 		if(!ProgramSymtable.modifyvtable((yyvsp[-2].str), level, (yyvsp[0].num)))
 			yyerror("Undefined variable");
+		code.push_back(to_string(tempcnt++)); code.push_back(": A0 "); code.push_back(ProgramSymtable.getvarlabel((yyvsp[-2].str),level));
+		code.insert(code.end(), varhelper.begin(), varhelper.end()); code.push_back("\n"); 
+		varhelper.clear();
 		(yyval.num)=(yyvsp[0].num);
            }
-#line 1636 "step3.tab.c"
+#line 1734 "step4.tab.c"
     break;
 
-  case 45:
-#line 183 "step3.y"
+  case 49:
+#line 255 "step4.y"
    {
         if(ProgramSymtable.isanArray((yyvsp[0].str), level))
 		yyerror("Incompatible types in assignment (illegal assignment)");
@@ -1645,182 +1743,219 @@ yyreduce:
 			(yyval.str)=(yyvsp[0].str);
 		}
         }
-#line 1649 "step3.tab.c"
+#line 1747 "step4.tab.c"
     break;
 
-  case 46:
-#line 192 "step3.y"
+  case 50:
+#line 264 "step4.y"
    {
         if(!ProgramSymtable.isanArray((yyvsp[-3].str), level))
 		(yyval.str)=(yyvsp[-3].str);            
         else
                 yyerror("Undefined variable");
    }
-#line 1660 "step3.tab.c"
-    break;
-
-  case 47:
-#line 200 "step3.y"
-                                       {(yyval.num) = (yyvsp[0].num);}
-#line 1666 "step3.tab.c"
-    break;
-
-  case 48:
-#line 202 "step3.y"
-                 {
-                 if((yyvsp[-1].str)=="<=")
-			(yyval.num)=(yyvsp[-2].num)<=(yyvsp[0].num);
-			
-		 else if((yyvsp[-1].str)=="<")
-			(yyval.num)=(yyvsp[-2].num)<(yyvsp[0].num);
-			    
-		 else if((yyvsp[-1].str)==">")
-			(yyval.num)=(yyvsp[-2].num)>(yyvsp[0].num);
-			   
-		 else if((yyvsp[-1].str)==">=")
-			(yyval.num)=(yyvsp[-2].num)>=(yyvsp[0].num);
-			   
-		 else if((yyvsp[-1].str)=="==")
-			(yyval.num)=(yyvsp[-2].num)==(yyvsp[0].num);
-			    
-		 else if((yyvsp[-1].str)=="!=")
-			(yyval.num)=(yyvsp[-2].num)!=(yyvsp[0].num);
-		 else	    
-			yyerror("Type mismatch or void in simple_expression");  
-                 }
-#line 1692 "step3.tab.c"
-    break;
-
-  case 49:
-#line 225 "step3.y"
-              {(yyval.str)="<=";}
-#line 1698 "step3.tab.c"
-    break;
-
-  case 50:
-#line 226 "step3.y"
-              {(yyval.str)="<";}
-#line 1704 "step3.tab.c"
+#line 1758 "step4.tab.c"
     break;
 
   case 51:
-#line 227 "step3.y"
-              {(yyval.str)=">";}
-#line 1710 "step3.tab.c"
+#line 272 "step4.y"
+                                       {(yyval.num) = (yyvsp[0].num);}
+#line 1764 "step4.tab.c"
     break;
 
   case 52:
-#line 228 "step3.y"
-              {(yyval.str)=">=";}
-#line 1716 "step3.tab.c"
+#line 274 "step4.y"
+                 {
+                 if((yyvsp[-1].str)=="<="){
+			(yyval.num)=(yyvsp[-2].num)<=(yyvsp[0].num);
+			 code.push_back(to_string(tempcnt++)); code.push_back(": IFST "); code.insert(code.end(), varhelper.begin(), varhelper.end());
+			varhelper.clear();
+		 }
+		 else if((yyvsp[-1].str)=="<"){
+			(yyval.num)=(yyvsp[-2].num)<(yyvsp[0].num);
+			code.push_back(to_string(tempcnt++)); code.push_back(": IFSE "); code.insert(code.end(), varhelper.begin(), varhelper.end()); 
+			varhelper.clear();
+		 }
+		 else if((yyvsp[-1].str)==">"){
+			(yyval.num)=(yyvsp[-2].num)>(yyvsp[0].num);
+			code.push_back(to_string(tempcnt++)); code.push_back(": IFGT"); code.insert(code.end(), varhelper.begin(), varhelper.end()); 
+			varhelper.clear();
+		 }
+		 else if((yyvsp[-1].str)==">="){
+			(yyval.num)=(yyvsp[-2].num)>=(yyvsp[0].num);
+			code.push_back(to_string(tempcnt++)); code.push_back(": IFGE "); code.insert(code.end(), varhelper.begin(), varhelper.end()); 
+			varhelper.clear();
+		}
+		 else if((yyvsp[-1].str)=="=="){
+			(yyval.num)=(yyvsp[-2].num)==(yyvsp[0].num);
+			code.push_back(to_string(tempcnt++)); code.push_back(": IFEQ "); code.insert(code.end(), varhelper.begin(), varhelper.end()); 
+			varhelper.clear();
+		}
+		 else if((yyvsp[-1].str)=="!="){
+			(yyval.num)=(yyvsp[-2].num)!=(yyvsp[0].num);
+			code.push_back(to_string(tempcnt++)); code.push_back(": IFNE "); code.insert(code.end(), varhelper.begin(), varhelper.end());
+			varhelper.clear();
+		 }
+		 else	    
+			yyerror("Type mismatch or void in simple_expression");
+                 }
+#line 1803 "step4.tab.c"
     break;
 
   case 53:
-#line 229 "step3.y"
-              {(yyval.str)="==";}
-#line 1722 "step3.tab.c"
+#line 310 "step4.y"
+              {(yyval.str)="<=";}
+#line 1809 "step4.tab.c"
     break;
 
   case 54:
-#line 230 "step3.y"
-              {(yyval.str)="!=";}
-#line 1728 "step3.tab.c"
+#line 311 "step4.y"
+              {(yyval.str)="<";}
+#line 1815 "step4.tab.c"
     break;
 
   case 55:
-#line 233 "step3.y"
-                          {(yyval.num) = (yyvsp[0].num);}
-#line 1734 "step3.tab.c"
+#line 312 "step4.y"
+              {(yyval.str)=">";}
+#line 1821 "step4.tab.c"
     break;
 
   case 56:
-#line 235 "step3.y"
-                   { 
-			if((yyvsp[-1].str)=="+")
-			    (yyval.num)=(yyvsp[-2].num)+(yyvsp[0].num);
-			else if((yyvsp[-1].str)=="-")
-			    (yyval.num)=(yyvsp[-2].num)-(yyvsp[0].num);
-		   }
-#line 1745 "step3.tab.c"
+#line 313 "step4.y"
+              {(yyval.str)=">=";}
+#line 1827 "step4.tab.c"
     break;
 
   case 57:
-#line 243 "step3.y"
-           {(yyval.str) = "+";}
-#line 1751 "step3.tab.c"
+#line 314 "step4.y"
+              {(yyval.str)="==";}
+#line 1833 "step4.tab.c"
     break;
 
   case 58:
-#line 244 "step3.y"
-           {(yyval.str) = "-";}
-#line 1757 "step3.tab.c"
+#line 315 "step4.y"
+              {(yyval.str)="!=";}
+#line 1839 "step4.tab.c"
     break;
 
   case 59:
-#line 247 "step3.y"
-             {(yyval.num) = (yyvsp[0].num);}
-#line 1763 "step3.tab.c"
+#line 318 "step4.y"
+                          {(yyval.num) = (yyvsp[0].num);}
+#line 1845 "step4.tab.c"
     break;
 
   case 60:
-#line 249 "step3.y"
-    {  
-	if((yyvsp[-1].str)=="*")
-	    (yyval.num)=(yyvsp[-2].num)*(yyvsp[0].num);
-	else if((yyvsp[-1].str)=="/")
-	    (yyval.num)=(yyvsp[-2].num)/(yyvsp[0].num);
-	else if((yyvsp[-1].str)=="%")
-	    (yyval.num)=(yyvsp[-2].num)%(yyvsp[0].num);
-	else
-	    yyerror("Type mismatch or void in term/factor exp");        
-    }
-#line 1778 "step3.tab.c"
+#line 320 "step4.y"
+                   { 
+			
+			if((yyvsp[-1].str)=="+"){
+			 	(yyval.num)=(yyvsp[-2].num)+(yyvsp[0].num);			    
+			    	code.push_back(to_string(tempcnt++)); code.push_back(": A2PLUS "); code.push_back("_t"); code.push_back(to_string(vartemp++));
+				code.insert(code.end(), varhelper.begin(), varhelper.end()); code.push_back("\n"); 
+				varhelper.clear(); 
+				varhelper.push_back(" _t");varhelper.push_back(to_string(--vartemp));vartemp++;
+			}
+			else if((yyvsp[-1].str)=="-"){
+			   	(yyval.num)=(yyvsp[-2].num)-(yyvsp[0].num);
+			   	code.push_back(to_string(tempcnt++)); code.push_back(": A2MINUS "); code.push_back("_t");code.push_back(to_string(vartemp++));
+				code.insert(code.end(), varhelper.begin(), varhelper.end()); code.push_back("\n"); 
+				varhelper.clear(); 
+				varhelper.push_back(" _t");varhelper.push_back(to_string(--vartemp));vartemp++;
+			}
+			 
+		   }
+#line 1868 "step4.tab.c"
     break;
 
   case 61:
-#line 260 "step3.y"
-            {(yyval.str) = "*";}
-#line 1784 "step3.tab.c"
+#line 340 "step4.y"
+           {(yyval.str) = "+";}
+#line 1874 "step4.tab.c"
     break;
 
   case 62:
-#line 261 "step3.y"
-            {(yyval.str) = "/";}
-#line 1790 "step3.tab.c"
+#line 341 "step4.y"
+           {(yyval.str) = "-";}
+#line 1880 "step4.tab.c"
     break;
 
   case 63:
-#line 262 "step3.y"
-            {(yyval.str) = "%";}
-#line 1796 "step3.tab.c"
+#line 344 "step4.y"
+             {(yyval.num) = (yyvsp[0].num);}
+#line 1886 "step4.tab.c"
     break;
 
   case 64:
-#line 265 "step3.y"
-                           {(yyval.num) = (yyvsp[-1].num);}
-#line 1802 "step3.tab.c"
+#line 346 "step4.y"
+    {  
+	if((yyvsp[-1].str)=="*"){
+		(yyval.num)=(yyvsp[-2].num)*(yyvsp[0].num);
+		code.push_back(to_string(tempcnt++)); code.push_back(": A2MULT "); code.push_back("_t");code.push_back(to_string(vartemp++));
+		code.insert(code.end(), varhelper.begin(), varhelper.end()); code.push_back("\n"); 
+		varhelper.clear(); 
+	}
+	else if((yyvsp[-1].str)=="/"){
+		(yyval.num)=(yyvsp[-2].num)/(yyvsp[0].num);
+		code.push_back(to_string(tempcnt++)); code.push_back(": A2DIV "); code.push_back("_t");code.push_back(to_string(vartemp++));
+		code.insert(code.end(), varhelper.begin(), varhelper.end()); code.push_back("\n"); 
+		varhelper.clear(); 
+	}
+	else if((yyvsp[-1].str)=="%"){
+		(yyval.num)=(yyvsp[-2].num)%(yyvsp[0].num);
+		code.push_back(to_string(tempcnt++)); code.push_back(": A2MOD "); code.push_back("_t");code.push_back(to_string(vartemp++));
+		code.insert(code.end(), varhelper.begin(), varhelper.end()); code.push_back("\n"); 
+		varhelper.clear();
+	}
+	else
+	    yyerror("Type mismatch or void in term/factor exp");        
+    }
+#line 1913 "step4.tab.c"
     break;
 
   case 65:
-#line 266 "step3.y"
-             {(yyval.num)=(yyvsp[0].num);}
-#line 1808 "step3.tab.c"
+#line 369 "step4.y"
+            {(yyval.str) = "*";}
+#line 1919 "step4.tab.c"
     break;
 
   case 66:
-#line 267 "step3.y"
-             {(yyval.num)=ProgramSymtable.valuevtablesearch((yyvsp[0].str), level);}
-#line 1814 "step3.tab.c"
+#line 370 "step4.y"
+            {(yyval.str) = "/";}
+#line 1925 "step4.tab.c"
     break;
 
   case 67:
-#line 268 "step3.y"
-             {(yyval.num) = (yyvsp[0].num);}
-#line 1820 "step3.tab.c"
+#line 371 "step4.y"
+            {(yyval.str) = "%";}
+#line 1931 "step4.tab.c"
     break;
 
   case 68:
-#line 272 "step3.y"
+#line 374 "step4.y"
+                           {(yyval.num) = (yyvsp[-1].num);}
+#line 1937 "step4.tab.c"
+    break;
+
+  case 69:
+#line 375 "step4.y"
+             {(yyval.num)=(yyvsp[0].num); varhelper.push_back(" ");varhelper.push_back(to_string((yyvsp[0].num))); }
+#line 1943 "step4.tab.c"
+    break;
+
+  case 70:
+#line 376 "step4.y"
+             {(yyval.num)=ProgramSymtable.valuevtablesearch((yyvsp[0].str), level); varhelper.push_back(" "); varhelper.push_back(ProgramSymtable.getvarlabel((yyvsp[0].str),level));}
+#line 1949 "step4.tab.c"
+    break;
+
+  case 71:
+#line 377 "step4.y"
+             {(yyval.num) = (yyvsp[0].num); }
+#line 1955 "step4.tab.c"
+    break;
+
+  case 72:
+#line 381 "step4.y"
     {	
 	unsigned int size=arguments.size();
         if(ProgramSymtable.vtablesearch((yyvsp[-3].str), level))
@@ -1828,11 +1963,18 @@ yyreduce:
         
 	else if(ProgramSymtable.ftablesearch((yyvsp[-3].str))){
 		if (!ProgramSymtable.ftableargsearch((yyvsp[-3].str), size))
-			yyerror("Wrong type of arguments");
-		else 
-                for(auto it=arguments.begin();it!=arguments.end();++it)
-			ProgramSymtable.modifyparamvtable(level, *it, size);
+			yyerror("Wrong num of arguments");
+		else{
+                	for(auto it=arguments.rbegin();it!=arguments.rend();++it){
+				ProgramSymtable.modifyparamvtable(level, *it, size);
+				code.push_back(to_string(tempcnt++)); code.push_back(": PARAMIN "); code.push_back(to_string(*it)); code.push_back("\n");
+			}
+		}				
+		code.push_back(to_string(tempcnt++)); code.push_back(": CALL "); code.push_back((yyvsp[-3].str)); code.push_back(" "); code.push_back(to_string(arguments.size())); code.push_back("\n");
 		(yyval.num)=ProgramSymtable.returnfunvalue((yyvsp[-3].str), size);
+		code.push_back(to_string(tempcnt++)); code.push_back(": RETURNOUT _t"); code.push_back(to_string(vartemp)); code.push_back("\n"); 
+		varhelper.clear();
+		varhelper.push_back(" _t"); varhelper.push_back(to_string(vartemp++));
 	}
 		
         else{
@@ -1841,33 +1983,33 @@ yyreduce:
 	}
 	
    }
-#line 1845 "step3.tab.c"
+#line 1987 "step4.tab.c"
     break;
 
-  case 70:
-#line 295 "step3.y"
+  case 74:
+#line 411 "step4.y"
       {}
-#line 1851 "step3.tab.c"
+#line 1993 "step4.tab.c"
     break;
 
-  case 71:
-#line 299 "step3.y"
+  case 75:
+#line 415 "step4.y"
         {
                 arguments.push_back((yyvsp[0].num));
         }
-#line 1859 "step3.tab.c"
+#line 2001 "step4.tab.c"
     break;
 
-  case 72:
-#line 303 "step3.y"
+  case 76:
+#line 419 "step4.y"
         {  
                 arguments.push_back((yyvsp[-2].num));
         }
-#line 1867 "step3.tab.c"
+#line 2009 "step4.tab.c"
     break;
 
 
-#line 1871 "step3.tab.c"
+#line 2013 "step4.tab.c"
 
       default: break;
     }
@@ -2099,7 +2241,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 307 "step3.y"
+#line 423 "step4.y"
 
 
 int main(int argc, char *argv[])
